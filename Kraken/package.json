@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "dependencies": {
+  "devDependencies": {
+    "cucumber": "^6.0.7",
     "kraken-node": "^1.0.24"
   }
 }
