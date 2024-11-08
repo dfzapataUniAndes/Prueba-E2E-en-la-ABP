@@ -22,12 +22,12 @@ Given("que no existe ningún post creado en el sistema", async function () {
   }
 });
 
-When("ingreso el correo {string}", async function (email) {
+When("ingreso el correo {kraken-string}", async function (email) {
   const emailInput = await this.driver.$('input[name="identification"]');
   await emailInput.setValue(email);
 });
 
-When("ingreso la contraseña {string}", async function (password) {
+When("ingreso la contraseña {kraken-string}", async function (password) {
   const passwordInput = await this.driver.$('input[name="password"]');
   await passwordInput.setValue(password);
 });
