@@ -42,7 +42,6 @@ Feature: Crear un post en Ghost
     And espero 7 segundos
     And navego a la página de creación de posts
     And creo un nuevo post con título "Este es un mensaje de prueba" y contenido vacio
-    Then no debería ser posible crear un post con campos vacíos 
     Then debería ver el post titulado "Este es un mensaje de prueba" en la lista de posts  
 
   @user4 @web
@@ -57,5 +56,4 @@ Feature: Crear un post en Ghost
     And espero 7 segundos
     And navego a la página de creación de posts
     And creo un nuevo post con título vacio y contenido "Este es un mensaje de prueba"
-    Then no debería ser posible crear un post con campos vacíos 
     Then debería ver el post titulado "(Untitled)" en la lista de posts  
