@@ -195,3 +195,27 @@ When(
     await this.driver.pause(1000); // Espera a que se complete la publicación
   }
 );
+
+Then("cierro sesión en Ghost", async function () {
+  // Esperar que el avatar de usuario esté presente en el DOM antes de interactuar
+  const userMenuButton = await this.driver.$(".gh-user-avatar");
+  await this.driver.waitUntil(async () => await userMenuButton.isDisplayed(), {
+    timeout: 5000,
+    timeoutMsg:
+      "El botón de menú de usuario no se mostró en el tiempo esperado",
+  });
+
+  // Hacer clic en el avatar de usuario para abrir el menú
+  await userMenuButton.click();
+
+  // Esperar a que la opción de cerrar sesión sea visible y hacer clic en ella
+  const logoutButton = await this.driver.$('a[href="#/signout/"]');
+  await this.driver.waitUntil(async () => await logoutButton.isDisplayed(), {
+    timeout: 5000,
+    timeoutMsg: "El botón de cerrar sesión no se mostró en el tiempo esperado",
+  });
+  await logoutButton.click();
+
+  // Pausar para asegurar que el proceso de cierre de sesión se complete
+  await this.driver.pause(2000);
+});

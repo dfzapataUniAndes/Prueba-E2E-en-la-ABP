@@ -15,6 +15,7 @@ Feature: Crear un post en Ghost
     And creo un nuevo post con el título "Mi primer Post" y contenido "Este es mi primer post de prueba en Ghost."
     And espero 5 segundos
     Then debería ver el post titulado "Mi primer Post" en la lista de posts
+    And cierro sesión en Ghost
 
   @user2 @web
   Scenario: Como segundo usuario intento crear un post vacio
@@ -28,6 +29,7 @@ Feature: Crear un post en Ghost
     And espero 7 segundos
     And navego a la página de creación de posts
     Then no debería ser posible crear un post con campos vacíos
+    And cierro sesión en Ghost
 
 
  @user3 @web
@@ -42,7 +44,8 @@ Feature: Crear un post en Ghost
     And espero 7 segundos
     And navego a la página de creación de posts
     And creo un nuevo post con título "Este es un mensaje de prueba" y contenido vacio
-    Then debería ver el post titulado "Este es un mensaje de prueba" en la lista de posts  
+    Then debería ver el post titulado "Este es un mensaje de prueba" en la lista de posts
+    And cierro sesión en Ghost  
 
   @user4 @web
   Scenario: Como cuarto usuario intento crear un post con titulo vacío
@@ -57,3 +60,19 @@ Feature: Crear un post en Ghost
     And navego a la página de creación de posts
     And creo un nuevo post con título vacio y contenido "Este es un mensaje de prueba"
     Then debería ver el post titulado "(Untitled)" en la lista de posts  
+    And cierro sesión en Ghost
+
+  @user5 @web
+  Scenario: Como quinto usuario intento crear un post con caracteres especiales
+    Given que navego a la página "http://localhost:2368/ghost/#/signin"
+    And espero 5 segundos
+    When ingreso el correo "<USERNAME1>"
+    And espero 2 segundos
+    And ingreso la contraseña "<PASSWORD1>"
+    And espero 2 segundos
+    And hago clic en iniciar sesión
+    And espero 7 segundos
+    And navego a la página de creación de posts
+    And creo un nuevo post con el título "&6*(@#$%^%#@!ñ" y contenido "$%{:>}#@@@@!!@##$%#$%$%$&%&<>)(**"
+    Then debería ver el post titulado "&6*(@#$%^%#@!ñ" en la lista de posts  
+    And cierro sesión en Ghost    
