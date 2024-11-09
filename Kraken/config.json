@@ -1,0 +1,12 @@
+{
+  "reporter": "spec",
+  "stepDelay": 500,
+  "scenarios": [
+    {
+      "path": "./features",
+      "platform": "desktop",
+      "browser": "chrome",
+      "version": "latest"
+    }
+  ]
+}

@@ -12,9 +12,9 @@ Feature: Crear un post en Ghost
     And hago clic en iniciar sesión
     And espero 7 segundos
     And navego a la página de creación de posts
-    And creo un nuevo post con el título "Mensaje para Usuario 2" y contenido "Este es un mensaje de prueba para el usuario 2."
+    And creo un nuevo post con el título "Mi primer Post" y contenido "Este es mi primer post de prueba en Ghost."
     And espero 5 segundos
-    Then debería ver el post titulado "Mensaje para Usuario 2" en la lista de posts
+    Then debería ver el post titulado "Mi primer Post" en la lista de posts
 
   @user2 @web
   Scenario: Como segundo usuario intento crear un post vacio
