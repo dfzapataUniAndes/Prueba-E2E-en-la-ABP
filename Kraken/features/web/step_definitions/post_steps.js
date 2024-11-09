@@ -45,18 +45,29 @@ When(
   "creo un nuevo post con el título {string} y contenido {string}",
   async function (titulo, contenido) {
     const titleInput = await this.driver.$(
-      'textarea[placeholder="Post Title"]'
+      'textarea[placeholder="Post title"]'
     );
     await titleInput.setValue(titulo);
-    const contentInput = await this.driver.$(".koenig-editor__editor");
+    const contentInput = await this.driver.$(".kg-prose");
     await contentInput.setValue(contenido);
 
     // Publicar el post
-    const publishMenu = await this.driver.$(".gh-publishmenu");
-    await publishMenu.click();
-    await this.driver.pause(500); // Espera a que se despliegue el menú
-    const publishButton = await this.driver.$(".gh-publishmenu-button");
+    const publishButton = await this.driver.$(
+      'button[data-test-button="publish-flow"]'
+    );
     await publishButton.click();
+    // Confirmar la publicación:
+    const confirmPublishButton = await this.driver.$(
+      'button[data-test-button="continue"]'
+    );
+    await confirmPublishButton.click();
+
+    // Confirmar definitivmanete la publicación:
+    const confirmPublishButton2 = await this.driver.$(
+      'button[data-test-button="confirm-publish"]'
+    );
+    await confirmPublishButton2.click();
+
     await this.driver.pause(1000); // Espera a que se complete la publicación
   }
 );
@@ -64,17 +75,123 @@ When(
 Then(
   "debería ver el post titulado {string} en la lista de posts",
   async function (titulo) {
-    await this.driver.url("http://localhost:2368/ghost/#/posts");
-    await this.driver.pause(1000); // Espera para cargar la lista de posts
-    const posts = await this.driver.$$(".gh-post-list-title");
-    const postTitles = await Promise.all(
-      posts.map(async (post) => await post.getText())
+    // Localiza el botón de cierre del modal usando el atributo data-test-button
+    const closeModalButton = await this.driver.$(
+      'button[data-test-button="close-publish-flow"]'
     );
 
+    // Verificar si el botón de cierre está presente
+    if (await closeModalButton.isExisting()) {
+      await closeModalButton.click();
+      await this.driver.pause(500); // Pausa breve para asegurar que el modal se cierre
+    } else {
+      console.log("El botón de cierre del modal no está presente.");
+      throw new Error(
+        `No se encontró el modal para cerrar y poder continuar con la prueba.`
+      );
+    }
+
+    // Espera a que los títulos de los posts estén presentes en la página
+    await this.driver.$(".gh-content-entry-title").waitForExist({
+      timeout: 5000, // Tiempo máximo de espera en milisegundos
+      timeoutMsg:
+        "Los títulos de los posts no se cargaron en el tiempo esperado",
+    });
+
+    // Captura los títulos de los posts una vez cargados
+    const posts = await this.driver.$$(".gh-content-entry-title");
+    const postTitlesPromises = posts.map((post) => post.getText()); // Obtener los textos de los elementos directamente
+
+    // Esperar a que todas las promesas se resuelvan y obtener los títulos
+    const postTitles = await Promise.all(postTitlesPromises);
+
+    console.log("Títulos de los posts:", postTitles);
+
+    // Verifica si el título esperado está en la lista
     if (!postTitles.includes(titulo)) {
       throw new Error(
         `No se encontró el post titulado "${titulo}" en la lista de posts.`
       );
     }
+  }
+);
+
+Then(
+  "no debería ser posible crear un post con campos vacíos",
+  async function () {
+    const publishButton = await this.driver.$(
+      'button[data-test-button="publish-flow"]'
+    );
+    const isPublishButtonVisible = await publishButton.isDisplayed();
+
+    if (isPublishButtonVisible) {
+      throw new Error("El botón de publicar debería estar oculto.");
+    }
+  }
+);
+
+When(
+  "creo un nuevo post con título {string} y contenido vacio",
+  async function (titulo) {
+    const titleInput = await this.driver.$(
+      'textarea[placeholder="Post title"]'
+    );
+    await titleInput.setValue(titulo);
+
+    // Crear un contenido vacío:
+    const contentInput = await this.driver.$(".kg-prose");
+    await contentInput.setValue("");
+
+    // Publicar el post
+    const publishButton = await this.driver.$(
+      'button[data-test-button="publish-flow"]'
+    );
+    await publishButton.click();
+    // Confirmar la publicación:
+    const confirmPublishButton = await this.driver.$(
+      'button[data-test-button="continue"]'
+    );
+    await confirmPublishButton.click();
+
+    // Confirmar definitivmanete la publicación:
+    const confirmPublishButton2 = await this.driver.$(
+      'button[data-test-button="confirm-publish"]'
+    );
+    await confirmPublishButton2.click();
+
+    await this.driver.pause(1000); // Espera a que se complete la publicación
+  }
+);
+
+When(
+  "creo un nuevo post con título vacio y contenido {string}",
+  async function (contenido) {
+    const titleInput = await this.driver.$(
+      'textarea[placeholder="Post title"]'
+    );
+    await titleInput.setValue("");
+
+    // Crear un contenido vacío:
+    const contentInput = await this.driver.$(".kg-prose");
+    await contentInput.setValue(contenido);
+
+    // Publicar el post
+    const publishButton = await this.driver.$(
+      'button[data-test-button="publish-flow"]'
+    );
+    await publishButton.click();
+    // Confirmar la publicación:
+    const confirmPublishButton = await this.driver.$(
+      'button[data-test-button="continue"]'
+    );
+    await confirmPublishButton.click();
+
+    // Confirmar definitivmanete la publicación:
+    const confirmPublishButton2 = await this.driver.$(
+      'button[data-test-button="confirm-publish"]'
+    );
+    await confirmPublishButton2.click();
+
+    await this.driver.pause(1000); // Espera a que se complete la publicación
   }
 );
