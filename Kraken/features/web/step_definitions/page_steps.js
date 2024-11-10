@@ -84,7 +84,6 @@ Then("valido que la página tenga una imagen", async function () {
     expect(elementsFound).to.equal(true);   
 });
 
-
 Then("veo en el listado de páginas la página con el titulo {string} y la etiqueta draft", async function (titulo) {
     let elements = await this.driver.$$("h3[class='gh-content-entry-title']");
     let elementsFound = null;
@@ -95,4 +94,14 @@ Then("veo en el listado de páginas la página con el titulo {string} y la etiqu
             expect(elementsFound).to.not.equal(null);
         }
     });     
+});
+
+Then("hago clic en Preview", async function () {
+    const previewButton = await this.driver.$('button[data-test-button="publish-preview"]');
+    await previewButton.click();
+});
+
+Then("hago clic en Editor", async function () {
+    const editorButton = await this.driver.$('button[class="gh-btn-editor gh-editor-back-button"]');
+    await editorButton.click();
 });

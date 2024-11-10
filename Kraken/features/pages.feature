@@ -86,3 +86,30 @@ Feature: Crear un page en Ghost
     And veo en el listado de páginas la página con el titulo "Titulo página draft" y la etiqueta draft
     And espero 2 segundos
     And cierro sesión
+
+  @user4 @web
+  Scenario: Como administrador inicio sesión, intento crear y hacer preview de una página en Ghost sin contenido y valido el draft generado
+    Given que inicio sesion como administrador
+    And espero 2 segundos
+    And ingreso el correo "<USERNAME1>"
+    And espero 2 segundos
+    And ingreso la contraseña "<PASSWORD1>"
+    And espero 2 segundos
+    And hago clic en iniciar sesión
+    And espero 5 segundos
+    When navego a la página de crear páginas
+    And espero 5 segundos
+    Then hago clic en crear nueva página 
+    And espero 5 segundos
+    And selecciono una imagen de portada
+    And ingreso el título de la página "Titulo página sin contenido con imagen"
+    And espero 5 segundos
+    And hago clic en Preview
+    And espero 3 segundos
+    And hago clic en Editor
+    And espero 3 segundos
+    And navego a la página de crear páginas
+    And espero 5 segundos
+    And veo en el listado de páginas la página con el titulo "Titulo página sin contenido con imagen" y la etiqueta draft
+    And espero 2 segundos
+    And cierro sesión
