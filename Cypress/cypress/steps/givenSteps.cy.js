@@ -1,7 +1,6 @@
-
 export function givenNavigateToTheSite() {
     cy.visit('http://localhost:2368/ghost/#/signin');
-    cy.wait(5000)
+    cy.wait(5000);
 }
 
 export function givenUserIsLogin() {

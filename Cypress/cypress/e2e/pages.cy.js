@@ -1,14 +1,13 @@
 import { givenNavigateToTheSite, givenUserIsLogin } from '../steps/givenSteps.cy';
 import { whenNavigateToThePages } from '../steps/whenSteps.cy';
 import { thenCreateNewPage, thenInsertTitlePage, thenInsertContentPage, thenClicInPublish, thenClicInFinishReview, thenClicInPublishPage,
-    thenCloseWindowPagePublished, thenViewCreatedPage
+    thenCloseWindowPagePublished, thenViewCreatedPage, thenCloseSession
  } from '../steps/thenSteps.cy';
 
-describe('Testing create pages ', () => {
+describe('Crear un page en Ghost', () => {
     beforeEach(()=>{
-        // Given que inicio sesion como administrador
+        // Given que inicio sesión como administrador
         givenNavigateToTheSite();
-        // And ingreso el correo "<USERNAME1>"
         givenUserIsLogin();
     });
 
@@ -31,5 +30,7 @@ describe('Testing create pages ', () => {
         thenCloseWindowPagePublished();
         // And veo en el listado de páginas la página con el titulo "Titulo página"
         thenViewCreatedPage("Titulo página");
+        // And cierro sesión
+        thenCloseSession();
     });
 });

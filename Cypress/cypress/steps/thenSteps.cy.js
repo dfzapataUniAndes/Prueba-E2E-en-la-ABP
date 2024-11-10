@@ -42,4 +42,9 @@ export function thenViewCreatedPage(title) {
             expect(elementsFound).to.equal(true);
         }
     });
+    cy.wait(2000);
+}
+
+export function thenCloseSession() {
+    cy.visit('http://localhost:2368/ghost/#/signout');
 }
