@@ -9,7 +9,7 @@ When("navego a la página de crear páginas", async function () {
     await this.driver.url("http://localhost:2368/ghost/#/pages");
 });
 
-Then("hago clic en crear nueva página", async function () {
+When("hago clic en crear nueva página", async function () {
     const newPageButton = await this.driver.$('a[href="#/editor/page/"]');
     await newPageButton.click();
 });
@@ -56,7 +56,30 @@ Then("veo en el listado de páginas la página con el titulo {string}", async fu
     });     
 });
 
-Then("cierro sesión", async function () {
-    const userMenuButton = await this.driver.$(".gh-user-avatar");
-    await userMenuButton.click();
+Then("selecciono una imagen de portada", async function () {
+    const addFeatureImageButton = await this.driver.$('button[class="gh-editor-feature-image-unsplash"]');
+    await addFeatureImageButton.click();
+    await this.driver.pause(2000); // Espera a que se carguen las imágenes
+    const insertImageButton = await this.driver.$('a[class="gh-unsplash-button"]');
+    await insertImageButton.click();
+});
+
+Then("abro en el listado de páginas la página con el titulo {string}", async function (titulo) {
+    let elements = await this.driver.$$("h3[class='gh-content-entry-title']");
+    elements.forEach(async function (element) {
+        let text = await element.getText();
+        if (text === titulo) {
+            await element.parentElement().click();
+        }
+    });     
+});
+
+When("cierro sesión", async function () {
+    await this.driver.url("http://localhost:2368/ghost/#/signout");
+});
+
+Then("valido que la página tenga una imagen", async function () {
+    let elements = await this.driver.$$("img[role='presentation']");
+    let elementsFound = elements.length > 0;
+    expect(elementsFound).to.equal(true);   
 });
