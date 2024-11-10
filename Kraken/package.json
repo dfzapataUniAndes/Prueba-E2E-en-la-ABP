@@ -11,6 +11,7 @@
   "description": "",
   "devDependencies": {
     "cucumber": "^6.0.7",
-    "kraken-node": "^1.0.24"
+    "kraken-node": "^1.0.24",
+    "chai": "^4.5.0"
   }
 }
