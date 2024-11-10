@@ -83,3 +83,16 @@ Then("valido que la página tenga una imagen", async function () {
     let elementsFound = elements.length > 0;
     expect(elementsFound).to.equal(true);   
 });
+
+
+Then("veo en el listado de páginas la página con el titulo {string} y la etiqueta draft", async function (titulo) {
+    let elements = await this.driver.$$("h3[class='gh-content-entry-title']");
+    let elementsFound = null;
+    elements.forEach(async function (element) {
+        let text = await element.getText();
+        if (text === titulo) {
+            elementsFound = await element.parentElement().$('p span.draft');
+            expect(elementsFound).to.not.equal(null);
+        }
+    });     
+});
