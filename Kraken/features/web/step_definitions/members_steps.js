@@ -1,4 +1,5 @@
 const { When, Then } = require("@cucumber/cucumber");
+const {faker} = require("@faker-js/faker");
 const expect = require('chai').expect;
 
 When("no existe ningún Member", async function () {
@@ -42,14 +43,43 @@ Then("el formulario de New member es visible", async function() {
     await expect(await memberForm.isDisplayed()).to.be.true
 })
 
-Then("hago clic en Save y aparece el error de {kraken-string}", async function(errorMsg){
+Then("hago clic en el botón de Save", async function(){
     const saveBtn = await this.driver.$('[data-test-button="save"]')
     await saveBtn.waitForEnabled()
     await saveBtn.click()
     await this.driver.pause(1000);
+})
 
+Then("aparece el error de {kraken-string}", async function (errorMsg){
     const formGroup = await this.driver.$('.form-group.max-width.error');
     const errorMessageElement = await formGroup.$('p.response');
     const errorMessage = await errorMessageElement.getText();
     await expect(errorMessage).to.have.string(errorMsg);
 })
+
+Then("completo los campos de la sección New member cómo Name, Email, Labels, Note", async function (){
+    try {
+        const fakeMemberName = faker.person.fullName();
+        const fakeEmail = faker.internet.email();
+        const fakeNote = faker.lorem.sentence(10);
+
+        const nameField = await this.driver.$('input#member-name');
+        await nameField.waitForExist({ timeout: 5000 });
+        await nameField.setValue(fakeMemberName);
+
+        const emailField = await this.driver.$('input#member-email');
+        await emailField.waitForExist({ timeout: 5000 });
+        await emailField.setValue(fakeEmail);
+
+        const noteField = await this.driver.$('textarea#member-note');
+        await noteField.waitForExist({ timeout: 5000 });
+        await noteField.setValue(fakeNote);
+
+    } catch (e) {
+        return e
+    }
+})
+
+// Then("veo el nuevo usuario creado en la lista de members", await function () {
+//
+// })

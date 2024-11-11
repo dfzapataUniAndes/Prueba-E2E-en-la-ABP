@@ -12,4 +12,16 @@ Feature: Agregar Members en Ghost
     Given que navego a la página "http://localhost:2368/ghost/#/members"
     When hago clic en new member
     And el formulario de New member es visible
-    Then hago clic en Save y aparece el error de "Please enter an email"
+    Then hago clic en el botón de Save
+    And aparece el error de "Please enter an email"
+
+  @user3 @web
+  Scenario: Como tercer usuario puedo completar todos los campos de la sección ENGAGEMENT del formulario de nuevo miembro.
+    Given que navego a la página "http://localhost:2368/ghost/#/members"
+    When hago clic en new member
+    And el formulario de New member es visible
+    Then completo los campos de la sección New member cómo Name, Email, Labels, Note
+    And hago clic en el botón de Save
+    Then que navego a la página "http://localhost:2368/ghost/#/members"
+
+#    Then veo el nuevo usuario creado en la lista de members
