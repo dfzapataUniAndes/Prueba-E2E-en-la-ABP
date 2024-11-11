@@ -98,7 +98,7 @@ ghost start
 
 También debe tener un usuario registrado como administrador en ghost
 
-### Paso 2: Entrar a la carpeta kraken
+### Paso 2: Entrar a la carpeta Cypress
 
 ```bash
 cd Cypress
