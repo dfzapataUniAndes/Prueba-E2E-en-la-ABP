@@ -22,7 +22,7 @@ describe("Crear un post en Ghost", () => {
     givenUserIsLogin(Cypress.env("emailTest2"), Cypress.env("passwordTest2"));
   });
 
-  it("Como administrador inicio sesión, creo un post en Ghost exitosamente y lo veo en el listado de posts", () => {
+  it("EP_05 Como administrador inicio sesión, creo un post en Ghost exitosamente y lo veo en el listado de posts", () => {
     // When navego a la página de crear posts
     whenNavigateToThePosts();
     // And hago clic en crear Post:
@@ -43,7 +43,7 @@ describe("Crear un post en Ghost", () => {
     thenCloseSession();
   });
 
-  it("Como administrador inicio sesión, trato de crear un post en Ghost sin completar el titulo, el contenido y hago clic en publicar", () => {
+  it("EP_06 Como administrador inicio sesión, trato de crear un post en Ghost sin completar el titulo, el contenido y hago clic en publicar", () => {
     // When navego a la página de crear posts
     whenNavigateToThePosts();
     // And hago clic en crear Post:
@@ -60,7 +60,7 @@ describe("Crear un post en Ghost", () => {
     thenCloseSession();
   });
 
-  it("Como administrador inicio sesión, trato de crear un post en Ghost con titulo pero sin contenido y hago clic en publicar", () => {
+  it("EP_07 Como administrador inicio sesión, trato de crear un post en Ghost con titulo pero sin contenido y hago clic en publicar", () => {
     // When navego a la página de crear posts
     whenNavigateToThePosts();
     // And hago clic en crear Post:
@@ -83,7 +83,7 @@ describe("Crear un post en Ghost", () => {
     thenCloseSession();
   });
 
-  it("Como administrador inicio sesión, trato de crear un post en Ghost con titulo vacio pero con contenido y hago clic en publicar", () => {
+  it("EP_08 Como administrador inicio sesión, trato de crear un post en Ghost con titulo vacio pero con contenido y hago clic en publicar", () => {
     const sinTitulo = "(Untitled)";
     // When navego a la página de crear posts
     whenNavigateToThePosts();
