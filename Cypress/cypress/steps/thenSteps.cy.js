@@ -99,12 +99,29 @@ export function thenClicInEditor() {
 
 export function thenInsertTitlePost(title) {
   // Espera que el campo de título esté visible y escribe el título del post
-  cy.get('textarea[placeholder="Post title"]', { timeout: 5000 }).type(title);
+  const titleField = cy
+    .get('textarea[placeholder="Post title"]', {
+      timeout: 5000,
+    })
+    .first();
+
+  // Si el título es vacío, no intentamos escribir nada
+  if (title.trim() === "") {
+    titleField.clear(); // Asegura que el campo quede vacío
+  } else {
+    titleField.type(title); // Escribe el título si no está vacío
+  }
 }
 
 export function thenInsertContentPost(content) {
-  // Espera que el área de contenido esté visible y escribe el contenido del post
-  cy.get(".kg-prose", { timeout: 5000 }).first().type(content);
+  const contentField = cy.get(".kg-prose", { timeout: 5000 }).first();
+
+  // Si el contenido es vacío, no intentamos escribir nada
+  if (content.trim() === "") {
+    contentField.clear(); // Asegura que el campo quede vacío
+  } else {
+    contentField.type(content); // Escribe el contenido si no está vacío
+  }
 }
 
 export function thenCreateNewPost() {
@@ -164,4 +181,21 @@ export function thenViewCreatedPost(title) {
 
   // Pausa opcional para asegurar que cualquier cambio de UI finalice
   cy.wait(2000);
+}
+
+export function thenPostCannotBePublished() {
+  cy.get("body") // Espera que el cuerpo de la página esté cargado
+    .then(($body) => {
+      // Verifica si el botón de publicar existe
+      if ($body.find('button[data-test-button="publish-flow"]').length > 0) {
+        // Si el botón existe, verifica que no esté visible
+        cy.get('button[data-test-button="publish-flow"]', { timeout: 10000 })
+          .should("not.be.visible")
+          .then(($btn) => {
+            if ($btn.is(":visible")) {
+              throw new Error("El botón de publicar debería estar oculto.");
+            }
+          });
+      }
+    });
 }
