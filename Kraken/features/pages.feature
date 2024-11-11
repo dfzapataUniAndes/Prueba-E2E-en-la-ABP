@@ -1,7 +1,7 @@
-Feature: Crear un page en Ghost 
+Feature: Crear Pages
 
   @user1 @web
-  Scenario: Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas
+  Scenario: EP_01 Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas
     Given que inicio sesion como administrador
     And espero 2 segundos
     And ingreso el correo "<USERNAME1>"
@@ -31,7 +31,7 @@ Feature: Crear un page en Ghost
     And cierro sesión
 
   @user2 @web
-  Scenario: Como administrador inicio sesión, creo una página con una imagen por defecto y la visualizo luego de creada
+  Scenario: EP_02 Como administrador inicio sesión, creo una página con una imagen por defecto y la visualizo luego de creada
     Given que inicio sesion como administrador
     And espero 2 segundos
     And ingreso el correo "<USERNAME1>"
@@ -64,7 +64,7 @@ Feature: Crear un page en Ghost
     And cierro sesión
 
   @user3 @web
-  Scenario: Como administrador inicio sesión, creo una página como borrador y la visualizo en el listado de páginas como draft
+  Scenario: EP_03 Como administrador inicio sesión, creo una página como borrador y la visualizo en el listado de páginas como draft
     Given que inicio sesion como administrador
     And espero 2 segundos
     And ingreso el correo "<USERNAME1>"
@@ -88,7 +88,7 @@ Feature: Crear un page en Ghost
     And cierro sesión
 
   @user4 @web
-  Scenario: Como administrador inicio sesión, intento crear y hacer preview de una página en Ghost sin contenido y valido el draft generado
+  Scenario: EP_04 Como administrador inicio sesión, intento crear y hacer preview de una página en Ghost sin contenido y valido el draft generado
     Given que inicio sesion como administrador
     And espero 2 segundos
     And ingreso el correo "<USERNAME1>"
