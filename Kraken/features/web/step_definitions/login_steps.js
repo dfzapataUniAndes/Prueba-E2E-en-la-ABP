@@ -1,21 +1,21 @@
 const {Given, Then} = require("@cucumber/cucumber");
-Given("que inicio sesion", async function () {
-    await this.driver.pause(5000);
-    await this.driver.url("http://localhost:2368/ghost/#/signin");
-    await this.driver.pause(3000);
-
-    const emailInput = await this.driver.$('input[name="identification"]');
-    await emailInput.setValue("js.rodriguezm12345@uniandes.edu.co");
-    await this.driver.pause(1000);
-
-    const passwordInput = await this.driver.$('input[name="password"]');
-    await passwordInput.setValue('39443950dE*');
-    await this.driver.pause(1000);
-
-    const loginButton = await this.driver.$('button[type="submit"]');
-    await loginButton.click();
-    await this.driver.pause(2000);
-})
+// Given("que inicio sesion", async function () {
+//     await this.driver.pause(5000);
+//     await this.driver.url("http://localhost:2368/ghost/#/signin");
+//     await this.driver.pause(3000);
+//
+//     const emailInput = await this.driver.$('input[name="identification"]');
+//     await emailInput.setValue("js.rodriguezm12345@uniandes.edu.co");
+//     await this.driver.pause(1000);
+//
+//     const passwordInput = await this.driver.$('input[name="password"]');
+//     await passwordInput.setValue('39443950dE*');
+//     await this.driver.pause(1000);
+//
+//     const loginButton = await this.driver.$('button[type="submit"]');
+//     await loginButton.click();
+//     await this.driver.pause(2000);
+// })
 
 
 Then("cierro sesión en Ghost", async function () {

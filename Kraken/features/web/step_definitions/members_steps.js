@@ -2,11 +2,9 @@ const { When, Then } = require("@cucumber/cucumber");
 const expect = require('chai').expect;
 
 When("no existe ningún Member", async function () {
-    await this.driver.pause(2000);
     const membersTable = await this.driver.$('div.gh-list-with-helpsection')
-    const membersTableExist = await membersTable.isExisting()
+    const membersTableExist = await membersTable.isDisplayed()
 
-    // expect(await membersTable.isExisting()).to.be.false;
     if (membersTableExist) {
         throw new Error(
             'Ya existen miembros creados'
