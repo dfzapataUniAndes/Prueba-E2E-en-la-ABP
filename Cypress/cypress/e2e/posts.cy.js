@@ -66,7 +66,7 @@ describe("Crear un post en Ghost", () => {
     // And hago clic en crear Post:
     thenCreateNewPost();
     // And ingreso el título del post vacío
-    thenInsertTitlePost("Titulo de Post");
+    thenInsertTitlePost("Titulo de Post sin Contenido");
     // And ingreso el contenido del post vacío
     thenInsertContentPost("");
 
@@ -77,7 +77,7 @@ describe("Crear un post en Ghost", () => {
     // And cierro la ventana de post publicado
     thenCloseWindowPostPublished();
     // And veo en el listado de posts, el post con el titulo "Titulo de Post"
-    thenViewCreatedPost("Titulo de Post");
+    thenViewCreatedPost("Titulo de Post sin Contenido");
 
     // And cierro sesión
     thenCloseSession();
@@ -92,7 +92,7 @@ describe("Crear un post en Ghost", () => {
     // And ingreso el título del post vacío
     thenInsertTitlePost("");
     // And ingreso el contenido del post "Contenido del Post"
-    thenInsertContentPost("Contenido del Post");
+    thenInsertContentPost("Contenido del Post sin Titulo");
 
     // And hago clic en Publish
     thenClicInPublishPost();
