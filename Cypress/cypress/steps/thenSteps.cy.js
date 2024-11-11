@@ -84,3 +84,13 @@ export function thenViewCreatedPageAndLabelDraft(title) {
     });
     cy.wait(2000);
 }
+
+export function thenClicInPreview() {
+    cy.get('button[data-test-button="publish-preview"]').first().click();
+    cy.wait(3000);
+}
+
+export function thenClicInEditor() {
+    cy.get('button[class="gh-btn-editor gh-editor-back-button"]').first().click();
+    cy.wait(3000);
+}

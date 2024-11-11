@@ -2,7 +2,7 @@ import { givenNavigateToTheSite, givenUserIsLogin } from '../steps/givenSteps.cy
 import { whenNavigateToThePages } from '../steps/whenSteps.cy';
 import { thenCreateNewPage, thenInsertTitlePage, thenInsertContentPage, thenClicInPublish, thenClicInFinishReview, thenClicInPublishPage,
     thenCloseWindowPagePublished, thenViewCreatedPage, thenCloseSession, thenSelecteCoverImage, thenViewCreatedPageWithImage, 
-    thenValidatePageWithImage, thenNavigateToThePages, thenViewCreatedPageAndLabelDraft
+    thenValidatePageWithImage, thenNavigateToThePages, thenViewCreatedPageAndLabelDraft, thenClicInPreview, thenClicInEditor
  } from '../steps/thenSteps.cy';
 
 describe('Crear un page en Ghost', () => {
@@ -75,6 +75,27 @@ describe('Crear un page en Ghost', () => {
         thenNavigateToThePages();
         // And veo en el listado de páginas la página con el titulo "Titulo página draft" y la etiqueta draft
         thenViewCreatedPageAndLabelDraft("Titulo página draft");
+        // And cierro sesión
+        thenCloseSession();
+    });
+
+    it('Como administrador inicio sesión, intento crear y hacer preview de una página en Ghost sin contenido y valido el draft generado', () => {
+        // When navego a la página de crear páginas
+        whenNavigateToThePages();
+        // Then hago clic en crear nueva página 
+        thenCreateNewPage();
+        // And selecciono una imagen de portada
+        thenSelecteCoverImage();
+        // And ingreso el título de la página "Titulo página sin contenido con imagen"
+        thenInsertTitlePage("Titulo página sin contenido con imagen");
+        // And hago clic en Preview
+        thenClicInPreview();
+        // And hago clic en Editor
+        thenClicInEditor();
+        // And navego a la página de crear páginas
+        thenNavigateToThePages();
+        // And veo en el listado de páginas la página con el titulo "Titulo página sin contenido con imagen" y la etiqueta draft
+        thenViewCreatedPageAndLabelDraft("Titulo página sin contenido con imagen");
         // And cierro sesión
         thenCloseSession();
     });
