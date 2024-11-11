@@ -24,12 +24,12 @@ describe("Crear un post en Ghost", () => {
   it("Como administrador inicio sesión, creo un post en Ghost exitosamente y lo veo en el listado de posts", () => {
     // When navego a la página de crear posts
     whenNavigateToThePosts();
+    // And hago clic en crear Post:
+    thenCreateNewPost();
     // And ingreso el título del post "Titulo de Post"
     thenInsertTitlePost("Titulo de Post");
     // And ingreso el contenido del post "Contenido del Post"
     thenInsertContentPost("Contenido del Post");
-    // And hago clic en crear Post:
-    thenCreateNewPost();
     // And hago clic en Publish
     thenClicInPublishPost();
     // And hago clic en finalizar revisión

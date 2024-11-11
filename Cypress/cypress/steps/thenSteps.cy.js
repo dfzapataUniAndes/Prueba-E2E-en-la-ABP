@@ -108,20 +108,25 @@ export function thenInsertContentPost(content) {
 }
 
 export function thenCreateNewPost() {
-  // Navega a la página de creación de posts
-  cy.visit("http://localhost:2368/ghost/#/editor/post");
+  // Haz clic en el botón de crear nuevo post
+  cy.get('a[href="#/editor/post/"]').first().click();
 }
 
 export function thenClicInPublishPost() {
-  // Haz clic en el botón de flujo de publicación
+  // Haz clic en el botón de publicación:
   cy.get('button[data-test-button="publish-flow"]', { timeout: 5000 })
+    .first()
+    .click();
+
+  // Haz clic en el botón de flujo de publicación
+  cy.get('button[data-test-button="continue"]', { timeout: 5000 })
     .first()
     .click();
 }
 
 export function thenClicInFinishReviewPost() {
   // Haz clic en el botón de continuar para finalizar la revisión
-  cy.get('button[data-test-button="continue"]', { timeout: 5000 })
+  cy.get('button[data-test-button="confirm-publish"]', { timeout: 5000 })
     .first()
     .click();
 }
