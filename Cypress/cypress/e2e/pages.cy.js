@@ -22,14 +22,14 @@ import {
   thenClicInEditor,
 } from "../steps/thenSteps.cy";
 
-describe("Crear un page en Ghost", () => {
+describe("Crear pages", () => {
   beforeEach(() => {
     // Given que inicio sesión como administrador
     givenNavigateToTheSite();
     givenUserIsLogin(Cypress.env("emailTest1"), Cypress.env("passwordTest1"));
   });
 
-  it("Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas", () => {
+  it("EC_01 Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas", () => {
     // When navego a la página de crear páginas
     whenNavigateToThePages();
     // And hago clic en crear nueva página
@@ -52,7 +52,7 @@ describe("Crear un page en Ghost", () => {
     thenCloseSession();
   });
 
-  it("Como administrador inicio sesión, creo una página con una imagen por defecto y la visualizo luego de creada", () => {
+  it("EC_02 Como administrador inicio sesión, creo una página con una imagen por defecto y la visualizo luego de creada", () => {
     // When navego a la página de crear páginas
     whenNavigateToThePages();
     // Then hago clic en crear nueva página
@@ -79,7 +79,7 @@ describe("Crear un page en Ghost", () => {
     thenCloseSession();
   });
 
-  it("Como administrador inicio sesión, creo una página como borrador y la visualizo en el listado de páginas como draft", () => {
+  it("EC_03 Como administrador inicio sesión, creo una página como borrador y la visualizo en el listado de páginas como draft", () => {
     // When navego a la página de crear páginas
     whenNavigateToThePages();
     // Then hago clic en crear nueva página
@@ -96,7 +96,7 @@ describe("Crear un page en Ghost", () => {
     thenCloseSession();
   });
 
-  it("Como administrador inicio sesión, intento crear y hacer preview de una página en Ghost sin contenido y valido el draft generado", () => {
+  it("EC_04 Como administrador inicio sesión, intento crear y hacer preview de una página en Ghost sin contenido y valido el draft generado", () => {
     // When navego a la página de crear páginas
     whenNavigateToThePages();
     // Then hago clic en crear nueva página
