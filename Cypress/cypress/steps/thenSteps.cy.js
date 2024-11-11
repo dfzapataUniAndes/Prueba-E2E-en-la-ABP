@@ -68,3 +68,19 @@ export function thenValidatePageWithImage() {
     cy.get("img[role='presentation']").should('have.length.above', 0);
     cy.wait(2000);
 }
+
+export function thenNavigateToThePages() {
+    cy.visit('http://localhost:2368/ghost/#/pages');
+    cy.wait(2000);
+}
+
+export function thenViewCreatedPageAndLabelDraft(title) {
+    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+        const text = $el.text();
+        if(text.indexOf(title) > -1) {
+            expect(text).to.contain(title);
+            cy.get($el).parent().find('p span.draft').should('exist');
+        }
+    });
+    cy.wait(2000);
+}

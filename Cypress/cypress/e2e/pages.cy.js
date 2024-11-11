@@ -2,7 +2,7 @@ import { givenNavigateToTheSite, givenUserIsLogin } from '../steps/givenSteps.cy
 import { whenNavigateToThePages } from '../steps/whenSteps.cy';
 import { thenCreateNewPage, thenInsertTitlePage, thenInsertContentPage, thenClicInPublish, thenClicInFinishReview, thenClicInPublishPage,
     thenCloseWindowPagePublished, thenViewCreatedPage, thenCloseSession, thenSelecteCoverImage, thenViewCreatedPageWithImage, 
-    thenValidatePageWithImage
+    thenValidatePageWithImage, thenNavigateToThePages, thenViewCreatedPageAndLabelDraft
  } from '../steps/thenSteps.cy';
 
 describe('Crear un page en Ghost', () => {
@@ -62,7 +62,21 @@ describe('Crear un page en Ghost', () => {
         thenCloseSession();
     });
 
-
-
+    it('Como administrador inicio sesión, creo una página como borrador y la visualizo en el listado de páginas como draft', () => {
+        // When navego a la página de crear páginas
+        whenNavigateToThePages();
+        // Then hago clic en crear nueva página 
+        thenCreateNewPage();
+        // And ingreso el título de la página "Titulo página draft"
+        thenInsertTitlePage("Titulo página draft");
+        // And ingreso el contenido de la página "Contenido de lá página draft" 
+        thenInsertContentPage("Contenido de lá página draft");
+        // And navego a la página de crear páginas
+        thenNavigateToThePages();
+        // And veo en el listado de páginas la página con el titulo "Titulo página draft" y la etiqueta draft
+        thenViewCreatedPageAndLabelDraft("Titulo página draft");
+        // And cierro sesión
+        thenCloseSession();
+    });
 
 });
