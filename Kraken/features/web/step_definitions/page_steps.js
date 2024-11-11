@@ -105,3 +105,8 @@ Then("hago clic en Editor", async function () {
     const editorButton = await this.driver.$('button[class="gh-btn-editor gh-editor-back-button"]');
     await editorButton.click();
 });
+
+Then("hago clic en Update", async function () {
+    const updateButton = await this.driver.$('button[data-test-button="publish-save"]');
+    await updateButton.click();
+});

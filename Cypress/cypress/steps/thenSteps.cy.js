@@ -95,6 +95,11 @@ export function thenClicInEditor() {
   cy.wait(3000);
 }
 
+export function thenClicInUpdate() {
+  cy.get('button[data-test-button="publish-save"]').first().click();
+  cy.wait(3000);
+}
+
 // Métodos para Posts en Cypress:
 
 export function thenInsertTitlePost(title) {

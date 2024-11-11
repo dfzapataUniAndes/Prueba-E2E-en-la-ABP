@@ -1,7 +1,7 @@
 Feature: Crear un tag en Ghost 
 
   @user1 @web
-  Scenario: Como primer usuario inicio sesión y creo un tag en Ghost
+  Scenario: EP_09 Como primer usuario inicio sesión y creo un tag en Ghost
     Given que inicio sesion
     And espero 7 segundos
     And navego a la página de creación de tags
@@ -12,7 +12,7 @@ Feature: Crear un tag en Ghost
 
 
   @user2 @web
-  Scenario: Como segundo usuario inicio sesión y creo un tag en Ghost sin descripción
+  Scenario: EP_10 Como segundo usuario inicio sesión y creo un tag en Ghost sin descripción
     Given que inicio sesion
     And espero 7 segundos
     And navego a la página de creación de tags
@@ -23,7 +23,7 @@ Feature: Crear un tag en Ghost
 
 
 @user3 @web
-  Scenario: Como tercer usuario inicio sesión y creo un tag en Ghost sin nombre
+  Scenario: EP_11 Como tercer usuario inicio sesión y creo un tag en Ghost sin nombre
     Given que inicio sesion
     And espero 7 segundos
     And navego a la página de creación de tags
@@ -34,7 +34,7 @@ Feature: Crear un tag en Ghost
 
 
 @user4 @web
-  Scenario: Como cuarto usuario, inicio sesión y creo un tag en Ghost con una descripción excesivamente larga
+  Scenario: EP_12 Como cuarto usuario, inicio sesión y creo un tag en Ghost con una descripción excesivamente larga
     Given que inicio sesion
     And espero 7 segundos
     And navego a la página de creación de tags

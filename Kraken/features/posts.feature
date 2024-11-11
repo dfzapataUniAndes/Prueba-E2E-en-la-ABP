@@ -1,7 +1,7 @@
 Feature: Crear un post en Ghost
 
   @user1 @web
-  Scenario: Como primer usuario inicio sesión y publico un mensaje en Ghost
+  Scenario: EP_05 Como primer usuario inicio sesión y publico un mensaje en Ghost
     Given que inicio sesion
     And que navego a la página 'http://localhost:2368/ghost/#/posts'
     And espero 1 segundos
@@ -14,7 +14,7 @@ Feature: Crear un post en Ghost
     And cierro sesión en Ghost
 
   @user2 @web
-  Scenario: Como segundo usuario intento crear un post vacio
+  Scenario: EP_06 Como segundo usuario intento crear un post vacio
     Given que inicio sesion
     And navego a la página de creación de posts
     And espero 2 segundos
@@ -23,7 +23,7 @@ Feature: Crear un post en Ghost
     And cierro sesión en Ghost
 
  @user3 @web
-  Scenario: Como tercer usuario intento crear un post con contenido vacío
+  Scenario: EP_07 Como tercer usuario intento crear un post con contenido vacío
    Given que inicio sesion
    And navego a la página de creación de posts
    And espero 2 segundos
@@ -33,7 +33,7 @@ Feature: Crear un post en Ghost
    And cierro sesión en Ghost
 
   @user4 @web
-  Scenario: Como cuarto usuario intento crear un post con titulo vacío
+  Scenario: EP_08 Como cuarto usuario intento crear un post con titulo vacío
     Given que inicio sesion
     And navego a la página de creación de posts
     And espero 3 segundos
