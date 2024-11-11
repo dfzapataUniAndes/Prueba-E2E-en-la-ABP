@@ -1,7 +1,8 @@
 import { givenNavigateToTheSite, givenUserIsLogin } from '../steps/givenSteps.cy';
 import { whenNavigateToThePages } from '../steps/whenSteps.cy';
 import { thenCreateNewPage, thenInsertTitlePage, thenInsertContentPage, thenClicInPublish, thenClicInFinishReview, thenClicInPublishPage,
-    thenCloseWindowPagePublished, thenViewCreatedPage, thenCloseSession
+    thenCloseWindowPagePublished, thenViewCreatedPage, thenCloseSession, thenSelecteCoverImage, thenViewCreatedPageWithImage, 
+    thenValidatePageWithImage
  } from '../steps/thenSteps.cy';
 
 describe('Crear un page en Ghost', () => {
@@ -33,4 +34,35 @@ describe('Crear un page en Ghost', () => {
         // And cierro sesión
         thenCloseSession();
     });
+
+    it('Como administrador inicio sesión, creo una página con una imagen por defecto y la visualizo luego de creada', () => {
+        // When navego a la página de crear páginas
+        whenNavigateToThePages();
+        // Then hago clic en crear nueva página 
+        thenCreateNewPage();
+        //And selecciono una imagen de portada
+        thenSelecteCoverImage();
+        // And ingreso el título de la página "Titulo página con imagen"
+        thenInsertTitlePage("Titulo página con imagen");
+        // And ingreso el contenido de la página "Contenido de lá página" 
+        thenInsertContentPage("Contenido de lá página");
+        // And hago clic en Publish
+        thenClicInPublish();
+        // And hago clic en finalizar revisión
+        thenClicInFinishReview();
+        // And hago clic en Publish page
+        thenClicInPublishPage();
+        // And cierro la ventana de página publicada
+        thenCloseWindowPagePublished();
+        // And abro en el listado de páginas la página con el titulo "Titulo página con imagen"
+        thenViewCreatedPageWithImage("Titulo página con imagen");
+        // And valido que la página tenga una imagen
+        thenValidatePageWithImage();
+        //And cierro sesión
+        thenCloseSession();
+    });
+
+
+
+
 });
