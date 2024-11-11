@@ -1,14 +1,16 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
 
+
 Given("que navego a la página {string}", async function (url) {
   await this.driver.url(url);
+  await this.driver.pause(1000);
 });
 
 Given("espero {int} segundos", async function (segundos) {
   await this.driver.pause(segundos * 1000);
 });
 
-Given("que no existe ningún post creado en el sistema", async function () {
+When("que no existe ningún post creado en el sistema", async function () {
   // Navega a la página de posts y verifica que no haya posts.
   await this.driver.url("http://localhost:2368/ghost/#/posts");
   await this.driver.pause(1000); // Espera para cargar la página
@@ -22,35 +24,25 @@ Given("que no existe ningún post creado en el sistema", async function () {
   }
 });
 
-When("ingreso el correo {kraken-string}", async function (email) {
-  const emailInput = await this.driver.$('input[name="identification"]');
-  await emailInput.setValue(email);
-});
-
-When("ingreso la contraseña {kraken-string}", async function (password) {
-  const passwordInput = await this.driver.$('input[name="password"]');
-  await passwordInput.setValue(password);
-});
-
-When("hago clic en iniciar sesión", async function () {
-  const loginButton = await this.driver.$('button[type="submit"]');
-  await loginButton.click();
-});
-
-When("navego a la página de creación de posts", async function () {
+Given("navego a la página de creación de posts", async function () {
+  await this.driver.pause(1000);
   await this.driver.url("http://localhost:2368/ghost/#/editor/post");
+  await this.driver.pause(1000);
 });
 
 When(
   "creo un nuevo post con el título {string} y contenido {string}",
   async function (titulo, contenido) {
+    await this.driver.pause(1000);
     const titleInput = await this.driver.$(
       'textarea[placeholder="Post title"]'
     );
+    await this.driver.pause(1000);
     await titleInput.setValue(titulo);
+    await this.driver.pause(1000);
     const contentInput = await this.driver.$(".kg-prose");
     await contentInput.setValue(contenido);
-
+    await this.driver.pause(1000);
     // Publicar el post
     const publishButton = await this.driver.$(
       'button[data-test-button="publish-flow"]'
@@ -61,7 +53,7 @@ When(
       'button[data-test-button="continue"]'
     );
     await confirmPublishButton.click();
-
+    await this.driver.pause(1000)
     // Confirmar definitivmanete la publicación:
     const confirmPublishButton2 = await this.driver.$(
       'button[data-test-button="confirm-publish"]'
@@ -79,7 +71,7 @@ Then(
     const closeModalButton = await this.driver.$(
       'button[data-test-button="close-publish-flow"]'
     );
-
+    await this.driver.pause(1000);
     // Verificar si el botón de cierre está presente
     if (await closeModalButton.isExisting()) {
       await closeModalButton.click();
@@ -116,9 +108,10 @@ Then(
   }
 );
 
-Then(
+When(
   "no debería ser posible crear un post con campos vacíos",
   async function () {
+    await this.driver.pause(1000);
     const publishButton = await this.driver.$(
       'button[data-test-button="publish-flow"]'
     );
@@ -133,44 +126,53 @@ Then(
 When(
   "creo un nuevo post con título {string} y contenido vacio",
   async function (titulo) {
+    await this.driver.pause(1000);
     const titleInput = await this.driver.$(
       'textarea[placeholder="Post title"]'
     );
+      await this.driver.pause(1000);
     await titleInput.setValue(titulo);
-
+    await this.driver.pause(1000);
     // Crear un contenido vacío:
     const contentInput = await this.driver.$(".kg-prose");
     await contentInput.setValue("");
+
+    // Clic afuera para que se active el boton Publish
+    const parentDiv = await this.driver.$(".gh-koenig-editor-pane")
+    await parentDiv.click();
+    await this.driver.pause(1000);
 
     // Publicar el post
     const publishButton = await this.driver.$(
       'button[data-test-button="publish-flow"]'
     );
     await publishButton.click();
+    await this.driver.pause(1000);
     // Confirmar la publicación:
     const confirmPublishButton = await this.driver.$(
       'button[data-test-button="continue"]'
     );
     await confirmPublishButton.click();
-
+    await this.driver.pause(1000);
     // Confirmar definitivmanete la publicación:
     const confirmPublishButton2 = await this.driver.$(
       'button[data-test-button="confirm-publish"]'
     );
     await confirmPublishButton2.click();
-
-    await this.driver.pause(1000); // Espera a que se complete la publicación
+    await this.driver.pause(500);
   }
 );
 
 When(
   "creo un nuevo post con título vacio y contenido {string}",
   async function (contenido) {
+    await this.driver.pause(2000);
     const titleInput = await this.driver.$(
       'textarea[placeholder="Post title"]'
     );
+    await this.driver.pause(1000);
     await titleInput.setValue("");
-
+    await this.driver.pause(1000);
     // Crear un contenido vacío:
     const contentInput = await this.driver.$(".kg-prose");
     await contentInput.setValue(contenido);
@@ -196,26 +198,3 @@ When(
   }
 );
 
-Then("cierro sesión en Ghost", async function () {
-  // Esperar que el avatar de usuario esté presente en el DOM antes de interactuar
-  const userMenuButton = await this.driver.$(".gh-user-avatar");
-  await this.driver.waitUntil(async () => await userMenuButton.isDisplayed(), {
-    timeout: 5000,
-    timeoutMsg:
-      "El botón de menú de usuario no se mostró en el tiempo esperado",
-  });
-
-  // Hacer clic en el avatar de usuario para abrir el menú
-  await userMenuButton.click();
-
-  // Esperar a que la opción de cerrar sesión sea visible y hacer clic en ella
-  const logoutButton = await this.driver.$('a[href="#/signout/"]');
-  await this.driver.waitUntil(async () => await logoutButton.isDisplayed(), {
-    timeout: 5000,
-    timeoutMsg: "El botón de cerrar sesión no se mostró en el tiempo esperado",
-  });
-  await logoutButton.click();
-
-  // Pausar para asegurar que el proceso de cierre de sesión se complete
-  await this.driver.pause(2000);
-});
