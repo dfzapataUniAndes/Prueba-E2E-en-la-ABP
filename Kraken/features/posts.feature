@@ -1,6 +1,6 @@
-Feature: Crear un post en Ghost 
+Feature: Crear un post en Ghost
 
-  @user1 @web @post1
+  @user1 @web
   Scenario: Como primer usuario inicio sesión y publico un mensaje en Ghost
     Given que inicio sesion
     And que navego a la página 'http://localhost:2368/ghost/#/posts'
@@ -13,7 +13,7 @@ Feature: Crear un post en Ghost
     Then debería ver el post titulado "Mi primer Post" en la lista de posts
     And cierro sesión en Ghost
 
-  @user2 @web @post2
+  @user2 @web
   Scenario: Como segundo usuario intento crear un post vacio
     Given que inicio sesion
     And navego a la página de creación de posts
@@ -22,7 +22,7 @@ Feature: Crear un post en Ghost
     Then que navego a la página 'http://localhost:2368/ghost/#/posts'
     And cierro sesión en Ghost
 
- @user3 @web  @post3
+ @user3 @web
   Scenario: Como tercer usuario intento crear un post con contenido vacío
    Given que inicio sesion
    And navego a la página de creación de posts
@@ -32,7 +32,7 @@ Feature: Crear un post en Ghost
    Then debería ver el post titulado "Este es un mensaje de prueba" en la lista de posts
    And cierro sesión en Ghost
 
-  @user4 @web @post4
+  @user4 @web
   Scenario: Como cuarto usuario intento crear un post con titulo vacío
     Given que inicio sesion
     And navego a la página de creación de posts
@@ -41,7 +41,7 @@ Feature: Crear un post en Ghost
     Then debería ver el post titulado "(Untitled)" en la lista de posts
     And cierro sesión en Ghost
 
-  @user5 @web @post5
+  @user5 @web
   Scenario: Como quinto usuario intento crear un post con caracteres especiales
     Given que inicio sesion
     And navego a la página de creación de posts

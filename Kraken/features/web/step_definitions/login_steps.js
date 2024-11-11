@@ -2,7 +2,7 @@ const {Given, Then} = require("@cucumber/cucumber");
 Given("que inicio sesion", async function () {
     await this.driver.pause(5000);
     await this.driver.url("http://localhost:2368/ghost/#/signin");
-    await this.driver.pause(7000);
+    await this.driver.pause(3000);
 
     const emailInput = await this.driver.$('input[name="identification"]');
     await emailInput.setValue("js.rodriguezm12345@uniandes.edu.co");
@@ -22,11 +22,7 @@ Then("cierro sesión en Ghost", async function () {
     // await this.driver.url('http://localhost:2368/ghost/#/dashboard')
     // Esperar que el avatar de usuario esté presente en el DOM antes de interactuar
     const userMenuButton = await this.driver.$(".gh-user-avatar");
-    await this.driver.waitUntil(async () => await userMenuButton.isDisplayed(), {
-        timeout: 5000,
-        timeoutMsg:
-            "El botón de menú de usuario no se mostró en el tiempo esperado",
-    });
+    await userMenuButton.waitForEnabled()
 
     // Hacer clic en el avatar de usuario para abrir el menú
     await userMenuButton.click();

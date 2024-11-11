@@ -25,5 +25,5 @@ yarn-error.log*
 
 .idea
 /Kraken/reports/
-/notest/
 /notest
+/notest/

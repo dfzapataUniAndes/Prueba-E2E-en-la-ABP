@@ -3,6 +3,7 @@ const { Given, When, Then } = require("@cucumber/cucumber");
 
 Given("que navego a la página {string}", async function (url) {
   await this.driver.url(url);
+  await this.driver.pause(1000);
 });
 
 Given("espero {int} segundos", async function (segundos) {
