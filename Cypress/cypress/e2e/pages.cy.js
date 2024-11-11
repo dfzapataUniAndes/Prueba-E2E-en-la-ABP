@@ -20,6 +20,7 @@ import {
   thenViewCreatedPageAndLabelDraft,
   thenClicInPreview,
   thenClicInEditor,
+  thenClicInUpdate
 } from "../steps/thenSteps.cy";
 
 describe("Crear pages", () => {
@@ -113,6 +114,37 @@ describe("Crear pages", () => {
     thenNavigateToThePages();
     // And veo en el listado de páginas la página con el titulo "Titulo página sin contenido con imagen" y la etiqueta draft
     thenViewCreatedPageAndLabelDraft("Titulo página sin contenido con imagen");
+    // And cierro sesión
+    thenCloseSession();
+  });
+
+  it("EC_17 Como administrador inicio sesión, edito el titulo de una página y la veo en el listado", () => {
+    // When navego a la página de crear páginas
+    whenNavigateToThePages();
+    // And hago clic en crear nueva página
+    thenCreateNewPage();
+    // And ingreso el título de la página "Titulo página"
+    thenInsertTitlePage("Titulo página a editar");
+    // And ingreso el contenido de la página "Contenido de lá página"
+    thenInsertContentPage("Contenido de lá página");
+    // And hago clic en Publish
+    thenClicInPublish();
+    // And hago clic en finalizar revisión
+    thenClicInFinishReview();
+    // And hago clic en Publish page
+    thenClicInPublishPage();
+    // And cierro la ventana de página publicada
+    thenCloseWindowPagePublished();
+    // Then abro en el listado de páginas la página con el titulo "Titulo página a editar"
+    thenViewCreatedPageWithImage("Titulo página a editar");
+    // And ingreso el título de la página "Titulo página modificada"
+    thenInsertTitlePage("Titulo página modificada");
+    // And hago clic en Update
+    thenClicInUpdate();
+    // And navego a la página de crear páginas
+    thenNavigateToThePages();
+    // And veo en el listado de páginas la página con el titulo "Titulo página modificada"
+    thenViewCreatedPage("Titulo página modificada");
     // And cierro sesión
     thenCloseSession();
   });

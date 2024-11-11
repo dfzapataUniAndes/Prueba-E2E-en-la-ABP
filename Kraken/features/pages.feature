@@ -113,3 +113,41 @@ Feature: Crear Pages
     And veo en el listado de páginas la página con el titulo "Titulo página sin contenido con imagen" y la etiqueta draft
     And espero 2 segundos
     And cierro sesión
+
+  @user5 @web
+  Scenario: EP_17 Como administrador inicio sesión, edito el titulo de una página y la veo en el listado
+    Given que inicio sesion como administrador
+    And espero 2 segundos
+    And ingreso el correo "<USERNAME1>"
+    And espero 2 segundos
+    And ingreso la contraseña "<PASSWORD1>"
+    And espero 2 segundos
+    And hago clic en iniciar sesión
+    And espero 5 segundos
+    When navego a la página de crear páginas
+    And espero 5 segundos
+    And hago clic en crear nueva página 
+    And espero 5 segundos
+    And ingreso el título de la página "Titulo página a editar"
+    And espero 2 segundos
+    And ingreso el contenido de la página "Contenido de lá página" 
+    And espero 2 segundos
+    And hago clic en Publish
+    And espero 2 segundos
+    And hago clic en finalizar revisión
+    And espero 2 segundos
+    And hago clic en Publish page
+    And espero 2 segundos
+    And cierro la ventana de página publicada
+    And espero 2 segundos
+    Then abro en el listado de páginas la página con el titulo "Titulo página a editar"
+    And espero 2 segundos
+    And ingreso el título de la página "Titulo página modificada"
+    And espero 2 segundos
+    And hago clic en Update
+    And espero 2 segundos
+    And navego a la página de crear páginas
+    And espero 2 segundos
+    And veo en el listado de páginas la página con el titulo "Titulo página modificada"
+    And espero 2 segundos
+    And cierro sesión

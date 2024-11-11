@@ -50,7 +50,7 @@ Los features se ejecutan en paralelo por lo que se recomienda ejecutarlos de man
 
 #### Crear pages
 
-* Mover a una carpeta los archivos features/posts.feature y features/tags.feature
+* Mover a otra carpeta los archivos features/posts.feature y features/tags.feature
 * Ejecutar el siguiente comando 
 ```bash
 npx kraken-node run
@@ -59,7 +59,7 @@ npx kraken-node run
 
 #### Crear posts
 
-* Mover a una carpeta los archivos features/pages.feature y features/tags.feature
+* Mover a otra carpeta los archivos features/pages.feature y features/tags.feature
 * Ejecutar el siguiente comando 
 ```bash
 npx kraken-node run
@@ -68,7 +68,7 @@ npx kraken-node run
 
 #### Crear tags
 
-* Mover a una carpeta los archivos features/pages.feature y features/posts.feature
+* Mover a otra carpeta los archivos features/pages.feature y features/posts.feature
 * Ejecutar el siguiente comando 
 ```bash
 npx kraken-node run
