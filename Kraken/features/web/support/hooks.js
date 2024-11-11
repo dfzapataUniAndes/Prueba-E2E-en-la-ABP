@@ -6,7 +6,7 @@ Before(async function() {
     this.driver = await this.deviceClient.startKrakenForUserId(this.userId);
 
     await this.driver.url("http://localhost:2368/ghost/#/signin");
-
+    await this.driver.pause(2000);
     const emailInput = await this.driver.$('input[name="identification"]');
 
     await emailInput.waitForExist({ timeout: 10000 })
