@@ -95,7 +95,7 @@ export function thenClicInEditor() {
   cy.wait(3000);
 }
 
-// Métodos para Post en Cypress:
+// Métodos para Posts en Cypress:
 
 export function thenInsertTitlePost(title) {
   // Espera que el campo de título esté visible y escribe el título del post
@@ -196,6 +196,88 @@ export function thenPostCannotBePublished() {
               throw new Error("El botón de publicar debería estar oculto.");
             }
           });
+      }
+    });
+}
+
+// Métodos para Tags en Cypress:
+export function thenCreateNewTag() {
+  // Haz clic en el botón de crear nuevo tag
+  cy.get('a[href="#/tags/new/"]').first().click();
+}
+
+export function thenInsertTitleTag(title) {
+  // Espera que el campo de título esté visible y escribe el título del tag
+  const titleField = cy
+    .get('input[data-test-input="tag-name"]', {
+      timeout: 5000,
+    })
+    .first();
+  // Si el título es vacío, no intentamos escribir nada
+  if (title.trim() === "") {
+    titleField.clear(); // Asegura que el campo quede vacío
+  } else {
+    titleField.type(title); // Escribe el título si no está vacío
+  }
+}
+
+export function thenInsertTagDescription(description) {
+  // Espera que el campo de título esté visible y escribe el título del tag
+  const titleField = cy
+    .get('textarea[data-test-input="tag-description"]', {
+      timeout: 5000,
+    })
+    .first();
+  if (description.trim() === "") {
+    titleField.clear();
+  } else {
+    titleField.type(description);
+  }
+}
+
+export function thenClickInSaveTag() {
+  // Haz clic en el botón de publicación:
+  cy.get('button[data-test-button="save"]', { timeout: 5000 }).first().click();
+  cy.wait(2000);
+}
+
+export function thenViewCreatedTag(tagName) {
+  // Navegar a la lista de tags
+  cy.visit("http://localhost:2368/ghost/#/tags");
+
+  // Captura los títulos de los tags una vez cargados
+  cy.get(".gh-tag-list-name") // Obtén todos los elementos de los tags
+    .should("exist") // Asegúrate de que los elementos existen
+    .then(($tags) => {
+      const tagsTitles = $tags.toArray().map((tag) => tag.innerText); // Obtén los textos de los tags
+
+      console.log("Títulos de los tags:", tagsTitles);
+
+      // Verifica si el título esperado está en la lista
+      if (!tagsTitles.includes(tagName)) {
+        throw new Error(
+          `No se encontró el tag llamado "${tagName}" en la lista de tags.`
+        );
+      }
+    });
+}
+
+export function thenTagCreationShouldFail() {
+  // Espera hasta que el botón de "Retry" esté visible, indicando el fallo en la creación del tag
+  cy.get('span[data-test-task-button-state="failure"]', { timeout: 3000 })
+    .should("be.visible")
+    .then(($retryButton) => {
+      if ($retryButton.is(":visible")) {
+        console.log(
+          "Test passed: El botón muestra el estado 'Retry' indicando un fallo en la creación."
+        );
+      } else {
+        console.log(
+          "Test failed: No se mostró el estado 'Retry', la creación debería haber fallado."
+        );
+        throw new Error(
+          "No se mostró el estado 'Retry', la creación debería haber fallado."
+        );
       }
     });
 }
