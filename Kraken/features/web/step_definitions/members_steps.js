@@ -80,6 +80,20 @@ Then("completo los campos de la sección New member cómo Name, Email, Labels, N
     }
 })
 
+// Then("desactivo el checkbox de Newsletter", async function () {
+    // const checkbox = await browser.$('input[type="checkbox"][name="subscribed"]');
+    // // Wait for the checkbox to be present in the DOM
+    // await checkbox.waitForExist({ timeout: 5000 });
+    // // Check if the checkbox is already enabled (checked)
+    // const isChecked = await checkbox.isSelected();
+    // if (!isChecked) { // Click the checkbox to enable it
+    //     await checkbox.click();
+    //     console.log('Checkbox enabled successfully');
+    // } else {
+    //  console.log('Checkbox is already enabled');
+    // }
+// })
+
 // Then("veo el nuevo usuario creado en la lista de members", await function () {
 //
 // })
