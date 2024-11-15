@@ -1,7 +1,13 @@
 # KRAKEN
 
 ## Carpeta notest
-Hemos agregado una nueva carpeta llamada /Kraken/notest en la cual se encuentran las diferentes funcionalidades, para probar cada una debe mover las funcionalidades manualmente desde /Kraken/notest a la carpeta /Kraken/features
+Hemos agregado una nueva carpeta llamada /Kraken/notest en la cual se encuentran las diferentes funcionalidades, para probar cada una debe mover las funcionalidades manualmente desde /Kraken/notest a la carpeta /Kraken/features.
+
+Antes de iniciar realice los siguientes pasos:
+
+1. Registrese en ambas versiones de Ghost (BASE y RC) si no lo ha hecho antes, una vez tenga su usuario y contraseña inicie sesión.
+2. Complete el dashboard de introducción a Ghost.
+3. En la carpeta actual /Kraken, corra el comando "npm install"
 
 ## Pruebas E2E
 

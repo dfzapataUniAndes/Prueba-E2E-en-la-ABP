@@ -44,7 +44,7 @@ http://localhost:2368/ghost/
 
 
 # Pruebas en Kraken
-[Kraken README](README-kraken.md)
+[Kraken README](Kraken/README-kraken.md)
 
 # Pruebas en Ghost
-[Cypress README](README-cypress.md)
+[Cypress README](Cypress/README-cypress.md)
