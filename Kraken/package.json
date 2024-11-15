@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "kraken-run": "npx kraken-node run"
+    "kraken-run": "./node_modules/kraken-node/bin/kraken-node run",
+    "test-vrt": "node vrt.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,9 @@
     "chai": "^4.5.0",
     "cucumber": "^6.0.7",
     "kraken-node": "^1.0.24"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.2.0",
+    "resemblejs": "^5.0.0"
   }
 }
