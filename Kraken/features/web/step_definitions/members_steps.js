@@ -25,16 +25,22 @@ Then("veo mi usuario {kraken-string} en la lista de Members", async function (us
     if (vrt) {
         const memberItem =  await this.driver.$('[class="ma0 pa0 middarkgrey f8 gh-members-list-email"]');
         const memberText = await memberItem.getText();
+        expect(memberText).to.have.string(user);
         const screenshot = await this.driver.saveScreenshot(
-            `./newreports/members/screenshots/new-member-self.png`
+            `./newreports/members/screenshots/new-member-self-${vrt ? 'base' : 'rc'}.png`
         );
         this.attach(screenshot, 'image/png');
-        return expect(memberText).to.have.string(user);
+        return;
     }
+
     const membersTable = await this.driver.$('[data-test-table="members"]');
     const memberItem = await membersTable.$('p.gh-members-list-email');
     const memberText = await memberItem.getText();
-    return expect(memberText).to.have.string(user);
+    expect(memberText).to.have.string(user);
+    const screenshot = await this.driver.saveScreenshot(
+        `./newreports/members/screenshots/new-member-self-${vrt ? 'base' : 'rc'}.png`
+    );
+    await this.attach(screenshot, 'image/png');
 })
 
 When("hago clic en new member", async function(){
