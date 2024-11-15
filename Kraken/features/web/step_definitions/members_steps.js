@@ -1,11 +1,12 @@
-const { When, Then } = require("@cucumber/cucumber");
+const { When, Then, AfterStep } = require("@cucumber/cucumber");
 const {faker} = require("@faker-js/faker");
 const expect = require('chai').expect;
+const { vrt } = require('../../../config.json')
 
 When("no existe ningún Member", async function () {
-    const membersTable = await this.driver.$('div.gh-list-with-helpsection')
-    const membersTableExist = await membersTable.isDisplayed()
-
+    const memberListSelector = vrt ? 'ol[class="members-list gh-list"]' : 'div.gh-list-with-helpsection'
+    const membersTable = await this.driver.$(memberListSelector)
+    const membersTableExist = await membersTable.isExisting()
     if (membersTableExist) {
         throw new Error(
             'Ya existen miembros creados'
@@ -14,22 +15,32 @@ When("no existe ningún Member", async function () {
 });
 
 When("me agrego a mi mismo como Member", async function () {
-    const addYourselfButton = await this.driver.$('[data-test-button="add-yourself"]')
-    await addYourselfButton.waitForEnabled()
-    await addYourselfButton.click()
+    let selector = vrt ? '[class="gh-btn gh-btn-green"]' : '[data-test-button="add-yourself"]';
+    const addYourselfButton = await this.driver.$(selector);
+    await addYourselfButton.waitForExist();
+    await addYourselfButton.click();
 })
 
 Then("veo mi usuario {kraken-string} en la lista de Members", async function (user) {
-    const membersTable = await this.driver.$('[data-test-table="members"]')
-    const memberItem = await membersTable.$('p.gh-members-list-email')
-    const memberText = await memberItem.getText()
-    await expect(memberText).to.have.string(user);
-})
+    if (vrt) {
+        const memberItem =  await this.driver.$('[class="ma0 pa0 middarkgrey f8 gh-members-list-email"]');
+        const memberText = await memberItem.getText();
+        expect(memberText).to.have.string(user);
+        const screenshot = await this.driver.saveScreenshot(
+            `./newreports/members/screenshots/new-member-self-${vrt ? 'base' : 'rc'}.png`
+        );
+        this.attach(screenshot, 'image/png');
+        return;
+    }
 
-Then("cierro la notificacion", async function () {
-    const closeNotification = await this.driver.$('[data-test-button="close-notification"]')
-    await closeNotification.waitForEnabled()
-    await closeNotification.click()
+    const membersTable = await this.driver.$('[data-test-table="members"]');
+    const memberItem = await membersTable.$('p.gh-members-list-email');
+    const memberText = await memberItem.getText();
+    expect(memberText).to.have.string(user);
+    const screenshot = await this.driver.saveScreenshot(
+        `./newreports/members/screenshots/new-member-self-${vrt ? 'base' : 'rc'}.png`
+    );
+    await this.attach(screenshot, 'image/png');
 })
 
 When("hago clic en new member", async function(){
@@ -79,6 +90,18 @@ Then("completo los campos de la sección New member cómo Name, Email, Labels, N
         return e
     }
 })
+
+// AfterStep(async function (world) {
+//     try {
+//         console.log(this)
+//         let screenshot = await this.driver.saveScreenshot(
+//             `./reports/${this.testScenarioId}/screenshots/${Math.round(+new Date() / 1000)}.png`
+//         );
+//         this.attach(screenshot, 'image/png');
+//     } catch {
+//         console.log("KRAKEN: Could not take screenshot");
+//     }
+// })
 
 // Then("desactivo el checkbox de Newsletter", async function () {
     // const checkbox = await browser.$('input[type="checkbox"][name="subscribed"]');

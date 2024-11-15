@@ -1,8 +1,10 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
+const { ghostBaseUrl, ghostRcUrl, vrt } = require('../../../config.json')
 
+const pathUrl = vrt ? ghostRcUrl : ghostBaseUrl
 
 Given("que navego a la página {string}", async function (url) {
-  await this.driver.url(url);
+  await this.driver.url(pathUrl + url);
   await this.driver.pause(1000);
 });
 
@@ -12,7 +14,7 @@ Given("espero {int} segundos", async function (segundos) {
 
 When("que no existe ningún post creado en el sistema", async function () {
   // Navega a la página de posts y verifica que no haya posts.
-  await this.driver.url("http://localhost:2368/ghost/#/posts");
+  await this.driver.url(pathUrl + "#/posts");
   await this.driver.pause(1000); // Espera para cargar la página
   const posts = await this.driver.$$(".gh-post-list-title");
 
@@ -26,7 +28,7 @@ When("que no existe ningún post creado en el sistema", async function () {
 
 Given("navego a la página de creación de posts", async function () {
   await this.driver.pause(1000);
-  await this.driver.url("http://localhost:2368/ghost/#/editor/post");
+  await this.driver.url(pathUrl + "#/editor/post");
   await this.driver.pause(1000);
 });
 
