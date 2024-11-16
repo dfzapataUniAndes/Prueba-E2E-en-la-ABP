@@ -3,11 +3,10 @@
 ## Carpeta notest
 Hemos agregado una nueva carpeta llamada /Kraken/notest en la cual se encuentran las diferentes funcionalidades, para probar cada una debe mover las funcionalidades manualmente desde /Kraken/notest a la carpeta /Kraken/features.
 
-Antes de iniciar realice los siguientes pasos:
-
-1. Registrese en ambas versiones de Ghost (BASE y RC) si no lo ha hecho antes, una vez tenga su usuario y contraseña inicie sesión.
-2. Complete el dashboard de introducción a Ghost.
-3. En la carpeta actual /Kraken, corra el comando "npm install"
+En la carpeta actual /Kraken, corra el comando
+```bash
+npm install
+```
 
 ## Pruebas E2E
 
@@ -22,8 +21,9 @@ npm kraken-run
 ```bash
 npm kraken-run
 ```
-2. Una vez se han generado los screenshots en la carpeta de /newreports puede usar el siguiente comando para generar el reporte de VRT:
+2. Los comandos anteriores generan una nueva carpeta por cada escenario de prueba dentro de la carpeta /vrt-reports.
+3. Una vez se han generado los screenshots en la carpeta de /vrt-reports/scenario# puede usar el siguiente comando para generar el reporte de VRT:
 ```bash
 npm test-vrt
 ```
-
+4. Por cada carpeta /scenario que se encuentre dentro de /vrt-reports se creará un nuevo reporte .html

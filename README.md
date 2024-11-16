@@ -42,6 +42,10 @@ http://localhost:2368/ghost/
 
 **Tenga en cuenta que para que las pruebas de VRT funcionen las diferentes versiones de Ghost deben verse en las url especificadas arriba.**
 
+### **Antes de iniciar realice los siguientes pasos:**
+
+1. Registrese en ambas versiones de Ghost (BASE y RC) **usando el mismo usuario y contraseña** si no lo ha hecho antes, una vez tenga su usuario y contraseña inicie sesión.
+2. Complete el dashboard de introducción a Ghost.
 
 # Pruebas en Kraken
 [Kraken README](Kraken/README-kraken.md)
