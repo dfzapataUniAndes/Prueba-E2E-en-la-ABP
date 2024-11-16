@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "kraken-run": "./node_modules/kraken-node/bin/kraken-node run",
+    "kraken-run": "node moveFiles.js && ./node_modules/kraken-node/bin/kraken-node run",
     "test-vrt": "node vrt.js"
   },
   "keywords": [],

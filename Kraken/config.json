@@ -9,6 +9,7 @@
       "version": "latest"
     }
   ],
+  "featureToTest": "members",
   "vrt": true,
   "ghostBaseUrl": "http://localhost:2368/ghost/",
   "ghostRcUrl": "http://localhost:2369/ghost/",

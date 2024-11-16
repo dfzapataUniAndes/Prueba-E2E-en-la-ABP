@@ -1,7 +1,16 @@
 # KRAKEN
 
-## Carpeta notest
-Hemos agregado una nueva carpeta llamada /Kraken/notest en la cual se encuentran las diferentes funcionalidades, para probar cada una debe mover las funcionalidades manualmente desde /Kraken/notest a la carpeta /Kraken/features.
+## Configuración featureToTest
+Hemos agregado una nueva configuración en el archivo config.json la cual se encarga de mover los archivos .feature que se quieren probar a la carpeta /features.
+En el archivo config.json debe cambiar la propiedad "featureToTest" a alguna de las siguientes opciones:
+
+```bash
+"featureToTest": "members",
+"featureToTest": "pages",
+"featureToTest": "posts",
+"featureToTest": "tags",
+```
+"featureToTest": "members",
 
 En la carpeta actual /Kraken, corra el comando
 ```bash
