@@ -1,26 +1,47 @@
 const compareImages = require("resemblejs/compareImages")
-const config = require("./config.json");
 const fs = require('fs');
+const path = require('path');
+const { browsers, options, featureToTest, ghostBaseUrl } = require("./config.json");
 
-const { viewportHeight, viewportWidth, browsers, options } = config;
+const rootFolder = path.join(__dirname, 'vrt-reports');
+const runScriptForFolders = () => {
+    fs.readdir(rootFolder, (err, scenarioDir) => {
+        if (err) {
+            return console.error('Unable to scan directory:', err);
+        }
 
-async function executeTest(){
+        scenarioDir.forEach(scenario => {
+            const filePath = path.join(rootFolder, scenario);
+            fs.stat(filePath, async (err, stats) => {
+                if (err) {
+                    return console.error('Unable to read file stats:', err);
+                }
+                if (stats.isDirectory()) {
+                    await executeTest(scenario)
+                    console.log(`Running script for folder: ${filePath}`);
+                }
+            });
+        });
+    });
+};
+
+(async ()=> runScriptForFolders())();
+
+async function executeTest(scenarioDir){
     if(browsers.length === 0){
         return;
     }
-    let resultInfo = {}
+    let resultInfo = {};
     let datetime = new Date().toISOString().replace(/:/g,".");
     for(b of browsers){
         if(!b in ['chromium', 'webkit', 'firefox']){
             return;
         }
-        if (!fs.existsSync(`./newreports/members/${datetime}`)){
-            fs.mkdirSync(`./newreports/members/${datetime}`, { recursive: true });
-        }
 
+        const filePath = path.join(rootFolder, scenarioDir);
         const data = await compareImages(
-            fs.readFileSync(`./newreports/members/screenshots/new-member-self.png`),
-            fs.readFileSync(`./newreports/members/screenshots/new-member-self-base.png`),
+            fs.readFileSync(`${filePath}/screenshots/new-${featureToTest}-rc.png`),
+            fs.readFileSync(`${filePath}/screenshots/new-${featureToTest}-base.png`),
             options
         );
         resultInfo[b] = {
@@ -31,18 +52,16 @@ async function executeTest(){
             diffBounds: data.diffBounds,
             analysisTime: data.analysisTime
         }
-        fs.writeFileSync(`./newreports/members/${datetime}/compare-${b}.png`, data.getBuffer());
+        fs.writeFileSync(`./vrt-reports/${scenarioDir}/compare-${b}.png`, data.getBuffer());
     }
 
-
-    fs.writeFileSync(`./newreports/members/${datetime}/report.html`, createReport(datetime, resultInfo));
-    fs.copyFileSync('./index.css', `./newreports/members/${datetime}/index.css`);
+    fs.writeFileSync(`./vrt-reports/${scenarioDir}/report.html`, createReport(datetime, resultInfo));
+    fs.copyFileSync('./index.css', `./vrt-reports/${scenarioDir}/index.css`);
 
     console.log('------------------------------------------------------------------------------------')
     console.log("Execution finished. Check the report under the results folder")
     return resultInfo;
 }
-(async ()=>console.log(await executeTest()))();
 
 function browser(b, info){
     return `<div class=" browser" id="test0">
@@ -78,11 +97,11 @@ function createReport(datetime, resInfo){
         </head>
         <body>
             <h1>Report for 
-                 <a href="${config.ghostBaseUrl}"> ${config.ghostBaseUrl}</a>
+                 <a href="${ghostBaseUrl}"> ${ghostBaseUrl}</a>
             </h1>
             <p>Executed: ${datetime}</p>
             <div id="visualizer">
-                ${config.browsers.map(b=>browser(b, resInfo[b]))}
+                ${browsers.map(b=>browser(b, resInfo[b]))}
             </div>
         </body>
     </html>`

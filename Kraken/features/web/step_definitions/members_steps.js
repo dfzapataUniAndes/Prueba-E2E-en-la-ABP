@@ -1,7 +1,8 @@
 const { When, Then, AfterStep } = require("@cucumber/cucumber");
 const {faker} = require("@faker-js/faker");
 const expect = require('chai').expect;
-const { vrt } = require('../../../config.json')
+const { vrt, featureToTest } = require('../../../config.json')
+const fs = require('fs');
 
 When("no existe ningún Member", async function () {
     const memberListSelector = vrt ? 'ol[class="members-list gh-list"]' : 'div.gh-list-with-helpsection'
@@ -22,23 +23,25 @@ When("me agrego a mi mismo como Member", async function () {
 })
 
 Then("veo mi usuario {kraken-string} en la lista de Members", async function (user) {
+    if (!fs.existsSync(`./vrt-reports/scenario1`)){
+        fs.mkdirSync(`./vrt-reports/scenario1/screenshots`, { recursive: true });
+    }
     if (vrt) {
         const memberItem =  await this.driver.$('[class="ma0 pa0 middarkgrey f8 gh-members-list-email"]');
         const memberText = await memberItem.getText();
         expect(memberText).to.have.string(user);
         const screenshot = await this.driver.saveScreenshot(
-            `./newreports/members/screenshots/new-member-self-${vrt ? 'base' : 'rc'}.png`
+            `./vrt-reports/scenario1/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
         );
         this.attach(screenshot, 'image/png');
         return;
     }
-
     const membersTable = await this.driver.$('[data-test-table="members"]');
     const memberItem = await membersTable.$('p.gh-members-list-email');
     const memberText = await memberItem.getText();
     expect(memberText).to.have.string(user);
     const screenshot = await this.driver.saveScreenshot(
-        `./newreports/members/screenshots/new-member-self-${vrt ? 'base' : 'rc'}.png`
+        `./vrt-reports/scenario1/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
     );
     await this.attach(screenshot, 'image/png');
 })
@@ -104,17 +107,17 @@ Then("completo los campos de la sección New member cómo Name, Email, Labels, N
 // })
 
 // Then("desactivo el checkbox de Newsletter", async function () {
-    // const checkbox = await browser.$('input[type="checkbox"][name="subscribed"]');
-    // // Wait for the checkbox to be present in the DOM
-    // await checkbox.waitForExist({ timeout: 5000 });
-    // // Check if the checkbox is already enabled (checked)
-    // const isChecked = await checkbox.isSelected();
-    // if (!isChecked) { // Click the checkbox to enable it
-    //     await checkbox.click();
-    //     console.log('Checkbox enabled successfully');
-    // } else {
-    //  console.log('Checkbox is already enabled');
-    // }
+// const checkbox = await browser.$('input[type="checkbox"][name="subscribed"]');
+// // Wait for the checkbox to be present in the DOM
+// await checkbox.waitForExist({ timeout: 5000 });
+// // Check if the checkbox is already enabled (checked)
+// const isChecked = await checkbox.isSelected();
+// if (!isChecked) { // Click the checkbox to enable it
+//     await checkbox.click();
+//     console.log('Checkbox enabled successfully');
+// } else {
+//  console.log('Checkbox is already enabled');
+// }
 // })
 
 // Then("veo el nuevo usuario creado en la lista de members", await function () {
