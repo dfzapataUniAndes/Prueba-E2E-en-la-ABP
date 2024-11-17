@@ -137,45 +137,6 @@ export function thenPostCannotBePublished() {
 }
 
 // Métodos para Tags en Cypress:
-export function thenCreateNewTag() {
-  // Haz clic en el botón de crear nuevo tag
-  cy.get('a[href="#/tags/new/"]').first().click();
-}
-
-export function thenInsertTitleTag(title) {
-  // Espera que el campo de título esté visible y escribe el título del tag
-  const titleField = cy
-    .get('input[data-test-input="tag-name"]', {
-      timeout: 5000,
-    })
-    .first();
-  // Si el título es vacío, no intentamos escribir nada
-  if (title.trim() === "") {
-    titleField.clear(); // Asegura que el campo quede vacío
-  } else {
-    titleField.type(title); // Escribe el título si no está vacío
-  }
-}
-
-export function thenInsertTagDescription(description) {
-  // Espera que el campo de título esté visible y escribe el título del tag
-  const titleField = cy
-    .get('textarea[data-test-input="tag-description"]', {
-      timeout: 5000,
-    })
-    .first();
-  if (description.trim() === "") {
-    titleField.clear();
-  } else {
-    titleField.type(description);
-  }
-}
-
-export function thenClickInSaveTag() {
-  // Haz clic en el botón de publicación:
-  cy.get('button[data-test-button="save"]', { timeout: 5000 }).first().click();
-  cy.wait(2000);
-}
 
 export function thenViewCreatedTag(tagName) {
   // Navegar a la lista de tags

@@ -1,3 +1,5 @@
+// Metodos and para posts:
+
 export function andInsertTitlePost(title) {
   // Espera que el campo de título esté visible y escribe el título del post
   const titleField = cy
@@ -60,4 +62,40 @@ export function andCloseWindowPostPublished() {
 
 export function andCloseSession() {
   cy.visit("http://localhost:2368/ghost/#/signout");
+}
+
+// Metodos and para tags:
+export function andInsertTitleTag(title) {
+  // Espera que el campo de título esté visible y escribe el título del tag
+  const titleField = cy
+    .get('input[data-test-input="tag-name"]', {
+      timeout: 5000,
+    })
+    .first();
+  // Si el título es vacío, no intentamos escribir nada
+  if (title.trim() === "") {
+    titleField.clear(); // Asegura que el campo quede vacío
+  } else {
+    titleField.type(title); // Escribe el título si no está vacío
+  }
+}
+
+export function andInsertTagDescription(description) {
+  // Espera que el campo de título esté visible y escribe el título del tag
+  const titleField = cy
+    .get('textarea[data-test-input="tag-description"]', {
+      timeout: 5000,
+    })
+    .first();
+  if (description.trim() === "") {
+    titleField.clear();
+  } else {
+    titleField.type(description);
+  }
+}
+
+export function andClickInSaveTag() {
+  // Haz clic en el botón de publicación:
+  cy.get('button[data-test-button="save"]', { timeout: 5000 }).first().click();
+  cy.wait(2000);
 }
