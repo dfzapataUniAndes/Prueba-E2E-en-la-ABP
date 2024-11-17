@@ -7,7 +7,7 @@
 
 ## Instalación Ghost
 
-1. asegurese de usar nodejs versión 14.16.1, la cual es estable para correr la versión base ghost:4.5, recomendamos usar nvm:
+1. asegurese de usar nodejs versión 14.17.0, la cual es estable para correr la versión base ghost:4.5, recomendamos usar nvm:
 ```bash
 nvm install 14.17.0
 nvm use 14.17.0
