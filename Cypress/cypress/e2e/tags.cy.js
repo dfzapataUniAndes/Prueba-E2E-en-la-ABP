@@ -44,7 +44,11 @@ describe("Crear un tag en Ghost version base", () => {
     andClickInSaveTag();
 
     // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
-    thenViewCreatedTag(baseVerUrl + "/ghost/#/tags", "Nuevo Tag");
+    thenViewCreatedTag(
+      Cypress.env("ghostBaseVersion"),
+      baseVerUrl + "/ghost/#/tags",
+      "Nuevo Tag"
+    );
   });
 
   it("EP_10 Como administrador inicio sesión, trato de crear un tag en Ghost sin descripción y hago clic en guardar", () => {
@@ -62,6 +66,7 @@ describe("Crear un tag en Ghost version base", () => {
 
     // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
     thenViewCreatedTag(
+      null,
       baseVerUrl + "/ghost/#/tags",
       "Nuevo Tag sin descripción"
     );
@@ -132,6 +137,10 @@ describe("Crear un tag en Ghost version rc", () => {
     andClickInSaveTag();
 
     // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
-    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", "Nuevo Tag");
+    thenViewCreatedTag(
+      Cypress.env("ghostRcVersion"),
+      rpcVerUrl + "/ghost/#/tags",
+      "Nuevo Tag"
+    );
   });
 });
