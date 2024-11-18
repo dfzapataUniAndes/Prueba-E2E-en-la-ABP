@@ -1,117 +1,137 @@
 import {
-  givenNavigateToTheSite,
+  givenNavigateToTheSiteUrl,
   givenUserIsLogin,
 } from "../steps/givenSteps.cy";
-import { whenNavigateToTheTags } from "../steps/whenSteps.cy";
+import { whenCreateNewTag } from "../steps/whenSteps.cy";
 import {
-  thenCreateNewTag,
-  thenInsertTitleTag,
-  thenInsertTagDescription,
-  thenClickInSaveTag,
   thenViewCreatedTag,
   thenTagCreationShouldFail,
-  thenCloseSession,
 } from "../steps/thenSteps.cy";
+import {
+  andInsertTitleTag,
+  andInsertTagDescription,
+  andClickInSaveTag,
+  andCloseSession,
+} from "../steps/andSteps.cy";
 
-describe("Crear un tag en Ghost", () => {
+const baseVerUrl = "http://localhost:" + Cypress.env("ghostBaseVersionPort");
+const rpcVerUrl = "http://localhost:" + Cypress.env("ghostRcVersionPort");
+
+describe("Crear un tag en Ghost version base", () => {
   beforeEach(() => {
     // Given que inicio sesión como administrador
-    givenNavigateToTheSite();
+    givenNavigateToTheSiteUrl(baseVerUrl + "/ghost/#/signin");
     givenUserIsLogin(Cypress.env("emailTest2"), Cypress.env("passwordTest2"));
+    givenNavigateToTheSiteUrl(baseVerUrl + "/ghost/#/tags");
+  });
+
+  afterEach(() => {
+    // And cierro sesión
+    andCloseSession();
   });
 
   it("EP_09 Como administrador inicio sesión, creo un tag en Ghost exitosamente y lo veo en el listado de tags", () => {
-    // When navego a la página de crear tags
-    whenNavigateToTheTags();
-
-    // And hago clic en crear Tag:
-    thenCreateNewTag();
+    // When hago clic en crear Tag:
+    whenCreateNewTag();
 
     // And ingreso el nombre del tag "Nuevo Tag"
-    thenInsertTitleTag("Nuevo Tag");
+    andInsertTitleTag("Nuevo Tag");
 
     // And ingreso la descripcion del tag "Contenido del Tag"
-    thenInsertTagDescription("Descripción del Tag");
+    andInsertTagDescription, "Descripción del Tag";
 
     // And hago clic en Save
-    thenClickInSaveTag();
+    andClickInSaveTag();
 
     // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
-    thenViewCreatedTag("Nuevo Tag");
-
-    // And cierro sesión
-    thenCloseSession();
+    thenViewCreatedTag(baseVerUrl + "/ghost/#/tags", "Nuevo Tag");
   });
 
   it("EP_10 Como administrador inicio sesión, trato de crear un tag en Ghost sin descripción y hago clic en guardar", () => {
-    // When navego a la página de crear tags
-    whenNavigateToTheTags();
-
-    // And hago clic en crear Tag:
-    thenCreateNewTag();
+    // When hago clic en crear Tag:
+    whenCreateNewTag();
 
     // And ingreso el nombre del tag "Nuevo Tag"
-    thenInsertTitleTag("Nuevo Tag sin descripción");
+    andInsertTitleTag("Nuevo Tag sin descripción");
 
     // And ingreso la descripcion del tag "Contenido del Tag"
-    thenInsertTagDescription("");
+    andInsertTagDescription("");
 
     // And hago clic en Save
-    thenClickInSaveTag();
+    andClickInSaveTag();
 
     // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
-    thenViewCreatedTag("Nuevo Tag sin descripción");
-
-    // And cierro sesión
-    thenCloseSession();
+    thenViewCreatedTag(
+      baseVerUrl + "/ghost/#/tags",
+      "Nuevo Tag sin descripción"
+    );
   });
 
   it("EP_11 Como administrador inicio sesión, trato de crear un tag en Ghost sin titulo pero con descripción y hago clic en guardar", () => {
-    // When navego a la página de crear tags
-    whenNavigateToTheTags();
-
-    // And hago clic en crear Tag:
-    thenCreateNewTag();
+    // When hago clic en crear Tag:
+    whenCreateNewTag();
 
     // And ingreso el nombre del tag "Nuevo Tag"
-    thenInsertTitleTag("");
+    andInsertTitleTag("");
 
     // And ingreso la descripcion del tag "Contenido del Tag"
-    thenInsertTagDescription("Nuevo Tag sin titulo");
+    andInsertTagDescription, "Nuevo Tag sin titulo";
 
     // And hago clic en Save
-    thenClickInSaveTag();
+    andClickInSaveTag();
 
     // And no deberia ser posible guadar el tag
     thenTagCreationShouldFail();
-
-    // And cierro sesión
-    thenCloseSession();
   });
 
   it("EP_12 Como administrador inicio sesión, trato de crear un tag en Ghost con titulo pero con una descripción excesivamente larga", () => {
     // Creamos una cadena de caracteres larga de mas de 500 caracteres:
     const descripcionLarga = "a".repeat(550);
 
-    // When navego a la página de crear tags
-    whenNavigateToTheTags();
-
-    // And hago clic en crear Tag:
-    thenCreateNewTag();
+    // When hago clic en crear Tag:
+    whenCreateNewTag();
 
     // And ingreso el nombre del tag "Nuevo Tag"
-    thenInsertTitleTag("Nuevo Tag");
+    andInsertTitleTag("Nuevo Tag");
 
     // And ingreso la descripcion del tag "Contenido del Tag"
-    thenInsertTagDescription(descripcionLarga);
+    andInsertTagDescription(descripcionLarga);
 
     // And hago clic en Save
-    thenClickInSaveTag();
+    andClickInSaveTag();
 
     // And no deberia ser posible guadar el tag
     thenTagCreationShouldFail();
+  });
+});
 
+describe("Crear un tag en Ghost version rc", () => {
+  beforeEach(() => {
+    // Given que inicio sesión como administrador
+    givenNavigateToTheSiteUrl(rpcVerUrl + "/ghost/#/signin");
+    givenUserIsLogin(Cypress.env("emailTest2"), Cypress.env("passwordTest2"));
+    givenNavigateToTheSiteUrl(rpcVerUrl + "/ghost/#/tags");
+  });
+
+  afterEach(() => {
     // And cierro sesión
-    thenCloseSession();
+    andCloseSession();
+  });
+
+  it("EP_09 Como administrador inicio sesión, creo un tag en Ghost exitosamente y lo veo en el listado de tags", () => {
+    // When hago clic en crear Tag:
+    whenCreateNewTag();
+
+    // And ingreso el nombre del tag "Nuevo Tag"
+    andInsertTitleTag("Nuevo Tag");
+
+    // And ingreso la descripcion del tag "Contenido del Tag"
+    andInsertTagDescription, "Descripción del Tag";
+
+    // And hago clic en Save
+    andClickInSaveTag();
+
+    // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
+    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", "Nuevo Tag");
   });
 });

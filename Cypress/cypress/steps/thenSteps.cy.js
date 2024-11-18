@@ -43,10 +43,6 @@ export function thenViewCreatedPage(title) {
   cy.wait(2000);
 }
 
-export function thenCloseSession() {
-  cy.visit("http://localhost:2368/ghost/#/signout");
-}
-
 export function thenSelecteCoverImage() {
   cy.get('button[class="gh-editor-feature-image-unsplash"]').first().click();
   cy.wait(3000); // Espera a que se carguen las imágenes
@@ -102,71 +98,6 @@ export function thenClicInUpdate() {
 
 // Métodos para Posts en Cypress:
 
-export function thenInsertTitlePost(title) {
-  // Espera que el campo de título esté visible y escribe el título del post
-  const titleField = cy
-    .get('textarea[placeholder="Post title"]', {
-      timeout: 5000,
-    })
-    .first();
-
-  // Si el título es vacío, no intentamos escribir nada
-  if (title.trim() === "") {
-    titleField.clear(); // Asegura que el campo quede vacío
-  } else {
-    titleField.type(title); // Escribe el título si no está vacío
-  }
-}
-
-export function thenInsertContentPost(content) {
-  const contentField = cy.get(".kg-prose", { timeout: 5000 }).first();
-
-  // Si el contenido es vacío, no intentamos escribir nada
-  if (content.trim() === "") {
-    contentField.clear(); // Asegura que el campo quede vacío
-  } else {
-    contentField.type(content); // Escribe el contenido si no está vacío
-  }
-}
-
-export function thenCreateNewPost() {
-  // Haz clic en el botón de crear nuevo post
-  cy.get('a[href="#/editor/post/"]').first().click();
-}
-
-export function thenClicInPublishPost() {
-  // Haz clic en el botón de publicación:
-  cy.get('button[data-test-button="publish-flow"]', { timeout: 5000 })
-    .first()
-    .click();
-
-  // Haz clic en el botón de flujo de publicación
-  cy.get('button[data-test-button="continue"]', { timeout: 5000 })
-    .first()
-    .click();
-}
-
-export function thenClicInFinishReviewPost() {
-  // Haz clic en el botón de continuar para finalizar la revisión
-  cy.get('button[data-test-button="confirm-publish"]', { timeout: 5000 })
-    .first()
-    .click();
-}
-
-export function thenClicInConfirmPublishPost() {
-  // Haz clic en el botón de confirmación de publicación
-  cy.get('button[data-test-button="confirm-publish"]', { timeout: 5000 })
-    .first()
-    .click();
-}
-
-export function thenCloseWindowPostPublished() {
-  // Cierra el modal de publicación una vez completado
-  cy.get('button[data-test-button="close-publish-flow"]', { timeout: 5000 })
-    .first()
-    .click();
-}
-
 export function thenViewCreatedPost(title) {
   // Espera a que los títulos de los posts estén presentes en la página
   cy.get(".gh-content-entry-title", { timeout: 5000 }) // Espera hasta 5 segundos a que los elementos aparezcan
@@ -206,49 +137,10 @@ export function thenPostCannotBePublished() {
 }
 
 // Métodos para Tags en Cypress:
-export function thenCreateNewTag() {
-  // Haz clic en el botón de crear nuevo tag
-  cy.get('a[href="#/tags/new/"]').first().click();
-}
 
-export function thenInsertTitleTag(title) {
-  // Espera que el campo de título esté visible y escribe el título del tag
-  const titleField = cy
-    .get('input[data-test-input="tag-name"]', {
-      timeout: 5000,
-    })
-    .first();
-  // Si el título es vacío, no intentamos escribir nada
-  if (title.trim() === "") {
-    titleField.clear(); // Asegura que el campo quede vacío
-  } else {
-    titleField.type(title); // Escribe el título si no está vacío
-  }
-}
-
-export function thenInsertTagDescription(description) {
-  // Espera que el campo de título esté visible y escribe el título del tag
-  const titleField = cy
-    .get('textarea[data-test-input="tag-description"]', {
-      timeout: 5000,
-    })
-    .first();
-  if (description.trim() === "") {
-    titleField.clear();
-  } else {
-    titleField.type(description);
-  }
-}
-
-export function thenClickInSaveTag() {
-  // Haz clic en el botón de publicación:
-  cy.get('button[data-test-button="save"]', { timeout: 5000 }).first().click();
-  cy.wait(2000);
-}
-
-export function thenViewCreatedTag(tagName) {
+export function thenViewCreatedTag(tagsPage, tagName) {
   // Navegar a la lista de tags
-  cy.visit("http://localhost:2368/ghost/#/tags");
+  cy.visit(tagsPage);
 
   // Captura los títulos de los tags una vez cargados
   cy.get(".gh-tag-list-name") // Obtén todos los elementos de los tags

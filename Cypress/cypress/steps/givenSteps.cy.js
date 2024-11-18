@@ -11,3 +11,8 @@ export function givenUserIsLogin(username, password) {
   cy.get('button[type="submit"]').click();
   cy.wait(5000);
 }
+
+export function givenNavigateToTheSiteUrl(site) {
+  cy.visit(site);
+  cy.wait(5000);
+}
