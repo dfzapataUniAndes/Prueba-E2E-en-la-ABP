@@ -25,5 +25,4 @@ yarn-error.log*
 
 .idea
 /Kraken/reports/
-/Kraken/vrt-reports/
 /Kraken/.kraken/
