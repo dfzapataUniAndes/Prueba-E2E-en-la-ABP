@@ -1,16 +1,16 @@
 Feature: Crear Pages
 
- @user1 @web
+  @user1 @web
   Scenario: EP_01 Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas
-    Given navego a la página de crear páginas
-    When creo una nueva página con titulo "Titulo página" y contenido "Contenido de lá página"
-    Then veo en el listado de páginas la página con el titulo "Titulo página"
+    Given navego a la página de crear páginas - feature "Crear Pages" escenario "EP_01_PASO_GIVEN"
+    When creo una nueva página con titulo "Titulo página" y contenido "Contenido de lá página" - feature "Crear Pages" escenario "EP_01_PASO_WHEN"
+    Then veo en el listado de páginas la página con el titulo "Titulo página" - feature "Crear Pages" escenario "EP_01_PASO_THEN"
 
   @user2 @web
   Scenario: EP_02 Como administrador inicio sesión, creo una página con una imagen por defecto y la visualizo luego de creada
-    Given navego a la página de crear páginas
-    When creo una nueva página con una imagen de portada, titulo "Titulo página con imagen" y contenido "Contenido de lá página"
-    Then valido que la página con el titulo "Titulo página con imagen" tenga una imagen
+    Given navego a la página de crear páginas - feature "Crear Pages" escenario "EP_02_PASO_GIVEN"
+    When creo una nueva página con una imagen de portada, titulo "Titulo página con imagen" y contenido "Contenido de lá página" - feature "Crear Pages" escenario "EP_02_PASO_WHEN"
+    Then valido que la página con el titulo "Titulo página con imagen" tenga una imagen - feature "Crear Pages" escenario "EP_02_PASO_THEN"
 
   @user3 @web
   Scenario: EP_03 Como administrador inicio sesión, creo una página como borrador y la visualizo en el listado de páginas como draft

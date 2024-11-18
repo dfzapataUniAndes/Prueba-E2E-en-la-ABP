@@ -1,16 +1,24 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
 const expect = require('chai').expect;
+const fs = require('fs');
 
 Given("que inicio sesion como administrador", async function () {
     await this.driver.url("http://localhost:2368/ghost/#/signin");
 });
 
-When("navego a la página de crear páginas", async function () {
+When("navego a la página de crear páginas - feature {string} escenario {string}", async function (scenarioNo, featureToTest) {
     await this.driver.url("http://localhost:2368/ghost/#/pages");
     await this.driver.pause(5000);
+
+    // tomar captura de pantalla
+    validateDirectory(scenarioNo);
+    const screenshot = await this.driver.saveScreenshot(
+        `./vrt-reports/${scenarioNo}/screenshots/${featureToTest}-rc.png`
+    );
+    await this.attach(screenshot, 'image/png');
 });
 
-When("creo una nueva página con titulo {string} y contenido {string}", async function (titulo, contenido) {
+When("creo una nueva página con titulo {string} y contenido {string} - feature {string} escenario {string}", async function (titulo, contenido, scenarioNo, featureToTest) {
     // hago clic en crear nueva página
     const newPageButton = await this.driver.$('a[href="#/editor/page/"]');
     await newPageButton.click();
@@ -25,6 +33,13 @@ When("creo una nueva página con titulo {string} y contenido {string}", async fu
     const contentTextArea = await this.driver.$(".kg-prose");
     await contentTextArea.setValue(contenido);
     await this.driver.pause(2000);
+
+    // tomar captura de pantalla
+    validateDirectory(scenarioNo);
+    const screenshot = await this.driver.saveScreenshot(
+        `./vrt-reports/${scenarioNo}/screenshots/${featureToTest}-rc.png`
+    );
+    await this.attach(screenshot, 'image/png');
 
     // hago clic en Publish
     const publishButton = await this.driver.$('button[data-test-button="publish-flow"]');
@@ -47,7 +62,7 @@ When("creo una nueva página con titulo {string} y contenido {string}", async fu
     await this.driver.pause(2000);
 });
 
-When("creo una nueva página con una imagen de portada, titulo {string} y contenido {string}", async function (titulo, contenido) {
+When("creo una nueva página con una imagen de portada, titulo {string} y contenido {string} - feature {string} escenario {string}", async function (titulo, contenido, scenarioNo, featureToTest) {
     // hago clic en crear nueva página
     const newPageButton = await this.driver.$('a[href="#/editor/page/"]');
     await newPageButton.click();
@@ -70,6 +85,13 @@ When("creo una nueva página con una imagen de portada, titulo {string} y conten
     const contentTextArea = await this.driver.$(".kg-prose");
     await contentTextArea.setValue(contenido);
     await this.driver.pause(2000);
+
+    // tomar captura de pantalla
+    validateDirectory(scenarioNo);
+    const screenshot = await this.driver.saveScreenshot(
+        `./vrt-reports/${scenarioNo}/screenshots/${featureToTest}-rc.png`
+    );
+    await this.attach(screenshot, 'image/png');
 
     // hago clic en Publish
     const publishButton = await this.driver.$('button[data-test-button="publish-flow"]');
@@ -246,7 +268,7 @@ Then("cierro la ventana de página publicada", async function () {
     await closeButton.click();
 });
 
-Then("veo en el listado de páginas la página con el titulo {string}", async function (titulo) {
+Then("veo en el listado de páginas la página con el titulo {string} - feature {string} escenario {string}", async function (titulo, scenarioNo, featureToTest) {
     let elements = await this.driver.$$("h3[class='gh-content-entry-title']");
     let elementsFound = false;
     elements.forEach(async function (element) {
@@ -257,6 +279,13 @@ Then("veo en el listado de páginas la página con el titulo {string}", async fu
         }
     });  
     await this.driver.pause(2000);   
+
+    // tomar captura de pantalla
+    validateDirectory(scenarioNo);
+    const screenshot = await this.driver.saveScreenshot(
+        `./vrt-reports/${scenarioNo}/screenshots/${featureToTest}-rc.png`
+    );
+    await this.attach(screenshot, 'image/png');
 });
 
 Then("selecciono una imagen de portada", async function () {
@@ -277,7 +306,7 @@ Then("abro en el listado de páginas la página con el titulo {string}", async f
     });     
 });
 
-Then("valido que la página con el titulo {string} tenga una imagen", async function (titulo) {
+Then("valido que la página con el titulo {string} tenga una imagen - feature {string} escenario {string}", async function (titulo, scenarioNo, featureToTest) {
     let elements = await this.driver.$$("h3[class='gh-content-entry-title']");
     elements.forEach(async function (element) {
         let text = await element.getText();
@@ -290,6 +319,13 @@ Then("valido que la página con el titulo {string} tenga una imagen", async func
     let elementsFound = elements.length > 0;
     expect(elementsFound).to.equal(true);   
     await this.driver.pause(2000);
+    
+    // tomar captura de pantalla
+    validateDirectory(scenarioNo);
+    const screenshot = await this.driver.saveScreenshot(
+        `./vrt-reports/${scenarioNo}/screenshots/${featureToTest}-rc.png`
+    );
+    await this.attach(screenshot, 'image/png');
 });
 
 When("cierro sesión", async function () {
@@ -328,3 +364,9 @@ Then("hago clic en Update", async function () {
     const updateButton = await this.driver.$('button[data-test-button="publish-save"]');
     await updateButton.click();
 });
+
+function validateDirectory(scenarioNo) {
+    if (!fs.existsSync(`./vrt-reports/${scenarioNo}`)){
+        fs.mkdirSync(`./vrt-reports/${scenarioNo}/screenshots`, { recursive: true });
+    }
+}

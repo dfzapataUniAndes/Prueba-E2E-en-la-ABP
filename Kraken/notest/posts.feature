@@ -10,7 +10,6 @@ Feature: Crear un post en Ghost
     And creo un nuevo post con el título "Mi primer Post" y contenido "Este es mi primer post de prueba en Ghost."
     And espero 2 segundos
     Then debería ver el post titulado "Mi primer Post" en la lista de posts
-    And cierro sesión
 
   @user2 @web
   Scenario: Como segundo usuario intento crear un post vacio
@@ -18,7 +17,6 @@ Feature: Crear un post en Ghost
     And espero 2 segundos
     When no debería ser posible crear un post con campos vacíos
     Then que navego a la página 'http://localhost:2368/ghost/#/posts'
-    And cierro sesión
 
  @user3 @web
   Scenario: Como tercer usuario intento crear un post con contenido vacío
@@ -27,7 +25,6 @@ Feature: Crear un post en Ghost
    When creo un nuevo post con título "Este es un mensaje de prueba" y contenido vacio
    And espero 2 segundos
    Then debería ver el post titulado "Este es un mensaje de prueba" en la lista de posts
-   And cierro sesión
 
   @user4 @web
   Scenario: Como cuarto usuario intento crear un post con titulo vacío
@@ -35,7 +32,6 @@ Feature: Crear un post en Ghost
     And espero 3 segundos
     When creo un nuevo post con título vacio y contenido "Este es un mensaje de prueba"
     Then debería ver el post titulado "(Untitled)" en la lista de posts
-    And cierro sesión
 
   @user5 @web
   Scenario: Como quinto usuario intento crear un post con caracteres especiales
@@ -43,4 +39,3 @@ Feature: Crear un post en Ghost
     And espero 5 segundos
     When creo un nuevo post con el título "&6*(@#$%^%#@!ñ" y contenido "$%{:>}#@@@@!!@##$%#$%$%$&%&<>)(**"
     Then debería ver el post titulado "&6*(@#$%^%#@!ñ" en la lista de posts
-    And cierro sesión
