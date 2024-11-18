@@ -47,6 +47,8 @@ cypress run --headed --browser chrome
 
 - Se puede observar que se generan los resultados en la terminal y vídeos en la carpeta videos/pages.cy.js.mp4, videos/posts.cy.js.mp4, videos/tags.cy.js.mp4
 
+- Para la respectiva VRT los screns de los steps quedan en la carpeta cypress/screenshots de todos los escenarios ejecutados
+
 # VRT con BackstopJS
 
 ## Instalación
