@@ -195,20 +195,106 @@ Then("veo el mensaje de error indicando que el mismo Member ya se encuentra crea
     await this.attach(screenshot, 'image/png');
 })
 
-// Then("desactivo el checkbox de Newsletter", async function () {
-// const checkbox = await browser.$('input[type="checkbox"][name="subscribed"]');
-// // Wait for the checkbox to be present in the DOM
-// await checkbox.waitForExist({ timeout: 5000 });
-// // Check if the checkbox is already enabled (checked)
-// const isChecked = await checkbox.isSelected();
-// if (!isChecked) { // Click the checkbox to enable it
-//     await checkbox.click();
-//     console.log('Checkbox enabled successfully');
-// } else {
-//  console.log('Checkbox is already enabled');
-// }
-// })
+Then("creo un nuevo member", async function () {
+    //ir al formulario de nuevo member
+    const newMemberBtn = await this.driver.$('a[href="#/members/new/"]');
+    await newMemberBtn.waitForEnabled();
+    await newMemberBtn.click();
 
-// Then("veo el nuevo usuario creado en la lista de members", await function () {
-//
-// })
+    // confirmar que el formulario de nuevo miembro se encuentre abierto
+    const memberForm = await this.driver.$('form.member-basic-info-form');
+    await expect(await memberForm.isDisplayed()).to.be.true;
+
+    //completar campos del formulario
+    const fakeMemberName = faker.person.fullName();
+    const fakeEmail = faker.internet.email();
+    const fakeNote = faker.lorem.sentence(10);
+
+    const nameField = await this.driver.$('input#member-name');
+    await nameField.waitForExist({ timeout: 5000 });
+    await nameField.setValue(fakeMemberName);
+
+    const emailField = await this.driver.$('input#member-email');
+    await emailField.waitForExist({ timeout: 5000 });
+    await emailField.setValue(fakeEmail);
+
+    const noteField = await this.driver.$('textarea#member-note');
+    await noteField.waitForExist({ timeout: 5000 });
+    await noteField.setValue(fakeNote);
+
+    if (vrt) {
+        //Click en el boton de Save
+        const saveBtn = await this.driver.$('button[class="gh-btn gh-btn-primary gh-btn-icon ember-view"]');
+        await saveBtn.waitForEnabled();
+        await saveBtn.click();
+
+        return;
+    }
+
+    //Click en el boton de Save
+    const saveBtn = await this.driver.$('[data-test-button="save"]')
+    await saveBtn.waitForEnabled()
+    await saveBtn.click()
+    await this.driver.pause(1000);
+})
+
+Then("reviso el conteo de members y puedo ver un total de {kraken-string} members creados", async function (int) {
+    if (!fs.existsSync(`./vrt-reports/scenario20`)){
+        fs.mkdirSync(`./vrt-reports/scenario20/screenshots`, { recursive: true });
+    }
+    const membersCount = await this.driver.$('span[class="gh-nav-member-count"]');
+    const countText = await membersCount.getText();
+    try {
+        await expect(countText).to.have.string(int);
+        const screenshot = await this.driver.saveScreenshot(
+            `./vrt-reports/scenario20/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
+        );
+        await this.attach(screenshot, 'image/png');
+    } catch (e) {
+        const screenshot = await this.driver.saveScreenshot(
+            `./vrt-reports/scenario20/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
+        );
+        await this.attach(screenshot, 'image/png');
+    }
+})
+
+Then("elimino los ultimos members creados", async function() {
+    try {
+        const cookies = await this.driver.getCookies(['ghost-admin-api-session']);
+
+        await this.driver.setCookies({
+            name: 'ghost-admin-api-session',
+            value: cookies[0].value
+        });
+        let membersList ;
+        await axios.get(ghostUrl + `/api${vrt ? '/v4' : ''}` + '/admin/members', {
+            // withCredentials: true,
+            headers: {
+                ...headers,
+                Cookie: `ghost-admin-api-session=${cookies[0].value}`
+            }
+        }).then((r) => {
+            membersList = r.data.members
+        }).catch(e => {
+            console.error('getMembersError', e)
+        })
+
+        await membersList.forEach(member => {
+            const memberToDelete = ghostUrl + `api${vrt ? '/v4' : ''}/admin/members/` + member.id;
+            axios.delete(memberToDelete, {
+                // withCredentials: true,
+                headers: {
+                    ...headers,
+                    Cookie: `ghost-admin-api-session=${cookies[0].value}`
+                }
+            })
+                .then(response => response)
+                .catch(error => console.error('deleteError', error));
+        })
+
+        await this.driver.pause(2000);
+
+    } catch (e) {
+        console.error('helloerror',e)
+    }
+})
