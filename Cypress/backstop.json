@@ -1,30 +1,102 @@
 {
-  "id": "comparacion_imagenes_locales",
+  "id": "backstop_default",
   "viewports": [
     {
-      "name": "desktop",
-      "width": 1024,
-      "height": 768
+      "label": "default",
+      "width": 800,
+      "height": 600
     }
   ],
+  "onBeforeScript": "puppet/onBefore.js",
+  "onReadyScript": "puppet/onReady.js",
   "scenarios": [
     {
-      "label": "Comparar EP_05 base con EP_05 rc",
-      "url": "file:///cypress/screenshots/posts.cy.js/baseline/post-published_2024-11-18T035712.289Z.png",
-      "referenceUrl": "file:///cypress/screenshots/posts.cy.js/actual/post-published_2024-11-18T035906.162Z.png",
-      "misMatchThreshold": 0.1,
-      "readyEvent": null,
+      "label": "Escenario 1: Crear post comparación EP_05 base vs EP_05 rpc",
+      "url": "https://raw.githubusercontent.com/dfzapataUniAndes/Prueba-E2E-en-la-ABP/refs/heads/main/Cypress/cypress/screenshots/posts.cy.js/actual/post-published_2024-11-18T035906.162Z.png",
+      "referenceUrl": "https://raw.githubusercontent.com/dfzapataUniAndes/Prueba-E2E-en-la-ABP/refs/heads/main/Cypress/cypress/screenshots/posts.cy.js/baseline/post-published_2024-11-18T035712.289Z.png",
+      "readyEvent": "",
+      "readySelector": "",
       "delay": 0,
+      "hideSelectors": [],
+      "removeSelectors": [],
+      "hoverSelector": "",
+      "clickSelector": "",
       "postInteractionWait": 0,
-      "selector": "body"
+      "selectors": [],
+      "selectorExpansion": true,
+      "expect": 0,
+      "misMatchThreshold": 0.1,
+      "requireSameDimensions": true
+    },
+    {
+      "label": "Escenario 2: Crear post comparación EP_06 base vs EP_06 rpc",
+      "url": "https://raw.githubusercontent.com/dfzapataUniAndes/Prueba-E2E-en-la-ABP/refs/heads/main/Cypress/cypress/screenshots/posts.cy.js/actual/post-published_2024-11-18T040002.721Z.png",
+      "referenceUrl": "https://raw.githubusercontent.com/dfzapataUniAndes/Prueba-E2E-en-la-ABP/refs/heads/main/Cypress/cypress/screenshots/posts.cy.js/baseline/post-published_2024-11-18T035802.789Z.png",
+      "readyEvent": "",
+      "readySelector": "",
+      "delay": 0,
+      "hideSelectors": [],
+      "removeSelectors": [],
+      "hoverSelector": "",
+      "clickSelector": "",
+      "postInteractionWait": 0,
+      "selectors": [],
+      "selectorExpansion": true,
+      "expect": 0,
+      "misMatchThreshold": 0.1,
+      "requireSameDimensions": true
+    },
+    {
+      "label": "Escenario 3: Crear post comparación EP_07 base vs EP_07 rpc",
+      "url": "https://raw.githubusercontent.com/dfzapataUniAndes/Prueba-E2E-en-la-ABP/refs/heads/main/Cypress/cypress/screenshots/posts.cy.js/actual/post-published_2024-11-18T040032.088Z.png",
+      "referenceUrl": "https://raw.githubusercontent.com/dfzapataUniAndes/Prueba-E2E-en-la-ABP/refs/heads/main/Cypress/cypress/screenshots/posts.cy.js/baseline/post-published_2024-11-18T035832.074Z.png",
+      "readyEvent": "",
+      "readySelector": "",
+      "delay": 0,
+      "hideSelectors": [],
+      "removeSelectors": [],
+      "hoverSelector": "",
+      "clickSelector": "",
+      "postInteractionWait": 0,
+      "selectors": [],
+      "selectorExpansion": true,
+      "expect": 0,
+      "misMatchThreshold": 0.1,
+      "requireSameDimensions": true
+    },
+    {
+      "label": "Escenario 4: Crear tag comparación EP_09 base vs EP_09 rpc",
+      "url": "https://raw.githubusercontent.com/dfzapataUniAndes/Prueba-E2E-en-la-ABP/refs/heads/main/Cypress/cypress/screenshots/tags.cy.js/actual/tag-created_2024-11-18T035641.711Z.png",
+      "referenceUrl": "https://raw.githubusercontent.com/dfzapataUniAndes/Prueba-E2E-en-la-ABP/refs/heads/main/Cypress/cypress/screenshots/tags.cy.js/baseline/tag-created_2024-11-18T035448.218Z.png",
+      "readyEvent": "",
+      "readySelector": "",
+      "delay": 0,
+      "hideSelectors": [],
+      "removeSelectors": [],
+      "hoverSelector": "",
+      "clickSelector": "",
+      "postInteractionWait": 0,
+      "selectors": [],
+      "selectorExpansion": true,
+      "expect": 0,
+      "misMatchThreshold": 0.1,
+      "requireSameDimensions": true
     }
   ],
-  "engine": "puppeteer",
-  "report": ["browser"],
   "paths": {
     "bitmaps_reference": "backstop_data/bitmaps_reference",
     "bitmaps_test": "backstop_data/bitmaps_test",
-    "text": "backstop_data/text",
-    "ci_report": "backstop_data/report"
-  }
+    "engine_scripts": "backstop_data/engine_scripts",
+    "html_report": "backstop_data/html_report",
+    "ci_report": "backstop_data/ci_report"
+  },
+  "report": ["browser"],
+  "engine": "puppeteer",
+  "engineOptions": {
+    "args": ["--no-sandbox"]
+  },
+  "asyncCaptureLimit": 5,
+  "asyncCompareLimit": 50,
+  "debug": false,
+  "debugWindow": false
 }
