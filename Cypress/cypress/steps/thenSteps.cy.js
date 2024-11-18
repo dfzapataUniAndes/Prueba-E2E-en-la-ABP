@@ -138,9 +138,9 @@ export function thenPostCannotBePublished() {
 
 // Métodos para Tags en Cypress:
 
-export function thenViewCreatedTag(tagName) {
+export function thenViewCreatedTag(tagsPage, tagName) {
   // Navegar a la lista de tags
-  cy.visit("http://localhost:2368/ghost/#/tags");
+  cy.visit(tagsPage);
 
   // Captura los títulos de los tags una vez cargados
   cy.get(".gh-tag-list-name") // Obtén todos los elementos de los tags

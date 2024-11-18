@@ -14,12 +14,15 @@ import {
   andCloseSession,
 } from "../steps/andSteps.cy";
 
-describe("Crear un tag en Ghost", () => {
+const baseVerUrl = "http://localhost:" + Cypress.env("ghostBaseVersionPort");
+const rpcVerUrl = "http://localhost:" + Cypress.env("ghostRcVersionPort");
+
+describe("Crear un tag en Ghost version base", () => {
   beforeEach(() => {
     // Given que inicio sesión como administrador
-    givenNavigateToTheSiteUrl("http://localhost:2368/ghost/#/signin");
+    givenNavigateToTheSiteUrl(baseVerUrl + "/ghost/#/signin");
     givenUserIsLogin(Cypress.env("emailTest2"), Cypress.env("passwordTest2"));
-    givenNavigateToTheSiteUrl("http://localhost:2368/ghost/#/tags");
+    givenNavigateToTheSiteUrl(baseVerUrl + "/ghost/#/tags");
   });
 
   afterEach(() => {
@@ -41,7 +44,7 @@ describe("Crear un tag en Ghost", () => {
     andClickInSaveTag();
 
     // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
-    thenViewCreatedTag("Nuevo Tag");
+    thenViewCreatedTag(baseVerUrl + "/ghost/#/tags", "Nuevo Tag");
   });
 
   it("EP_10 Como administrador inicio sesión, trato de crear un tag en Ghost sin descripción y hago clic en guardar", () => {
@@ -52,13 +55,16 @@ describe("Crear un tag en Ghost", () => {
     andInsertTitleTag("Nuevo Tag sin descripción");
 
     // And ingreso la descripcion del tag "Contenido del Tag"
-    andInsertTagDescription, "";
+    andInsertTagDescription("");
 
     // And hago clic en Save
     andClickInSaveTag();
 
     // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
-    thenViewCreatedTag("Nuevo Tag sin descripción");
+    thenViewCreatedTag(
+      baseVerUrl + "/ghost/#/tags",
+      "Nuevo Tag sin descripción"
+    );
   });
 
   it("EP_11 Como administrador inicio sesión, trato de crear un tag en Ghost sin titulo pero con descripción y hago clic en guardar", () => {
@@ -96,5 +102,36 @@ describe("Crear un tag en Ghost", () => {
 
     // And no deberia ser posible guadar el tag
     thenTagCreationShouldFail();
+  });
+});
+
+describe("Crear un tag en Ghost version rc", () => {
+  beforeEach(() => {
+    // Given que inicio sesión como administrador
+    givenNavigateToTheSiteUrl(rpcVerUrl + "/ghost/#/signin");
+    givenUserIsLogin(Cypress.env("emailTest2"), Cypress.env("passwordTest2"));
+    givenNavigateToTheSiteUrl(rpcVerUrl + "/ghost/#/tags");
+  });
+
+  afterEach(() => {
+    // And cierro sesión
+    andCloseSession();
+  });
+
+  it("EP_09 Como administrador inicio sesión, creo un tag en Ghost exitosamente y lo veo en el listado de tags", () => {
+    // When hago clic en crear Tag:
+    whenCreateNewTag();
+
+    // And ingreso el nombre del tag "Nuevo Tag"
+    andInsertTitleTag("Nuevo Tag");
+
+    // And ingreso la descripcion del tag "Contenido del Tag"
+    andInsertTagDescription, "Descripción del Tag";
+
+    // And hago clic en Save
+    andClickInSaveTag();
+
+    // And veo en el listado de tags, el tag con el titulo "Nuevo Tag"
+    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", "Nuevo Tag");
   });
 });
