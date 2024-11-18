@@ -1,0 +1,30 @@
+{
+  "id": "comparacion_imagenes_locales",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1024,
+      "height": 768
+    }
+  ],
+  "scenarios": [
+    {
+      "label": "Comparar EP_05 base con EP_05 rc",
+      "url": "file:///cypress/screenshots/posts.cy.js/baseline/post-published_2024-11-18T035712.289Z.png",
+      "referenceUrl": "file:///cypress/screenshots/posts.cy.js/actual/post-published_2024-11-18T035906.162Z.png",
+      "misMatchThreshold": 0.1,
+      "readyEvent": null,
+      "delay": 0,
+      "postInteractionWait": 0,
+      "selector": "body"
+    }
+  ],
+  "engine": "puppeteer",
+  "report": ["browser"],
+  "paths": {
+    "bitmaps_reference": "backstop_data/bitmaps_reference",
+    "bitmaps_test": "backstop_data/bitmaps_test",
+    "text": "backstop_data/text",
+    "ci_report": "backstop_data/report"
+  }
+}

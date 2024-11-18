@@ -20,7 +20,7 @@ import {
   thenViewCreatedPageAndLabelDraft,
   thenClicInPreview,
   thenClicInEditor,
-  thenClicInUpdate
+  thenClicInUpdate,
 } from "../steps/thenSteps.cy";
 
 describe("Crear pages", () => {

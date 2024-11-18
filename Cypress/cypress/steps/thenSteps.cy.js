@@ -98,9 +98,9 @@ export function thenClicInUpdate() {
 
 // Métodos para Posts en Cypress:
 
-export function thenViewCreatedPost(title) {
+export function thenViewCreatedPost(ghostCurrentVs, title) {
   // Espera a que los títulos de los posts estén presentes en la página
-  cy.get(".gh-content-entry-title", { timeout: 5000 }) // Espera hasta 5 segundos a que los elementos aparezcan
+  cy.get(".gh-content-entry-title", { timeout: 2000 }) // Espera hasta 5 segundos a que los elementos aparezcan
     .should("exist"); // Verifica que al menos un título de post esté presente
 
   // Busca y compara el título del post
@@ -115,22 +115,38 @@ export function thenViewCreatedPost(title) {
     expect(titles).to.include(title);
   });
 
+  cy.screenshot(
+    ghostCurrentVs === Cypress.env("ghostBaseVersion")
+      ? "baseline/post-published" + "_" + new Date().toISOString()
+      : "actual/post-published" + "_" + new Date().toISOString()
+  );
+
   // Pausa opcional para asegurar que cualquier cambio de UI finalice
   cy.wait(2000);
 }
 
-export function thenPostCannotBePublished() {
+export function thenPostCannotBePublished(ghostCurrentVs) {
   cy.get("body") // Espera que el cuerpo de la página esté cargado
     .then(($body) => {
       // Verifica si el botón de publicar existe
       if ($body.find('button[data-test-button="publish-flow"]').length > 0) {
         // Si el botón existe, verifica que no esté visible
-        cy.get('button[data-test-button="publish-flow"]', { timeout: 10000 })
+        cy.get('button[data-test-button="publish-flow"]', { timeout: 2000 })
           .should("not.be.visible")
           .then(($btn) => {
             if ($btn.is(":visible")) {
               throw new Error("El botón de publicar debería estar oculto.");
             }
+            // Captura de pantalla para la prueba
+            cy.screenshot(
+              ghostCurrentVs === Cypress.env("ghostBaseVersion")
+                ? "baseline/post-cannot-published" +
+                    "_" +
+                    new Date().toISOString()
+                : "actual/post-cannot-published" +
+                    "_" +
+                    new Date().toISOString()
+            );
           });
       }
     });
@@ -138,7 +154,7 @@ export function thenPostCannotBePublished() {
 
 // Métodos para Tags en Cypress:
 
-export function thenViewCreatedTag(tagsPage, tagName) {
+export function thenViewCreatedTag(ghostCurrentVs = null, tagsPage, tagName) {
   // Navegar a la lista de tags
   cy.visit(tagsPage);
 
@@ -154,6 +170,15 @@ export function thenViewCreatedTag(tagsPage, tagName) {
       if (!tagsTitles.includes(tagName)) {
         throw new Error(
           `No se encontró el tag llamado "${tagName}" en la lista de tags.`
+        );
+      }
+
+      // Captura de pantalla para la prueba
+      if (ghostCurrentVs !== null) {
+        cy.screenshot(
+          ghostCurrentVs === Cypress.env("ghostBaseVersion")
+            ? "baseline/tag-created" + "_" + new Date().toISOString()
+            : "actual/tag-created" + "_" + new Date().toISOString()
         );
       }
     });

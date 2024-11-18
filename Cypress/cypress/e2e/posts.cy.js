@@ -49,7 +49,7 @@ describe("Crear un post en Ghost version base", () => {
     andCloseWindowPostPublished();
 
     // Then veo en el listado de posts, el post con el titulo "Titulo de Post"
-    thenViewCreatedPost("Titulo de Post");
+    thenViewCreatedPost(Cypress.env("ghostBaseVersion"), "Titulo de Post");
   });
 
   it("EP_06 Como administrador inicio sesión, trato de crear un post en Ghost sin completar el titulo, el contenido y hago clic en publicar", () => {
@@ -62,7 +62,7 @@ describe("Crear un post en Ghost version base", () => {
     andInsertContentPost("");
 
     // Then No puedo hacer clic en publicar ni crear el post:
-    thenPostCannotBePublished();
+    thenPostCannotBePublished(Cypress.env("ghostBaseVersion"));
   });
 
   it("EP_07 Como administrador inicio sesión, trato de crear un post en Ghost con titulo pero sin contenido y hago clic en publicar", () => {
@@ -81,7 +81,10 @@ describe("Crear un post en Ghost version base", () => {
     // And cierro la ventana de post publicado
     andCloseWindowPostPublished();
     // Then veo en el listado de posts, el post con el titulo "Titulo de Post"
-    thenViewCreatedPost("Titulo de Post sin Contenido");
+    thenViewCreatedPost(
+      Cypress.env("ghostBaseVersion"),
+      "Titulo de Post sin Contenido"
+    );
   });
 
   it("EP_08 Como administrador inicio sesión, trato de crear un post en Ghost con titulo vacio pero con contenido y hago clic en publicar", () => {
@@ -102,7 +105,7 @@ describe("Crear un post en Ghost version base", () => {
     andCloseWindowPostPublished();
 
     // Then veo en el listado de posts, el post con el titulo generico de "Untitled":
-    thenViewCreatedPost(sinTitulo);
+    thenViewCreatedPost(Cypress.env("ghostBaseVersion"), sinTitulo);
   });
 });
 
@@ -135,7 +138,7 @@ describe("Crear un post en Ghost version rc", () => {
     andCloseWindowPostPublished();
 
     // Then veo en el listado de posts, el post con el titulo "Titulo de Post"
-    thenViewCreatedPost("Titulo de Post");
+    thenViewCreatedPost(Cypress.env("ghostRcVersionPort"), "Titulo de Post");
   });
 
   it("EP_06 Como administrador inicio sesión, trato de crear un post en Ghost sin completar el titulo, el contenido y hago clic en publicar", () => {
@@ -148,7 +151,7 @@ describe("Crear un post en Ghost version rc", () => {
     andInsertContentPost("");
 
     // Then No puedo hacer clic en publicar ni crear el post:
-    thenPostCannotBePublished();
+    thenPostCannotBePublished(Cypress.env("ghostRcVersionPort"));
   });
 
   it("EP_07 Como administrador inicio sesión, trato de crear un post en Ghost con titulo pero sin contenido y hago clic en publicar", () => {
@@ -167,7 +170,10 @@ describe("Crear un post en Ghost version rc", () => {
     // And cierro la ventana de post publicado
     andCloseWindowPostPublished();
     // Then veo en el listado de posts, el post con el titulo "Titulo de Post"
-    thenViewCreatedPost("Titulo de Post sin Contenido");
+    thenViewCreatedPost(
+      Cypress.env("ghostRcVersionPort"),
+      "Titulo de Post sin Contenido"
+    );
   });
 
   it("EP_08 Como administrador inicio sesión, trato de crear un post en Ghost con titulo vacio pero con contenido y hago clic en publicar", () => {
@@ -188,6 +194,6 @@ describe("Crear un post en Ghost version rc", () => {
     andCloseWindowPostPublished();
 
     // Then veo en el listado de posts, el post con el titulo generico de "Untitled":
-    thenViewCreatedPost(sinTitulo);
+    thenViewCreatedPost(Cypress.env("ghostRcVersionPort"), sinTitulo);
   });
 });
