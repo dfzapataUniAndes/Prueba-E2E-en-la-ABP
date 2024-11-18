@@ -12,3 +12,8 @@ export function whenCreateNewTag() {
   // Haz clic en el botón de crear nuevo tag
   cy.get('a[href="#/tags/new/"]').first().click();
 }
+
+export function whenCreateNewPage() {
+  cy.get('a[href="#/editor/page/"]').first().click();
+  cy.wait(5000);
+}

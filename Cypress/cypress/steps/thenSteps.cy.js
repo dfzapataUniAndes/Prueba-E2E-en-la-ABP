@@ -33,7 +33,7 @@ export function thenCloseWindowPagePublished() {
   cy.wait(5000);
 }
 
-export function thenViewCreatedPage(title) {
+export function thenViewCreatedPage(title, scenarioNo, featureToTest) {
   cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
     const text = $el.text();
     if (text.indexOf(title) > -1) {
@@ -41,6 +41,7 @@ export function thenViewCreatedPage(title) {
     }
   });
   cy.wait(2000);
+  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
 }
 
 export function thenSelecteCoverImage() {
@@ -60,9 +61,17 @@ export function thenViewCreatedPageWithImage(title) {
   cy.wait(2000);
 }
 
-export function thenValidatePageWithImage() {
+export function thenValidatePageWithImage(title, scenarioNo, featureToTest) {
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      $el.click();
+    }
+  });
+  cy.wait(2000);
   cy.get("img[role='presentation']").should("have.length.above", 0);
   cy.wait(2000);
+  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
 }
 
 export function thenNavigateToThePages() {
