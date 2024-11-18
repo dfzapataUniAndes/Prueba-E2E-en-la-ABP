@@ -13,6 +13,9 @@ module.exports = {
       config.env.ghostRcVersionPort = process.env.GHOST_RC_VERSION_PORT;
       config.env.ghostBaseVersionPort = process.env.GHOST_BASE_VERSION_PORT;
 
+      config.env.ghostRcVersion = process.env.GHOST_RC_VERSION;
+      config.env.ghostBaseVersion = process.env.GHOST_BASE_VERSION;
+
       return config;
     },
   },

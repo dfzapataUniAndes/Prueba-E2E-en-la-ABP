@@ -1,0 +1,38 @@
+{
+  "testSuite": "BackstopJS",
+  "tests": [
+    {
+      "pair": {
+        "reference": "../bitmaps_reference/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0_document_0_desktop.png",
+        "test": "../bitmaps_test/20241117-213820/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0_document_0_desktop.png",
+        "selector": "document",
+        "fileName": "cypress-backstop-comparison_Cypress_Screenshot_Comparison_0_document_0_desktop.png",
+        "label": "Cypress Screenshot Comparison",
+        "requireSameDimensions": true,
+        "misMatchThreshold": 0.1,
+        "url": "http://localhost:2368",
+        "expect": 0,
+        "viewportLabel": "desktop",
+        "error": "Reference file not found /Users/santiagopaeres/MEGA/Universidad/2024-II/PRUEBAS AUTOMATIZADAS/ACTIVIDADES/SEMANA 5/Prueba-E2E-en-la-ABP/Cypress/backstop_data/bitmaps_reference/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0_document_0_desktop.png"
+      },
+      "status": "fail"
+    },
+    {
+      "pair": {
+        "reference": "../bitmaps_reference/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0_document_1_tablet.png",
+        "test": "../bitmaps_test/20241117-213820/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0_document_1_tablet.png",
+        "selector": "document",
+        "fileName": "cypress-backstop-comparison_Cypress_Screenshot_Comparison_0_document_1_tablet.png",
+        "label": "Cypress Screenshot Comparison",
+        "requireSameDimensions": true,
+        "misMatchThreshold": 0.1,
+        "url": "http://localhost:2368",
+        "expect": 0,
+        "viewportLabel": "tablet",
+        "error": "Reference file not found /Users/santiagopaeres/MEGA/Universidad/2024-II/PRUEBAS AUTOMATIZADAS/ACTIVIDADES/SEMANA 5/Prueba-E2E-en-la-ABP/Cypress/backstop_data/bitmaps_reference/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0_document_1_tablet.png"
+      },
+      "status": "fail"
+    }
+  ],
+  "id": "cypress-backstop-comparison"
+}

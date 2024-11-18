@@ -1,0 +1,38 @@
+{
+  "testSuite": "BackstopJS",
+  "tests": [
+    {
+      "pair": {
+        "reference": "../bitmaps_reference/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0__0_desktop.png",
+        "test": "../bitmaps_test/20241117-214015/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0__0_desktop.png",
+        "selector": "",
+        "fileName": "cypress-backstop-comparison_Cypress_Screenshot_Comparison_0__0_desktop.png",
+        "label": "Cypress Screenshot Comparison",
+        "requireSameDimensions": true,
+        "misMatchThreshold": 0.1,
+        "expect": 0,
+        "viewportLabel": "desktop",
+        "engineErrorMsg": "Protocol error (Page.navigate): Invalid parameters Failed to deserialize params.url - BINDINGS: mandatory field missing at position 50",
+        "error": "Reference file not found /Users/santiagopaeres/MEGA/Universidad/2024-II/PRUEBAS AUTOMATIZADAS/ACTIVIDADES/SEMANA 5/Prueba-E2E-en-la-ABP/Cypress/backstop_data/bitmaps_reference/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0__0_desktop.png"
+      },
+      "status": "fail"
+    },
+    {
+      "pair": {
+        "reference": "../bitmaps_reference/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0__1_tablet.png",
+        "test": "../bitmaps_test/20241117-214015/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0__1_tablet.png",
+        "selector": "",
+        "fileName": "cypress-backstop-comparison_Cypress_Screenshot_Comparison_0__1_tablet.png",
+        "label": "Cypress Screenshot Comparison",
+        "requireSameDimensions": true,
+        "misMatchThreshold": 0.1,
+        "expect": 0,
+        "viewportLabel": "tablet",
+        "engineErrorMsg": "Protocol error (Page.navigate): Invalid parameters Failed to deserialize params.url - BINDINGS: mandatory field missing at position 50",
+        "error": "Reference file not found /Users/santiagopaeres/MEGA/Universidad/2024-II/PRUEBAS AUTOMATIZADAS/ACTIVIDADES/SEMANA 5/Prueba-E2E-en-la-ABP/Cypress/backstop_data/bitmaps_reference/cypress-backstop-comparison_Cypress_Screenshot_Comparison_0__1_tablet.png"
+      },
+      "status": "fail"
+    }
+  ],
+  "id": "cypress-backstop-comparison"
+}

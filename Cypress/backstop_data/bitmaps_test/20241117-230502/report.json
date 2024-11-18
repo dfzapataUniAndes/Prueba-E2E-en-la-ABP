@@ -1,0 +1,24 @@
+{
+  "testSuite": "BackstopJS",
+  "tests": [
+    {
+      "pair": {
+        "reference": "../bitmaps_reference/comparacion_imagenes_locales_Comparar_EP_1_base_con_EP_1_rc_0__0_desktop.png",
+        "test": "../bitmaps_test/20241117-230502/comparacion_imagenes_locales_Comparar_EP_1_base_con_EP_1_rc_0__0_desktop.png",
+        "selector": "",
+        "fileName": "comparacion_imagenes_locales_Comparar_EP_1_base_con_EP_1_rc_0__0_desktop.png",
+        "label": "Comparar EP 1 base con EP 1 rc",
+        "requireSameDimensions": true,
+        "misMatchThreshold": 0.1,
+        "url": "cypress/screenshots/baseline/post-published_2024-11-18T035712.289Z.png",
+        "referenceUrl": "cypress/screenshots/actual/post-published_2024-11-18T035906.162Z.png",
+        "expect": 0,
+        "viewportLabel": "desktop",
+        "engineErrorMsg": "Protocol error (Page.navigate): Cannot navigate to invalid URL",
+        "error": "Reference file not found /Users/santiagopaeres/MEGA/Universidad/2024-II/PRUEBAS AUTOMATIZADAS/ACTIVIDADES/SEMANA 5/Prueba-E2E-en-la-ABP/Cypress/backstop_data/bitmaps_reference/comparacion_imagenes_locales_Comparar_EP_1_base_con_EP_1_rc_0__0_desktop.png"
+      },
+      "status": "fail"
+    }
+  ],
+  "id": "comparacion_imagenes_locales"
+}

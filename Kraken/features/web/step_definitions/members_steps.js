@@ -35,18 +35,17 @@ When("me agrego a mi mismo como Member", async function () {
 })
 
 Then("veo el usuario en la lista de Members {kraken-string}", async function (scenario) {
-    const scenarioNo = scenario === 'scenario18' ? 'scenario3' : 'scenario1';
-    if (!fs.existsSync(`./vrt-reports/${scenarioNo}`)){
-        fs.mkdirSync(`./vrt-reports/${scenarioNo}/screenshots`, { recursive: true });
+    if (!fs.existsSync(`./vrt-reports/${scenario}`)){
+        fs.mkdirSync(`./vrt-reports/${scenario}/screenshots`, { recursive: true });
     }
-    const user = scenario === 'scenario18' ? 'jhondoe@gmail.com' : USERNAME1
+    const user = scenario === 'scenario16' ?  USERNAME1 : 'jhondoe@gmail.com'
     if (vrt) {
         const memberItem =  await this.driver.$('p[class="ma0 pa0 middarkgrey f8 gh-members-list-email"]');
         await memberItem.waitForDisplayed();
         const memberText = await memberItem.getText();
         expect(memberText).to.have.string(user);
         const screenshot = await this.driver.saveScreenshot(
-            `./vrt-reports/${scenarioNo}/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
+            `./vrt-reports/${scenario}/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
         );
         this.attach(screenshot, 'image/png');
         return;
@@ -56,12 +55,12 @@ Then("veo el usuario en la lista de Members {kraken-string}", async function (sc
     const memberText = await memberItem.getText();
     expect(memberText).to.have.string(user);
     const screenshot = await this.driver.saveScreenshot(
-        `./vrt-reports/${scenarioNo}/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
+        `./vrt-reports/${scenario}/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
     );
     await this.attach(screenshot, 'image/png');
 })
 
-Then("elimino el ultimo miembro creado", async function() {
+Then("elimino el último miembro creado", async function() {
     try {
         const cookies = await this.driver.getCookies(['ghost-admin-api-session']);
 
@@ -131,8 +130,8 @@ Then("hago clic en el botón de Save", async function(){
 })
 
 Then("aparece el error de {kraken-string}", async function (errorMsg){
-    if (!fs.existsSync(`./vrt-reports/scenario2`)){
-        fs.mkdirSync(`./vrt-reports/scenario2/screenshots`, { recursive: true });
+    if (!fs.existsSync(`./vrt-reports/scenario17`)){
+        fs.mkdirSync(`./vrt-reports/scenario17/screenshots`, { recursive: true });
     }
     const formGroup = await this.driver.$('.form-group.max-width.error');
     const errorMessageElement = await formGroup.$('p.response');
@@ -140,7 +139,7 @@ Then("aparece el error de {kraken-string}", async function (errorMsg){
     await expect(errorMessage).to.have.string(errorMsg);
 
     const screenshot = await this.driver.saveScreenshot(
-        `./vrt-reports/scenario2/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
+        `./vrt-reports/scenario17/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
     );
     await this.attach(screenshot, 'image/png');
 })
@@ -168,17 +167,33 @@ Then("completo los campos de la sección New member cómo Name, Email, Labels, N
     }
 })
 
-// AfterStep(async function (world) {
-//     try {
-//         console.log(this)
-//         let screenshot = await this.driver.saveScreenshot(
-//             `./reports/${this.testScenarioId}/screenshots/${Math.round(+new Date() / 1000)}.png`
-//         );
-//         this.attach(screenshot, 'image/png');
-//     } catch {
-//         console.log("KRAKEN: Could not take screenshot");
-//     }
-// })
+Then("veo el mensaje de error indicando que el mismo Member ya se encuentra creado", async function () {
+    if (!fs.existsSync(`./vrt-reports/scenario19`)){
+        fs.mkdirSync(`./vrt-reports/scenario19/screenshots`, { recursive: true });
+    }
+    if (vrt) {
+        const errorMsg = 'Validation error, cannot save member. Member already exists Attempting to add member with existing email address'
+        const alertMessage = await this.driver.$('div[class="gh-alert-content"]');
+        const errorText = await alertMessage.getText();
+        await expect(errorText).to.have.string(errorMsg);
+
+        const screenshot = await this.driver.saveScreenshot(
+            `./vrt-reports/scenario19/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
+        );
+        await this.attach(screenshot, 'image/png');
+        return;
+    }
+    const errorMsg = "Member already exists. Attempting to add member with existing email address";
+    const formGroup = await this.driver.$('.form-group.max-width.error');
+    const errorMessageElement = await formGroup.$('p.response');
+    const errorMessage = await errorMessageElement.getText();
+    await expect(errorMessage).to.have.string(errorMsg);
+
+    const screenshot = await this.driver.saveScreenshot(
+        `./vrt-reports/scenario19/screenshots/new-${featureToTest}-${vrt ? 'base' : 'rc'}.png`
+    );
+    await this.attach(screenshot, 'image/png');
+})
 
 // Then("desactivo el checkbox de Newsletter", async function () {
 // const checkbox = await browser.$('input[type="checkbox"][name="subscribed"]');
