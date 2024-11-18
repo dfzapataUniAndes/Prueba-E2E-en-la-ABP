@@ -16,3 +16,9 @@ export function givenNavigateToTheSiteUrl(site) {
   cy.visit(site);
   cy.wait(5000);
 }
+
+export function givenNavigateToThePages(scenarioNo, featureToTest) {
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(5000);
+  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
+}

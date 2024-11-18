@@ -99,3 +99,27 @@ export function andClickInSaveTag() {
   cy.get('button[data-test-button="save"]', { timeout: 5000 }).first().click();
   cy.wait(2000);
 }
+
+
+export function andInsertTitleContentPage(title, content, scenarioNo, featureToTest) {
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get(".kg-prose").first().type(content);
+  cy.wait(2000);
+  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
+  cy.get('button[data-test-button="publish-flow"]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="continue"]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="confirm-publish"]').first().click();
+  cy.wait(5000);
+  cy.get('button[data-test-button="close-publish-flow"]').first().click();
+  cy.wait(5000);
+}
+
+export function andSelecteCoverImage() {
+  cy.get('button[class="gh-editor-feature-image-unsplash"]').first().click();
+  cy.wait(3000); // Espera a que se carguen las imágenes
+  cy.get('a[class="gh-unsplash-button"]').first().click();
+  cy.wait(3000);
+}

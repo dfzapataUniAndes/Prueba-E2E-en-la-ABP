@@ -1,8 +1,11 @@
 import {
   givenNavigateToTheSite,
   givenUserIsLogin,
+  givenNavigateToThePages
 } from "../steps/givenSteps.cy";
-import { whenNavigateToThePages } from "../steps/whenSteps.cy";
+import { whenNavigateToThePages,
+  whenCreateNewPage
+ } from "../steps/whenSteps.cy";
 import {
   thenCreateNewPage,
   thenInsertTitlePage,
@@ -23,6 +26,12 @@ import {
   thenClicInUpdate,
 } from "../steps/thenSteps.cy";
 
+import {
+  andInsertTitleContentPage,
+  andCloseSession,
+  andSelecteCoverImage
+} from "../steps/andSteps.cy";
+
 describe("Crear pages", () => {
   beforeEach(() => {
     // Given que inicio sesión como administrador
@@ -30,54 +39,25 @@ describe("Crear pages", () => {
     givenUserIsLogin(Cypress.env("emailTest1"), Cypress.env("passwordTest1"));
   });
 
-  it("EP_01 Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas", () => {
-    // When navego a la página de crear páginas
-    whenNavigateToThePages();
-    // And hago clic en crear nueva página
-    thenCreateNewPage();
-    // And ingreso el título de la página "Titulo página"
-    thenInsertTitlePage("Titulo página");
-    // And ingreso el contenido de la página "Contenido de lá página"
-    thenInsertContentPage("Contenido de lá página");
-    // And hago clic en Publish
-    thenClicInPublish();
-    // And hago clic en finalizar revisión
-    thenClicInFinishReview();
-    // And hago clic en Publish page
-    thenClicInPublishPage();
-    // And cierro la ventana de página publicada
-    thenCloseWindowPagePublished();
-    // And veo en el listado de páginas la página con el titulo "Titulo página"
-    thenViewCreatedPage("Titulo página");
+  afterEach(() => {
     // And cierro sesión
-    thenCloseSession();
+    andCloseSession();
   });
 
+  it("EP_01 Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas", () => {
+    givenNavigateToThePages("EP_01_PASO_GIVEN", "Crear pages");
+    whenCreateNewPage();
+    andInsertTitleContentPage("Titulo página", "Contenido de lá página", "EP_01_PASO_WHEN", "Crear pages");
+    thenViewCreatedPage("Titulo página", "EP_01_PASO_THEN", "Crear pages"); 
+  });
+
+
   it("EP_02 Como administrador inicio sesión, creo una página con una imagen por defecto y la visualizo luego de creada", () => {
-    // When navego a la página de crear páginas
-    whenNavigateToThePages();
-    // Then hago clic en crear nueva página
-    thenCreateNewPage();
-    //And selecciono una imagen de portada
-    thenSelecteCoverImage();
-    // And ingreso el título de la página "Titulo página con imagen"
-    thenInsertTitlePage("Titulo página con imagen");
-    // And ingreso el contenido de la página "Contenido de lá página"
-    thenInsertContentPage("Contenido de lá página");
-    // And hago clic en Publish
-    thenClicInPublish();
-    // And hago clic en finalizar revisión
-    thenClicInFinishReview();
-    // And hago clic en Publish page
-    thenClicInPublishPage();
-    // And cierro la ventana de página publicada
-    thenCloseWindowPagePublished();
-    // And abro en el listado de páginas la página con el titulo "Titulo página con imagen"
-    thenViewCreatedPageWithImage("Titulo página con imagen");
-    // And valido que la página tenga una imagen
-    thenValidatePageWithImage();
-    //And cierro sesión
-    thenCloseSession();
+    givenNavigateToThePages("EP_02_PASO_GIVEN", "Crear pages");
+    whenCreateNewPage();
+    andSelecteCoverImage();
+    andInsertTitleContentPage("Titulo página", "Contenido de lá página", "EP_02_PASO_WHEN", "Crear pages");
+    thenValidatePageWithImage("Titulo página", "EP_02_PASO_THEN", "Crear pages");
   });
 
   it("EP_03 Como administrador inicio sesión, creo una página como borrador y la visualizo en el listado de páginas como draft", () => {
@@ -148,4 +128,6 @@ describe("Crear pages", () => {
     // And cierro sesión
     thenCloseSession();
   });
+
+  
 });
