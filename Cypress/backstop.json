@@ -9,7 +9,7 @@
   ],
   "scenarios": [
     {
-      "label": "Comparar EP 1 base con EP 1 rc",
+      "label": "Comparar EP_05 base con EP_05 rc",
       "url": "file:///cypress/screenshots/posts.cy.js/baseline/post-published_2024-11-18T035712.289Z.png",
       "referenceUrl": "file:///cypress/screenshots/posts.cy.js/actual/post-published_2024-11-18T035906.162Z.png",
       "misMatchThreshold": 0.1,
