@@ -88,3 +88,7 @@ backstop reference
 ```
 
 Esto capturará las imágenes de referencia y las guardará en la carpeta configurada como bitmaps_reference.
+
+## Reportes 
+
+Luego de ejecutar el **backstop test** el reporte queda almacenado en el directorio **html_report** y abriendo en un navegador el index.html se puede observar. 
