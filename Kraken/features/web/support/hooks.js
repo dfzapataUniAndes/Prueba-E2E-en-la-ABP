@@ -26,19 +26,6 @@ Before(async function() {
 })
 
 After(async function() {
-    // const userMenuButton = await this.driver.$(".gh-user-avatar");
-    // await userMenuButton.waitForEnabled()
-    //
-    // // Hacer clic en el avatar de usuario para abrir el menú
-    // await userMenuButton.click();
-    //
-    // // Esperar a que la opción de cerrar sesión sea visible y hacer clic en ella
-    // const logoutButton = await this.driver.$('a[href="#/signout/"]');
-    // await logoutButton.waitForEnabled()
-    // await logoutButton.click();
-    //
-    // // Pausar para asegurar que el proceso de cierre de sesión se complete
-    // await this.driver.pause(2000);
     await this.driver.url("http://localhost:2368/ghost/#/signout");
     await this.deviceClient.stopKrakenForUserId(this.userId);
 });
