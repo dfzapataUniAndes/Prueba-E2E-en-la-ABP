@@ -79,7 +79,7 @@ export function thenNavigateToThePages() {
   cy.wait(2000);
 }
 
-export function thenViewCreatedPageAndLabelDraft(title) {
+export function thenViewCreatedPageAndLabelDraft(title, scenarioNo, featureToTest) {
   cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
     const text = $el.text();
     if (text.indexOf(title) > -1) {
@@ -88,6 +88,7 @@ export function thenViewCreatedPageAndLabelDraft(title) {
     }
   });
   cy.wait(2000);
+  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
 }
 
 export function thenClicInPreview() {

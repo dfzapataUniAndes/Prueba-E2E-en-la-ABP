@@ -123,3 +123,46 @@ export function andSelecteCoverImage() {
   cy.get('a[class="gh-unsplash-button"]').first().click();
   cy.wait(3000);
 }
+
+export function andInsertTitleContentPageDraft(title, content, scenarioNo, featureToTest) {
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get(".kg-prose").first().type(content);
+  cy.wait(2000);
+  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000);
+}
+
+export function andInsertTitleContentPagePreview(title, scenarioNo, featureToTest) {
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get('button[data-test-button="publish-preview"]').first().click();
+  cy.wait(3000);
+  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
+  cy.get('button[class="gh-btn-editor gh-editor-back-button"]').first().click();
+  cy.wait(3000);
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000);
+}
+
+export function andViewCreatedPageWithImage(title) {
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      $el.click();
+    }
+  });
+  cy.wait(2000);
+}
+
+export function andUpdateTitle(title) {
+  cy.get('textarea[placeholder="Page title"]').clear();
+  cy.wait(2000);
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get('button[data-test-button="publish-save"]').first().click();
+  cy.wait(3000);
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000);
+}
