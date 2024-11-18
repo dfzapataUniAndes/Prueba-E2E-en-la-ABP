@@ -5,10 +5,15 @@ Hemos agregado una nueva configuración en el archivo config.json la cual se enc
 En el archivo config.json debe cambiar la propiedad "featureToTest" a alguna de las siguientes opciones:
 
 ```bash
-"featureToTest": "members",
-"featureToTest": "pages",
-"featureToTest": "posts",
-"featureToTest": "tags",
+{
+    ...
+    "featureToTest": "members",
+    "featureToTest": "pages",
+    "featureToTest": "posts",
+    "featureToTest": "tags",
+    ...
+}
+
 ```
 "featureToTest": "members",
 
@@ -22,17 +27,22 @@ npm install
 1. En el archivo config.json hemos agregado una nueva propiedad llamada "vrt", asegurese de que esta se encuentra en "false" para correr pruebas E2E, y en "true" para hacer Pruebas de Regresión Visual. 
 2. Puede usar el siguiente comando para generar pruebas E2E de la versión RC.
 ```bash
-npm kraken-run
+npm run kraken-run
 ```
+3. Este comando genera un nuevo reporte de Kraken por defecto con screenshots por cada paso que se encuentra en la carpeta /reports.
 
 ## Pruebas VRT
 1. Para generar los screenshots necesarios para las pruebas de regresión visual, cambie la propiedad "vrt" a "true" y desde la carpeta de /Kraken corra nuevamente el comando
 ```bash
-npm kraken-run
+npm run kraken-run
 ```
 2. Los comandos anteriores generan una nueva carpeta por cada escenario de prueba dentro de la carpeta /vrt-reports.
 3. Una vez se han generado los screenshots en la carpeta de /vrt-reports/scenario# puede usar el siguiente comando para generar el reporte de VRT:
 ```bash
-npm test-vrt
+npm run test-vrt
 ```
-4. Por cada carpeta /scenario que se encuentre dentro de /vrt-reports se creará un nuevo reporte .html
+4. Por cada carpeta /scenario que se encuentre dentro de /vrt-reports se creará un nuevo reporte .html el cual puede abrir en cualquier buscador para ver las diferencias de regresión visual encontradas.
+
+Los reportes generados se deberian ver cómo el siguiente screenshot:
+
+![img_1.png](img_1.png)
