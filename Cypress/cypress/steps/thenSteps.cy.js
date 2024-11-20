@@ -41,7 +41,14 @@ export function thenViewCreatedPage(title, scenarioNo, featureToTest) {
     }
   });
   cy.wait(2000);
-  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
 }
 
 export function thenSelecteCoverImage() {
@@ -71,7 +78,14 @@ export function thenValidatePageWithImage(title, scenarioNo, featureToTest) {
   cy.wait(2000);
   cy.get("img[role='presentation']").should("have.length.above", 0);
   cy.wait(2000);
-  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
 }
 
 export function thenNavigateToThePages() {
@@ -79,7 +93,11 @@ export function thenNavigateToThePages() {
   cy.wait(2000);
 }
 
-export function thenViewCreatedPageAndLabelDraft(title, scenarioNo, featureToTest) {
+export function thenViewCreatedPageAndLabelDraft(
+  title,
+  scenarioNo,
+  featureToTest
+) {
   cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
     const text = $el.text();
     if (text.indexOf(title) > -1) {
@@ -88,7 +106,14 @@ export function thenViewCreatedPageAndLabelDraft(title, scenarioNo, featureToTes
     }
   });
   cy.wait(2000);
-  cy.screenshot( "actual/"+featureToTest+"/" +scenarioNo+ "/" + new Date().toISOString());
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
 }
 
 export function thenClicInPreview() {
@@ -109,6 +134,11 @@ export function thenClicInUpdate() {
 // Métodos para Posts en Cypress:
 
 export function thenViewCreatedPost(ghostCurrentVs, title) {
+  // Verifica la versión de Ghost actual y navega a la página de posts:
+  if (ghostCurrentVs === Cypress.env("ghostBaseVersion")) {
+    cy.visit("http://localhost:2368/ghost/#/posts");
+  }
+
   // Espera a que los títulos de los posts estén presentes en la página
   cy.get(".gh-content-entry-title", { timeout: 2000 }) // Espera hasta 5 segundos a que los elementos aparezcan
     .should("exist"); // Verifica que al menos un título de post esté presente

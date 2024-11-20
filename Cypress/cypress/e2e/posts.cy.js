@@ -38,15 +38,11 @@ describe("Crear un post en Ghost version base", () => {
     whenCreateNewPost();
 
     // And ingreso el título del post "Titulo de Post"
-    andInsertTitlePost("Titulo de Post");
+    andInsertTitlePost(Cypress.env("ghostBaseVersion"), "Titulo de Post");
     // And ingreso el contenido del post "Contenido del Post"
-    andInsertContentPost("Contenido del Post");
+    andInsertContentPost(Cypress.env("ghostBaseVersion"), "Contenido del Post");
     // And hago clic en Publish
-    andClicInPublishPost();
-    // And hago clic en finalizar revisión
-    andClicInFinishReviewPost();
-    // And cierro la ventana de post publicado
-    andCloseWindowPostPublished();
+    andClicInPublishPost(Cypress.env("ghostBaseVersion"));
 
     // Then veo en el listado de posts, el post con el titulo "Titulo de Post"
     thenViewCreatedPost(Cypress.env("ghostBaseVersion"), "Titulo de Post");
@@ -57,9 +53,9 @@ describe("Crear un post en Ghost version base", () => {
     whenCreateNewPost();
 
     // And ingreso el título del post vacío
-    andInsertTitlePost("");
+    andInsertTitlePost(Cypress.env("ghostBaseVersion"), "");
     // And ingreso el contenido del post vacío
-    andInsertContentPost("");
+    andInsertContentPost(Cypress.env("ghostBaseVersion"), "");
 
     // Then No puedo hacer clic en publicar ni crear el post:
     thenPostCannotBePublished(Cypress.env("ghostBaseVersion"));
@@ -70,16 +66,16 @@ describe("Crear un post en Ghost version base", () => {
     whenCreateNewPost();
 
     // And ingreso el título del post vacío
-    andInsertTitlePost("Titulo de Post sin Contenido");
+    andInsertTitlePost(
+      Cypress.env("ghostBaseVersion"),
+      "Titulo de Post sin Contenido"
+    );
     // And ingreso el contenido del post vacío
-    andInsertContentPost("");
+    andInsertContentPost(Cypress.env("ghostBaseVersion"), "");
 
     // And hago clic en Publish
-    andClicInPublishPost();
-    // And hago clic en finalizar revisión
-    andClicInFinishReviewPost();
-    // And cierro la ventana de post publicado
-    andCloseWindowPostPublished();
+    andClicInPublishPost(Cypress.env("ghostBaseVersion"));
+
     // Then veo en el listado de posts, el post con el titulo "Titulo de Post"
     thenViewCreatedPost(
       Cypress.env("ghostBaseVersion"),
@@ -93,16 +89,15 @@ describe("Crear un post en Ghost version base", () => {
     whenCreateNewPost();
 
     // And ingreso el título del post vacío
-    andInsertTitlePost("");
+    andInsertTitlePost(Cypress.env("ghostBaseVersion"), "");
     // And ingreso el contenido del post "Contenido del Post"
-    andInsertContentPost("Contenido del Post sin Titulo");
+    andInsertContentPost(
+      Cypress.env("ghostBaseVersion"),
+      "Contenido del Post sin Titulo"
+    );
 
     // And hago clic en Publish
-    andClicInPublishPost();
-    // And hago clic en finalizar revisión
-    andClicInFinishReviewPost();
-    // And cierro la ventana de post publicado
-    andCloseWindowPostPublished();
+    andClicInPublishPost(Cypress.env("ghostBaseVersion"));
 
     // Then veo en el listado de posts, el post con el titulo generico de "Untitled":
     thenViewCreatedPost(Cypress.env("ghostBaseVersion"), sinTitulo);
@@ -127,9 +122,12 @@ describe("Crear un post en Ghost version rc", () => {
     whenCreateNewPost();
 
     // And ingreso el título del post "Titulo de Post"
-    andInsertTitlePost("Titulo de Post");
+    andInsertTitlePost(Cypress.env("ghostRcVersionPort"), "Titulo de Post");
     // And ingreso el contenido del post "Contenido del Post"
-    andInsertContentPost("Contenido del Post");
+    andInsertContentPost(
+      Cypress.env("ghostRcVersionPort"),
+      "Contenido del Post"
+    );
     // And hago clic en Publish
     andClicInPublishPost();
     // And hago clic en finalizar revisión
@@ -146,9 +144,9 @@ describe("Crear un post en Ghost version rc", () => {
     whenCreateNewPost();
 
     // And ingreso el título del post vacío
-    andInsertTitlePost("");
+    andInsertTitlePost(Cypress.env("ghostRcVersionPort"), "");
     // And ingreso el contenido del post vacío
-    andInsertContentPost("");
+    andInsertContentPost(Cypress.env("ghostRcVersionPort"), "");
 
     // Then No puedo hacer clic en publicar ni crear el post:
     thenPostCannotBePublished(Cypress.env("ghostRcVersionPort"));
@@ -159,9 +157,12 @@ describe("Crear un post en Ghost version rc", () => {
     whenCreateNewPost();
 
     // And ingreso el título del post vacío
-    andInsertTitlePost("Titulo de Post sin Contenido");
+    andInsertTitlePost(
+      Cypress.env("ghostRcVersion"),
+      "Titulo de Post sin Contenido"
+    );
     // And ingreso el contenido del post vacío
-    andInsertContentPost("");
+    andInsertContentPost(Cypress.env("ghostRcVersionPort"), "");
 
     // And hago clic en Publish
     andClicInPublishPost();
@@ -182,9 +183,12 @@ describe("Crear un post en Ghost version rc", () => {
     whenCreateNewPost();
 
     // And ingreso el título del post vacío
-    andInsertTitlePost("");
+    andInsertTitlePost(Cypress.env("ghostRcVersion"), "");
     // And ingreso el contenido del post "Contenido del Post"
-    andInsertContentPost("Contenido del Post sin Titulo");
+    andInsertContentPost(
+      Cypress.env("ghostRcVersionPort"),
+      "Contenido del Post sin Titulo"
+    );
 
     // And hago clic en Publish
     andClicInPublishPost();
