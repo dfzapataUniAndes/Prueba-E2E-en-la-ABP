@@ -133,12 +133,7 @@ export function thenClicInUpdate() {
 
 // Métodos para Posts en Cypress:
 
-export function thenViewCreatedPost(ghostCurrentVs, title) {
-  // Verifica la versión de Ghost actual y navega a la página de posts:
-  if (ghostCurrentVs === Cypress.env("ghostBaseVersion")) {
-    cy.visit("http://localhost:2368/ghost/#/posts");
-  }
-
+export function thenViewCreatedPost(title) {
   // Espera a que los títulos de los posts estén presentes en la página
   cy.get(".gh-content-entry-title", { timeout: 2000 }) // Espera hasta 5 segundos a que los elementos aparezcan
     .should("exist"); // Verifica que al menos un título de post esté presente
@@ -155,11 +150,7 @@ export function thenViewCreatedPost(ghostCurrentVs, title) {
     expect(titles).to.include(title);
   });
 
-  cy.screenshot(
-    ghostCurrentVs === Cypress.env("ghostBaseVersion")
-      ? "baseline/post-published" + "_" + new Date().toISOString()
-      : "actual/post-published" + "_" + new Date().toISOString()
-  );
+  cy.screenshot("actual/post-published" + "_" + new Date().toISOString());
 
   // Pausa opcional para asegurar que cualquier cambio de UI finalice
   cy.wait(2000);

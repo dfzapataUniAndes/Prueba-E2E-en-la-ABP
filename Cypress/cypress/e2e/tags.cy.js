@@ -31,14 +31,14 @@ describe("Crear un tag en Ghost version base", () => {
   });
 
   it("EP_09 Como administrador inicio sesión, creo un tag en Ghost exitosamente y lo veo en el listado de tags", () => {
-    // When hago clic en crear Tag:
+    // When hago clic en crear Tag
     whenCreateNewTag();
 
     // And ingreso el nombre del tag "Nuevo Tag"
     andInsertTitleTag("Nuevo Tag");
 
     // And ingreso la descripcion del tag "Contenido del Tag"
-    andInsertTagDescription, "Descripción del Tag";
+    andInsertTagDescription("Descripción del Tag");
 
     // And hago clic en Save
     andClickInSaveTag();
@@ -80,7 +80,7 @@ describe("Crear un tag en Ghost version base", () => {
     andInsertTitleTag("");
 
     // And ingreso la descripcion del tag "Contenido del Tag"
-    andInsertTagDescription, "Nuevo Tag sin titulo";
+    andInsertTagDescription("Nuevo Tag sin titulo");
 
     // And hago clic en Save
     andClickInSaveTag();
@@ -131,7 +131,7 @@ describe("Crear un tag en Ghost version rc", () => {
     andInsertTitleTag("Nuevo Tag");
 
     // And ingreso la descripcion del tag "Contenido del Tag"
-    andInsertTagDescription, "Descripción del Tag";
+    andInsertTagDescription("Descripción del Tag");
 
     // And hago clic en Save
     andClickInSaveTag();
