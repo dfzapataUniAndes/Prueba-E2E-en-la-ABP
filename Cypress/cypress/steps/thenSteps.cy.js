@@ -156,11 +156,33 @@ export function thenViewCreatedPost(title) {
   cy.wait(2000);
 }
 
-export function thenPostCannotBePublished(ghostCurrentVs) {
+export function thenPostCannotBePublished() {
   cy.get("body") // Espera que el cuerpo de la página esté cargado
     .then(($body) => {
-      // Verifica si el botón de publicar existe
-      if ($body.find('button[data-test-button="publish-flow"]').length > 0) {
+      // Verifica si el elemento aside.gh-alerts existe
+      if ($body.find("aside.gh-alerts").length > 0) {
+        cy.get("aside.gh-alerts")
+          .should("exist")
+          .within(() => {
+            // Verifica que el artículo con clase gh-alert-red exista
+            cy.get("article.gh-alert.gh-alert-red").should("exist");
+
+            // Verifica el contenido del mensaje de alerta
+            cy.get(".gh-alert-content").should(
+              "contain.text",
+              "Validation failed: Title cannot be longer than 255 characters."
+            );
+
+            // Verifica que el botón para cerrar exista
+            cy.get('button[data-test-button="close-notification"]').should(
+              "exist"
+            );
+          });
+      }
+      // Verifica si el botón de publicar existe:
+      else if (
+        $body.find('button[data-test-button="publish-flow"]').length > 0
+      ) {
         // Si el botón existe, verifica que no esté visible
         cy.get('button[data-test-button="publish-flow"]', { timeout: 2000 })
           .should("not.be.visible")
@@ -170,15 +192,13 @@ export function thenPostCannotBePublished(ghostCurrentVs) {
             }
             // Captura de pantalla para la prueba
             cy.screenshot(
-              ghostCurrentVs === Cypress.env("ghostBaseVersion")
-                ? "baseline/post-cannot-published" +
-                    "_" +
-                    new Date().toISOString()
-                : "actual/post-cannot-published" +
-                    "_" +
-                    new Date().toISOString()
+              "actual/post-cannot-published" + "_" + new Date().toISOString()
             );
           });
+      } else {
+        throw new Error(
+          "No se encontró el elemento esperado para verificar el mensaje de alerta."
+        );
       }
     });
 }
