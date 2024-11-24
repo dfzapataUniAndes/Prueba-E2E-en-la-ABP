@@ -133,12 +133,7 @@ export function thenClicInUpdate() {
 
 // Métodos para Posts en Cypress:
 
-export function thenViewCreatedPost(ghostCurrentVs, title) {
-  // Verifica la versión de Ghost actual y navega a la página de posts:
-  if (ghostCurrentVs === Cypress.env("ghostBaseVersion")) {
-    cy.visit("http://localhost:2368/ghost/#/posts");
-  }
-
+export function thenViewCreatedPost(title) {
   // Espera a que los títulos de los posts estén presentes en la página
   cy.get(".gh-content-entry-title", { timeout: 2000 }) // Espera hasta 5 segundos a que los elementos aparezcan
     .should("exist"); // Verifica que al menos un título de post esté presente
@@ -155,21 +150,39 @@ export function thenViewCreatedPost(ghostCurrentVs, title) {
     expect(titles).to.include(title);
   });
 
-  cy.screenshot(
-    ghostCurrentVs === Cypress.env("ghostBaseVersion")
-      ? "baseline/post-published" + "_" + new Date().toISOString()
-      : "actual/post-published" + "_" + new Date().toISOString()
-  );
+  cy.screenshot("actual/post-published" + "_" + new Date().toISOString());
 
   // Pausa opcional para asegurar que cualquier cambio de UI finalice
   cy.wait(2000);
 }
 
-export function thenPostCannotBePublished(ghostCurrentVs) {
+export function thenPostCannotBePublished() {
   cy.get("body") // Espera que el cuerpo de la página esté cargado
     .then(($body) => {
-      // Verifica si el botón de publicar existe
-      if ($body.find('button[data-test-button="publish-flow"]').length > 0) {
+      // Verifica si el elemento aside.gh-alerts existe
+      if ($body.find("aside.gh-alerts").length > 0) {
+        cy.get("aside.gh-alerts")
+          .should("exist")
+          .within(() => {
+            // Verifica que el artículo con clase gh-alert-red exista
+            cy.get("article.gh-alert.gh-alert-red").should("exist");
+
+            // Verifica el contenido del mensaje de alerta
+            cy.get(".gh-alert-content").should(
+              "contain.text",
+              "Validation failed: Title cannot be longer than 255 characters."
+            );
+
+            // Verifica que el botón para cerrar exista
+            cy.get('button[data-test-button="close-notification"]').should(
+              "exist"
+            );
+          });
+      }
+      // Verifica si el botón de publicar existe:
+      else if (
+        $body.find('button[data-test-button="publish-flow"]').length > 0
+      ) {
         // Si el botón existe, verifica que no esté visible
         cy.get('button[data-test-button="publish-flow"]', { timeout: 2000 })
           .should("not.be.visible")
@@ -179,15 +192,13 @@ export function thenPostCannotBePublished(ghostCurrentVs) {
             }
             // Captura de pantalla para la prueba
             cy.screenshot(
-              ghostCurrentVs === Cypress.env("ghostBaseVersion")
-                ? "baseline/post-cannot-published" +
-                    "_" +
-                    new Date().toISOString()
-                : "actual/post-cannot-published" +
-                    "_" +
-                    new Date().toISOString()
+              "actual/post-cannot-published" + "_" + new Date().toISOString()
             );
           });
+      } else {
+        throw new Error(
+          "No se encontró el elemento esperado para verificar el mensaje de alerta."
+        );
       }
     });
 }

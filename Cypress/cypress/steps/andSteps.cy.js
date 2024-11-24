@@ -2,12 +2,9 @@ import {getRandomInt} from '../support/helpers'
 
 // Metodos and para posts:
 
-export function andInsertTitlePost(ghostCurrentVs, title) {
+export function andInsertTitlePost(title) {
   // Determinar el selector de campo de título según la versión de Ghost:
-  const titleFieldSelector =
-    ghostCurrentVs === Cypress.env("ghostBaseVersion")
-      ? 'textarea[placeholder="Post Title"]'
-      : 'textarea[placeholder="Post title"]';
+  const titleFieldSelector = 'textarea[placeholder="Post title"]';
   // Espera que el campo de título esté visible y escribe el título del post
   const titleField = cy
     .get(titleFieldSelector, {
@@ -23,12 +20,9 @@ export function andInsertTitlePost(ghostCurrentVs, title) {
   }
 }
 
-export function andInsertContentPost(ghostCurrentVs, content) {
+export function andInsertContentPost(content) {
   // Determinar el selector de campo de contenido según la versión de Ghost:
-  const contentFieldSelector =
-    ghostCurrentVs === Cypress.env("ghostBaseVersion")
-      ? 'div.koenig-editor__editor[data-placeholder="Begin writing your post..."]'
-      : ".kg-prose";
+  const contentFieldSelector = ".kg-prose";
 
   const contentField = cy.get(contentFieldSelector, { timeout: 5000 }).first();
 
@@ -40,24 +34,14 @@ export function andInsertContentPost(ghostCurrentVs, content) {
   }
 }
 
-export function andClicInPublishPost(ghostCurrentVs) {
+export function andClicInPublishPost() {
   // Haz clic en el botón de publicación:
-  cy.get(
-    ghostCurrentVs === Cypress.env("ghostBaseVersion")
-      ? 'div.gh-publishmenu-trigger.gh-btn-editor[role="button"]'
-      : 'button[data-test-button="publish-flow"]',
-    { timeout: 5000 }
-  )
+  cy.get('button[data-test-button="publish-flow"]', { timeout: 5000 })
     .first()
     .click();
 
   // Haz clic en el botón de flujo de publicación
-  cy.get(
-    ghostCurrentVs === Cypress.env("ghostBaseVersion")
-      ? "button.gh-btn.gh-btn-black.gh-publishmenu-button.gh-btn-icon"
-      : 'button[data-test-button="continue"]',
-    { timeout: 5000 }
-  )
+  cy.get('button[data-test-button="continue"]', { timeout: 5000 })
     .first()
     .click();
 }
