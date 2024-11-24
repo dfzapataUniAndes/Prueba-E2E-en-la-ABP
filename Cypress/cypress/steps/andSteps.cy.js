@@ -1,3 +1,5 @@
+import {getRandomInt} from '../support/helpers'
+
 // Metodos and para posts:
 
 export function andInsertTitlePost(ghostCurrentVs, title) {
@@ -152,7 +154,10 @@ export function andInsertTitleContentPage(
 export function andSelecteCoverImage() {
   cy.get('button[class="gh-editor-feature-image-unsplash"]').first().click();
   cy.wait(3000); // Espera a que se carguen las imágenes
-  cy.get('a[class="gh-unsplash-button"]').first().click();
+  cy.get('a[class="gh-unsplash-button"]')
+  .then(($images) => {
+    cy.wrap($images).eq(getRandomInt(0, $images.length)).click();  // Selecciona el último elemento
+  });
   cy.wait(3000);
 }
 

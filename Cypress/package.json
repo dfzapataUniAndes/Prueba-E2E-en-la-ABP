@@ -1,0 +1,18 @@
+{
+  "name": "faker-cypress",
+  "version": "1.0.0",
+  "description": "Integracion de faker y cypress para generacion de datos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^9.2.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "faker-schema": "^2.0.0"
+  }
+}
