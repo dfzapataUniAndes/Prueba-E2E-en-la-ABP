@@ -12,7 +12,7 @@
       "description": "Aenean tincidunt lorem quis metus tristique luctus."
     },
     {
-      "title": "A title with a very long text that exceeds the usual length for a tag title to check how the system handles it without truncating or breaking the layout.",
+      "title": "A title with a very long text that exceeds the usual length for a tag title to check how the system handles it without truncating or breaking the layout, ensuring that all edge cases related to excessively long titles are properly validated and displayed as expected in the interface.",
       "description": "Test description with edge cases: こんにちは世界 (Hello, World)."
     },
     {

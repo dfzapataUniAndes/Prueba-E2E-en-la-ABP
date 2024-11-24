@@ -69,7 +69,9 @@ export function andCloseWindowPostPublished() {
 
 export function andCloseSession() {
   cy.visit("http://localhost:2368/ghost/#/signout");
+  cy.url().should("include", "/ghost/#/signout"); 
 }
+
 
 // Metodos and para tags:
 export function andInsertTitleTag(title) {

@@ -23,7 +23,7 @@ describe("Crear un tag en Ghost.", () => {
   beforeEach(() => {
     // Given que inicio sesión como administrador y navego a la página de tags:
     givenNavigateToTheSiteUrl(rpcVerUrl + "/ghost/#/signin");
-    givenUserIsLogin(Cypress.env("emailTest2"), Cypress.env("passwordTest2"));
+    givenUserIsLogin(Cypress.env("emailTest3"), Cypress.env("passwordTest3"));
     givenNavigateToTheSiteUrl(rpcVerUrl + "/ghost/#/tags");
   });
 
