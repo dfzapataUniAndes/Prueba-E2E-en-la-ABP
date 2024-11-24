@@ -1,0 +1,43 @@
+[
+    {
+      "title": "Lorem Ipsum",
+      "description": "A simple tag description for testing purposes."
+    },
+    {
+      "title": "",
+      "description": "Special characters test: ✨🚀🔥💎."
+    },
+    {
+      "title": "Aenean lectus. Pellentesque eget nunc.",
+      "description": "Aenean tincidunt lorem quis metus tristique luctus."
+    },
+    {
+      "title": "A title with a very long text that exceeds the usual length for a tag title to check how the system handles it without truncating or breaking the layout.",
+      "description": "Test description with edge cases: こんにちは世界 (Hello, World)."
+    },
+    {
+      "title": "Special Characters",
+      "description": "<script>alert('XSS')</script>"
+    },
+    {
+      "title": "Emojis Only",
+      "description": "🎉🎉🎉"
+    },
+    {
+      "title": "Curabitur in libero ut massa volutpat convallis.",
+      "description": "Some \u1234 unusual \\ characters for \ntesting edge cases."
+    },
+    {
+      "title": "Normal Tag Title",
+      "description": "A tag description that is quite detailed and provides meaningful information."
+    },
+    {
+      "title": "Tag with Quotes",
+      "description": "\"This is a tag description with quotes.\""
+    },
+    {
+      "title": "Another Normal Tag",
+      "description": "This tag contains a typical description for testing."
+    }
+  ]
+  
