@@ -135,6 +135,27 @@ export function andInsertTitleContentPage(
   cy.wait(5000);
 }
 
+export function andInsertTitleContentPageWithoutPublish(
+  title,
+  content,
+  scenarioNo,
+  featureToTest
+) {
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get(".kg-prose").first().type(content);
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+  cy.wait(2000);
+}
+
 export function andSelecteCoverImage() {
   cy.get('button[class="gh-editor-feature-image-unsplash"]').first().click();
   cy.wait(3000); // Espera a que se carguen las imágenes

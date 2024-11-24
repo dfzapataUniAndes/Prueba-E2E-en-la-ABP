@@ -24,6 +24,8 @@ import {
   thenClicInPreview,
   thenClicInEditor,
   thenClicInUpdate,
+  thenPageCannotBePublished,
+  thenDeletePage
 } from "../steps/thenSteps.cy";
 
 import {
@@ -33,7 +35,8 @@ import {
   andInsertTitleContentPageDraft,
   andInsertTitleContentPagePreview,
   andViewCreatedPageWithImage,
-  andUpdateTitle
+  andUpdateTitle,
+  andInsertTitleContentPageWithoutPublish
 } from "../steps/andSteps.cy";
 
 import {getRandomInt} from '../support/helpers'
@@ -43,6 +46,7 @@ import {faker} from '@faker-js/faker'
 
 let dataPages = [];
 let dataPagesDynamic = [];
+let dataPagesNaughty = [];
 let functionalityName = "Crear pages"
 const STEP_GIVEN = "PASO_GIVEN";
 const STEP_WHEN = "PASO_WHEN";
@@ -53,13 +57,20 @@ let mockarooApiUrl = `https://my.api.mockaroo.com/pages.json?key=${apiKey}`;
 
 describe(functionalityName, () => {
   beforeEach(() => {
+    // Obtengo los datos de las páginas desde el archivo pages.json
     cy.fixture("pages.json").then((data) => {
       dataPages = data;
     });
 
+    // Obtengo los datos de las páginas desde al api de mockaroo con el esquema pages.json
     cy.request(mockarooApiUrl)
     .then((response) => {
       dataPagesDynamic = response.body;
+    });
+
+    // Obtengo los datos de las páginas desde el archivo pages_naughty.json
+    cy.fixture("pages_naughty.json").then((data) => {
+      dataPagesNaughty = data;
     });
     
     // Given que inicio sesión como administrador
@@ -71,7 +82,7 @@ describe(functionalityName, () => {
     // And cierro sesión
     andCloseSession();
   });
-
+  
   it("EP_01_A_PRIORI Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas", () => {
     const scenarioId = "EP_01_A_PRIORI";
     const titlePage = dataPages[getRandomInt(0, dataPages.length)]["page_title"];
@@ -83,17 +94,18 @@ describe(functionalityName, () => {
     thenViewCreatedPage(titlePage, scenarioId+STEP_THEN, functionalityName); 
   });
 
-  it("EP_02_PSEUDO Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas (a priori)", () => {
+  it("EP_02_PSEUDO Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas", () => {
     const scenarioId = "EP_02_PSEUDO";
     const titlePage = dataPagesDynamic[getRandomInt(0, dataPagesDynamic.length)]["page_title"];
     const contentPage = dataPagesDynamic[getRandomInt(0, dataPagesDynamic.length)]["page_content"];
+
     givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
     whenCreateNewPage();
     andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
     thenViewCreatedPage(titlePage, scenarioId+STEP_THEN, functionalityName); 
   });
 
-  it("EP_03_ALEATORIO Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas (a priori)", () => {
+  it("EP_03_ALEATORIO Como administrador inicio sesión, creo una página en Ghost exitosamente y la veo en el listado de páginas", () => {
     const scenarioId = "EP_03_ALEATORIO";
     faker.seed(Date.now() ^ (Math.random() * 0x100000000));
     const titlePage = faker.lorem.words();
@@ -208,10 +220,45 @@ describe(functionalityName, () => {
     andInsertTitleContentPagePreview(titlePage, scenarioId+STEP_WHEN, functionalityName);
     thenViewCreatedPageAndLabelDraft(titlePage, scenarioId+STEP_THEN, functionalityName);
   });
+
+  it("EP_18_ALEATORIO_FRONTERA_INFERIOR Como administrador inicio sesión, creo una página en Ghost con titulo de 254 caracteres, la veo en el listado de páginas y la elimino de manera exitosa", () => {
+    const scenarioId = "EP_18_PSEUDO";
+    const titlePage = faker.string.alphanumeric(255);
+    const contentPage = faker.lorem.paragraph();
+
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    thenDeletePage(titlePage, scenarioId+STEP_THEN, functionalityName);
+  });
+
+  it("EP_17_ALEATORIO_FRONTERA_SUPERIOR Como administrador inicio sesión, creo una página con un titulo de 256 caracteres en Ghost y no se habilita la opción de Publish", () => {
+    const scenarioId = "EP_03_ALEATORIO";
+    faker.seed(Date.now() ^ (Math.random() * 0x100000000));
+    const titlePage = faker.string.alphanumeric(256);
+    const contentPage = faker.lorem.paragraph();
+
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPageWithoutPublish(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    thenPageCannotBePublished(); 
+  });
+
+  it("EP_16_A_PRIORI Como administrador inicio sesión, creo una página con título que incluyen emoticones en Ghost exitosamente y la veo en el listado de páginas", () => {
+    const scenarioId = "EP_16_A_PRIORI";
+    const titlePage = dataPagesNaughty[373]["title"];
+    const contentPage = dataPages[getRandomInt(0, dataPages.length)]["page_content"];
+    
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    thenViewCreatedPage(titlePage, scenarioId+STEP_THEN, functionalityName); 
+  });
   
 });
 
-functionalityName = "Edit pages"
+
+functionalityName = "Editar pages"
 
 describe(functionalityName, () => {
   beforeEach(() => {
@@ -276,6 +323,9 @@ describe(functionalityName, () => {
     andUpdateTitle(titlePageEdit, contentPage, scenarioId+STEP_WHEN, functionalityName);
     thenViewCreatedPage(titlePageEdit, scenarioId+STEP_THEN, functionalityName); 
   });
+
+  
   
 });
+
 
