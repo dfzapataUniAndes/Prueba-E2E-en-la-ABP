@@ -22,6 +22,8 @@ module.exports = {
       config.env.ghostRcVersion = process.env.GHOST_RC_VERSION;
       config.env.ghostBaseVersion = process.env.GHOST_BASE_VERSION;
 
+      config.env.apiKeyPages = process.env.API_KEY_MOCKAROO_PAGES;
+
       return config;
     },
   },
