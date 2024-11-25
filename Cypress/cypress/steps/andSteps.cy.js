@@ -158,6 +158,21 @@ export function andInsertTitleContentPageWithoutPublish(
   cy.wait(2000);
 }
 
+export function andConvertPageToDraft(title) {
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      $el.click();
+    }
+  });
+  cy.wait(2000);
+  cy.get('button[data-test-button="update-flow"]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="revert-to-draft"]').first().click();
+  cy.wait(2000);
+  cy.visit("http://localhost:2368/ghost/#/pages");
+}
+
 export function andSelecteCoverImage() {
   cy.get('button[class="gh-editor-feature-image-unsplash"]').first().click();
   cy.wait(3000); // Espera a que se carguen las imágenes
@@ -223,6 +238,16 @@ export function andViewCreatedPageWithImage(title) {
   cy.wait(2000);
 }
 
+export function andOpenCreatedPage(title) {
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      $el.click();
+    }
+  });
+  cy.wait(2000);
+}
+
 export function andUpdateTitle(title) {
   cy.get('textarea[placeholder="Page title"]').clear();
   cy.wait(2000);
@@ -232,4 +257,31 @@ export function andUpdateTitle(title) {
   cy.wait(3000);
   cy.visit("http://localhost:2368/ghost/#/pages");
   cy.wait(2000);
+}
+
+export function andUpdateTitleAndImage(title) {
+  cy.get('textarea[placeholder="Page title"]').clear();
+  cy.wait(2000);
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get('button[class="gh-editor-feature-image-unsplash"]').first().click();
+  cy.wait(3000); // Espera a que se carguen las imágenes
+  cy.get('a[class="gh-unsplash-button"]')
+  .then(($images) => {
+    cy.wrap($images).eq(getRandomInt(0, $images.length)).click();  // Selecciona el último elemento
+  });
+  cy.wait(3000);
+  cy.get('button[data-test-button="publish-save"]').first().click();
+  cy.wait(3000);
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000);
+}
+
+export function andUpdateOnlyTitle(title) {
+  cy.get('textarea[placeholder="Page title"]').clear();
+  cy.wait(2000);
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get('button[data-test-button="publish-save"]').first().click();
+  cy.wait(3000);
 }
