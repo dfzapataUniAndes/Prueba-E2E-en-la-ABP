@@ -875,12 +875,12 @@ describe("Crear un post en Ghost.", () => {
 
     // Crear un esquema para mezclar cadenas especiales y alfanuméricas
     const postSchema = new Schema(() => ({
-      title: `${faker.helpers.arrayElement(blns)} - ${faker.random.alphaNumeric(
+      title: `${faker.helpers.arrayElement(blns)} - ${faker.string.alphaNumeric(
         10
       )}`,
       content: faker.helpers
         .arrayElements(blns, randomLength)
-        .map((s) => `${s} ${faker.random.alphaNumeric(5)}`) // Combinar cada cadena especial con texto alfanumérico
+        .map((s) => `${s} ${faker.string.alphaNumeric(5)}`) // Combinar cada cadena especial con texto alfanumérico
         .join("\n\n"),
     }));
 
@@ -913,13 +913,22 @@ describe("Crear un post en Ghost.", () => {
     const randomLength = Math.floor(Math.random() * 11);
     const randomIndex = Math.floor(Math.random() * blns.length);
 
+    // Generar datos aleatorios usando semilla aleatoria de faker
+    faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+
+    // Extraer valores en variables
+    const specialString = blns
+      .slice(randomIndex, randomIndex + randomLength)
+      .join("\n\n");
+    const alphaNumericString = faker.string.alphanumeric(20);
+
     // Generar un título aleatorio combinando caracteres alfanuméricos y especiales
-    const randomTitle = `${blns[randomIndex]} ${faker.random.alphaNumeric(15)}`;
+    const randomTitle = `${specialString} ${alphaNumericString}`;
 
     // Generar contenido aleatorio combinando cadenas especiales y alfanuméricas
     const randomContent = blns
       .slice(randomIndex, randomIndex + randomLength)
-      .map((s) => `${s} ${faker.random.alphaNumeric(5)}`) // Mezclar cada cadena con texto alfanumérico
+      .map((s) => `${s} ${alphaNumericString}`) // Mezclar cada cadena con texto alfanumérico
       .join("\n\n");
 
     // When hago clic en crear Post:
