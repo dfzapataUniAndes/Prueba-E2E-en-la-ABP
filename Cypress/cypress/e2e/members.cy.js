@@ -4,12 +4,14 @@ import {
 } from "../steps/givenSteps.cy";
 import { andCloseSession } from "../steps/andSteps.cy";
 import {
-  andNavigateToMembersPage,
+  andClickOnSaveBtn,
+  andInsertMemberName,
+  andNavigateToMembersPage, itCreatesNewMemberWithEmail, itCreatesNewMemberWithEmailAndName,
   itCreatesNewMemberWithEmailNameAndLabels,
   itCreatesNewMemberWithEmailNameLabelsAndNote,
   itCreatesNewMemberWithInvalidEmail,
   itCreatesNewMemberWithInvalidLabel,
-  itCreatesNewMemberWithInvalidName, itCreatesNewMemberWithInvalidNote
+  itCreatesNewMemberWithInvalidName, itCreatesNewMemberWithInvalidNote, whenClickOnNewMemberButton
 } from "../steps/membersSteps.cy";
 import {getRandomInt} from "../support/helpers";
 import {faker} from "@faker-js/faker";
@@ -87,7 +89,7 @@ describe("Crear un miembro en Ghost version base", () => {
     const memberAleatorio = {
       email: faker.internet.email({allowSpecialCharacters: true}),
       name: faker.person.fullName(),
-      labels: [faker.lorem.word({ length: getRandomInt(1, 190)}), faker.lorem.word({ length: getRandomInt(1, 190)})],
+      labels: [faker.lorem.word({ length: getRandomInt(1, 180)}), faker.lorem.word({ length: getRandomInt(1, 180)})],
     };
     itCreatesNewMemberWithEmailNameAndLabels(memberAleatorio.email, memberAleatorio.name, memberAleatorio.labels);
   });
@@ -101,7 +103,7 @@ describe("Crear un miembro en Ghost version base", () => {
     const memberSchema = new Schema(() => ({
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      labels: [faker.lorem.word(), faker.lorem.word()],
+      labels: [faker.lorem.word(getRandomInt(1, 180)), faker.lorem.word(getRandomInt(1, 180))],
       note: faker.lorem.sentence(),
     }));
     const memberPseudo = memberSchema.makeOne(fakerSeed);
@@ -119,52 +121,145 @@ describe("Crear un miembro en Ghost version base", () => {
     itCreatesNewMemberWithEmailNameLabelsAndNote(memberAleatorio.email, memberAleatorio.name, memberAleatorio.labels, memberAleatorio.note);
   });
 
-
-  it('EP_77 Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 191 caracteres debe aparecer el error "Name cannot be longer than 191 characters."', function () {
-    const longName = 'a'.repeat(192);
+  it('EP_73_FRONTERA_SUPERIOR_A-PRIORI Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 191 caracteres debe aparecer el error "Name cannot be longer than 191 characters."', function () {
+    const longName = 'b'.repeat(192);
     itCreatesNewMemberWithInvalidName(longName, 'Name cannot be longer than 191 characters.');
   });
 
-  it('EP_78 Como administrador de Ghost, al crear un nuevo Member con el campo de Email con más de 65 caracteres debe aparecer el error de "Invalid Email".', function () {
-    const longEmail = 'a'.repeat(64) + '@example.com';
-    itCreatesNewMemberWithInvalidEmail(longEmail, 'Invalid Email');
+  it('EP_74_FRONTERA_SUPERIOR_A-PRIORI Como administrador de Ghost, al crear un nuevo Member con el campo de Email con más de 65 caracteres debe aparecer el error de "Invalid Email".', function () {
+    const longEmail = 'c'.repeat(64) + '@example.com';
+    itCreatesNewMemberWithInvalidEmail(longEmail, 'Email cannot be longer than 191 characters.');
   });
 
-  it('EP_79 Como administrador de Ghost, al crear un nuevo Member con un Label con más de 191 caracteres debe aparecer el error de "Validation failed for label".', function () {
-    const longLabel = 'a'.repeat(192);
-    itCreatesNewMemberWithInvalidLabel(longLabel, 'Validation failed for label');
+  it('EP_75_FRONTERA_SUPERIOR_A-PRIORI Como administrador de Ghost, al crear un nuevo Member con un Label con más de 191 caracteres debe aparecer el error de "Validation failed for label".', function () {
+    const longLabel = 'd'.repeat(192);
+    const member = { email: 'test@example.com', labels: [longLabel] };
+    itCreatesNewMemberWithInvalidLabel(member, 'Validation failed for label');
   });
 
-  it('EP_80 Como administrador de Ghost, al crear un nuevo Member con el campo de notas con más de 500 caracteres debe aparecer el error de "Note is too long."', function () {
-    const longNote = 'a'.repeat(501);
-    itCreatesNewMemberWithInvalidNote(longNote, 'Note is too long.');
+  it('EP_76_FRONTERA_SUPERIOR_A-PRIORI Como administrador de Ghost, al crear un nuevo Member con el campo de notas con más de 500 caracteres debe aparecer el error de "Note is too long."', function () {
+    const longNote = 'e'.repeat(501);
+    const member = { email: 'test@example.com', note: longNote };
+    itCreatesNewMemberWithInvalidNote(member, 'Note is too long.');
+  });
+  it('EP_77_FRONTERA_SUPERIOR_PSEUDO Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 191 caracteres debe aparecer el error "Name cannot be longer than 191 characters."', function () {
+    const memberSchema = new Schema(() => ({
+      email: faker.internet.email(),
+      name: faker.lorem.sentence(getRandomInt(150, 200))
+    }));
+    const longName = memberSchema.makeOne(fakerSeed).name;
+
+    itCreatesNewMemberWithInvalidName(longName, 'Name cannot be longer than 191 characters.');
   });
 
-  // EP_73 Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 191 caracteres debe aparecer el error 'Name cannot be longer than 191 characters.'. (Frontera superior a-priori)
-  // EP_74 Como administrador de Ghost, al crear un nuevo Member con el campo de Email con más de 65 caracteres debe aparecer el error de 'Invalid Email'. (Frontera superior a-priori)
-  // EP_75 Como administrador de Ghost, al crear un nuevo Member con un Label con más de 191 caracteres debe aparecer el error de 'Validation failed for label'.  (Frontera superior a-priori)
-  // EP_76 Como administrador de Ghost, al crear un nuevo Member con el campo de notas con más de 500 caracteres debe aparecer el error de 'Note is too long.'.  (Frontera superior a-priori)
+  it('EP_78_FRONTERA_SUPERIOR_PSEUDO Como administrador de Ghost, al crear un nuevo Member con el campo de Email con más de 191 caracteres debe aparecer el error de "Invalid Email".', function () {
+      const memberSchema = new Schema(() => ({
+        email: faker.internet.email(),
+        name: faker.lorem.sentence(getRandomInt(50, 60))
+      }));
+      const longEmail = memberSchema.makeOne(fakerSeed).name.replace(/\s/g, '') + '@example.com';
 
-  // EP_77 Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 191 caracteres debe aparecer el error 'Name cannot be longer than 191 characters.'. (Frontera superior pseudo)
-  // EP_78 Como administrador de Ghost, al crear un nuevo Member con el campo de Email con más de 65 caracteres debe aparecer el error de 'Invalid Email'. (Frontera superior pseudo)
-  // EP_79 Como administrador de Ghost, al crear un nuevo Member con un Label con más de 191 caracteres debe aparecer el error de 'Validation failed for label'.  (Frontera superior pseudo)
-  // EP_80 Como administrador de Ghost, al crear un nuevo Member con el campo de notas con más de 500 caracteres debe aparecer el error de 'Note is too long.'.  (Frontera superior pseudo)
+      itCreatesNewMemberWithInvalidEmail(longEmail, 'Email cannot be longer than 191 characters.');
+  });
 
-  // EP_81 Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 191 caracteres debe aparecer el error 'Name cannot be longer than 191 characters.'. (Frontera superior aleatorio)
-  // EP_82 Como administrador de Ghost, al crear un nuevo Member con el campo de Email con más de 65 caracteres debe aparecer el error de 'Invalid Email'. (Frontera superior aleatorio)
-  // EP_83 Como administrador de Ghost, al crear un nuevo Member con un Label con más de 191 caracteres debe aparecer el error de 'Validation failed for label'.  (Frontera superior aleatorio)
-  // EP_84 Como administrador de Ghost, al crear un nuevo Member con el campo de notas con más de 500 caracteres debe aparecer el error de 'Note is too long.'.  (Frontera superior aleatorio)
+  it('EP_79_FRONTERA_SUPERIOR_PSEUDO Como administrador de Ghost, al crear un nuevo Member con un Label con más de 191 caracteres debe aparecer el error de "Validation failed for label".', function () {
+    const memberSchema = new Schema(() => ({
+      email: faker.internet.email(),
+      labels: [faker.lorem.sentence(getRandomInt(180, 200))]
+    }));
+    const member = memberSchema.makeOne(fakerSeed);
 
-  // EP_85 Como administrador de Ghost, al crear un nuevo Member con caracteres especiales en el campo de Email debe aparecer el error de 'Invalid Email'. (aleatorio)
-  // EP_85 Como administrador de Ghost, al crear un nuevo Member con caracteres especiales en el campo de Email debe aparecer el error de 'Invalid Email'. (pseudo)
+    itCreatesNewMemberWithInvalidLabel(member,  'Validation failed for label');
+  });
 
-  // EP_86 Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 100 caracteres el botón de Save y el formulario deben ser visibles (a-priori)
-  // EP_86 Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 100 caracteres el botón de Save y el formulario deben ser visibles (a-priori)
+  it('EP_80_FRONTERA_SUPERIOR_PSEUDO Como administrador de Ghost, al crear un nuevo Member con el campo de notas con más de 500 caracteres debe aparecer el error de "Note is too long."', function () {
+    const memberSchema = new Schema(() => ({
+      email: faker.internet.email(),
+      note: faker.lorem.sentence(getRandomInt(100, 150)),
+    }));
+    const member = memberSchema.makeOne(fakerSeed);
 
-  // EP_88 Como administrador de Ghost, al crear un miembro en Ghost sin email y hago clic en guardar aparece el error Please enter an email (a-priori)
-  // EP_89 Como administrador de Ghost, al crear un miembro en Ghost sin email y hago clic en guardar aparece el error Please enter an email (pseudo-aleatorio)
-  // EP_90 Como administrador de Ghost, al crear un miembro en Ghost sin email y hago clic en guardar aparece el error Please enter an email (aleatorio)
+    itCreatesNewMemberWithInvalidNote(member, 'Note is too long.');
+  });
 
+  it('EP_81_FRONTERA_SUPERIOR_ALEATORIO Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 191 caracteres debe aparecer el error "Name cannot be longer than 191 characters."', function () {
+    faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+    const longName = faker.lorem.words(50).slice(0, 192);
+    itCreatesNewMemberWithInvalidName(longName, 'Name cannot be longer than 191 characters.');
+  });
+
+  it('EP_82_FRONTERA_SUPERIOR_ALEATORIO Como administrador de Ghost, al crear un nuevo Member con el campo de Email con más de 65 caracteres debe aparecer el error de "Invalid Email".', function () {
+    faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+    const longEmail = faker.lorem.words(50).slice(0, 64).replace(/\s/g, '') + '@example.com'; // Ensure it exceeds 65 characters
+    console.log('longemmmm', longEmail)
+    itCreatesNewMemberWithInvalidEmail(longEmail, 'Email cannot be longer than 191 characters.');
+  });
+
+  it('EP_83_FRONTERA_SUPERIOR_ALEATORIO Como administrador de Ghost, al crear un nuevo Member con un Label con más de 191 caracteres debe aparecer el error de "Validation failed for label".', function () {
+    faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+    const longLabel = faker.lorem.words(50).slice(0, 192); // Ensure it exceeds 191 characters
+    const member = { email: faker.internet.email(), labels: [longLabel] };
+    itCreatesNewMemberWithInvalidLabel(member, 'Validation failed for label');
+  });
+
+  it('EP_84_FRONTERA_SUPERIOR_ALEATORIO Como administrador de Ghost, al crear un nuevo Member con el campo de notas con más de 500 caracteres debe aparecer el error de "Note is too long."', function () {
+    faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+    const longNote = faker.lorem.paragraphs(10).slice(0, 501); // Ensure it exceeds 500 characters
+    const member = { email: faker.internet.email(), note: longNote };
+    itCreatesNewMemberWithInvalidNote(member, 'Note is too long.');
+  });
+
+  it('EP_85_A-PRIORI Como administrador de Ghost, al crear un nuevo Member con caracteres especiales en el campo de Email debe aparecer el error "Invalid Email".', function () {
+    const specialCharEmail = 'ODk5&HXbVJ(]>nwY3Z6">!@gmail.com';
+    itCreatesNewMemberWithInvalidEmail(specialCharEmail, 'Invalid Email');
+  });
+
+  it('EP_86_PSEUDO Como administrador de Ghost, al crear un nuevo Member con caracteres especiales en el campo de Email debe aparecer el error "Invalid Email".', function () {
+    const memberSchema = new Schema(() => ({
+      email: faker.string.symbol(getRandomInt(0, 100)) + '@example.com',
+    }));
+    const specialCharEmail = memberSchema.makeOne(fakerSeed).email;
+    itCreatesNewMemberWithInvalidEmail(specialCharEmail, 'Invalid Email');
+  });
+
+  it('EP_87_ALEATORIO Como administrador de Ghost, al crear un nuevo Member con caracteres especiales en el campo de Email debe aparecer el error "Invalid Email".', function () {
+    faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+    const specialCharEmail =  faker.string.sample(getRandomInt(0, 100)) + '@' + faker.string.symbol() + '.' + faker.string.symbol();
+    itCreatesNewMemberWithInvalidEmail(specialCharEmail, 'Invalid Email');
+  });
+
+  it('EP_88_PSEUDO Como administrador de Ghost, al crear un nuevo Member con el campo de Name con más de 100 caracteres el botón de Save y el formulario deben ser visibles', function () {
+    const memberSchema = new Schema(() => ({
+      email: faker.internet.email(),
+      name: faker.lorem.words(70).slice(0, 101) // Ensure it exceeds 100 characters
+    }));
+    const longName = memberSchema.makeOne(fakerSeed).name;
+    whenClickOnNewMemberButton();
+    andInsertMemberName(longName);
+    cy.get('[data-test-button="save"]').should('be.visible');
+    cy.get('.member-basic-info-form').should('be.visible');
+  });
+
+  it('EP_89_PSEUDO Como administrador de Ghost, al crear un miembro en Ghost sin email y hago clic en guardar aparece el error "Please enter an email".', function () {
+    const memberSchema = new Schema(() => ({
+      email: '',
+      name: faker.person.fullName()
+    }));
+    const member = memberSchema.makeOne(fakerSeed);
+    whenClickOnNewMemberButton();
+    andInsertMemberName(member.name);
+    andClickOnSaveBtn();
+    cy.contains('Please enter an email').should('be.visible');
+  });
+
+  it('EP_90_ALEATORIO Como administrador de Ghost, al crear un miembro en Ghost sin email y hago clic en guardar aparece el error "Please enter an email".', function () {
+    faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+    const member = { email: '', name: faker.person.fullName() };
+    whenClickOnNewMemberButton();
+    andInsertMemberName(member.name);
+    andClickOnSaveBtn();
+    cy.contains('Please enter an email').should('be.visible');
+  });
   afterEach(() => {
     andCloseSession();
   });

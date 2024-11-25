@@ -5,9 +5,7 @@ export function givenNavigateToTheSite() {
 
 export function givenUserIsLogin(username, password) {
   cy.get('input[name="identification"]').type(username);
-  cy.wait(2000);
   cy.get('input[name="password"]').type(password);
-  cy.wait(2000);
   cy.get('button[type="submit"]').click();
   cy.wait(2000);
 }

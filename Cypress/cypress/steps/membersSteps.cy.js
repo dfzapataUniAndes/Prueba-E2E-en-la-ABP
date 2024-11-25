@@ -35,7 +35,10 @@ export function andInsertMemberNote(note) {
 
 export function andClickOnSaveBtn() {
     cy.get('[data-test-button="save"]').click()
-    cy.get('[data-test-button="save"]').contains('Saved')
+}
+
+export function saveBtnContainsMessage(msg) {
+    cy.get('[data-test-button="save"]').contains(msg)
 }
 
 
@@ -48,6 +51,7 @@ export function itCreatesNewMemberWithEmail (email) {
     whenClickOnNewMemberButton();
     andInsertMemberEmail(email);
     andClickOnSaveBtn();
+    saveBtnContainsMessage('Saved');
     andNavigateToMembersPage();
     thenMemberShouldBeVisible(email);
 }
@@ -57,6 +61,7 @@ export function itCreatesNewMemberWithEmailAndName(email, name) {
     andInsertMemberEmail(email);
     andInsertMemberName(name);
     andClickOnSaveBtn();
+    saveBtnContainsMessage('Saved');
     andNavigateToMembersPage();
     thenMemberShouldBeVisible(email);
 }
@@ -67,6 +72,7 @@ export function itCreatesNewMemberWithEmailNameAndLabels(email, name, labels) {
     andInsertMemberName(name);
     andInsertMemberLabels(labels);
     andClickOnSaveBtn();
+    saveBtnContainsMessage('Saved');
     andNavigateToMembersPage();
     thenMemberShouldBeVisible(email);
 }
@@ -78,6 +84,7 @@ export function itCreatesNewMemberWithEmailNameLabelsAndNote(email, name, labels
     andInsertMemberLabels(labels);
     andInsertMemberNote(note);
     andClickOnSaveBtn();
+    saveBtnContainsMessage('Saved');
     andNavigateToMembersPage();
     thenMemberShouldBeVisible(email);
 }
@@ -86,6 +93,7 @@ export function itCreatesNewMemberWithInvalidName(name, errorMessage) {
     whenClickOnNewMemberButton();
     andInsertMemberName(name);
     andClickOnSaveBtn();
+    saveBtnContainsMessage('Retry');
     cy.contains(errorMessage).should('be.visible');
 }
 
@@ -93,19 +101,23 @@ export function itCreatesNewMemberWithInvalidEmail(email, errorMessage) {
     whenClickOnNewMemberButton();
     andInsertMemberEmail(email);
     andClickOnSaveBtn();
+    saveBtnContainsMessage('Retry');
     cy.contains(errorMessage).should('be.visible');
 }
 
-export function itCreatesNewMemberWithInvalidLabel(label, errorMessage) {
+export function itCreatesNewMemberWithInvalidLabel(member, errorMessage) {
     whenClickOnNewMemberButton();
-    andInsertMemberLabels([label]);
+    andInsertMemberLabels(member.labels);
+    andInsertMemberEmail(member.email);
     andClickOnSaveBtn();
+    saveBtnContainsMessage('Retry');
     cy.contains(errorMessage).should('be.visible');
 }
-
-export function itCreatesNewMemberWithInvalidNote(note, errorMessage) {
+export function itCreatesNewMemberWithInvalidNote(member, errorMessage) {
     whenClickOnNewMemberButton();
-    andInsertMemberNote(note);
+    andInsertMemberNote(member.note);
+    andInsertMemberEmail(member.email);
     andClickOnSaveBtn();
+    saveBtnContainsMessage('Retry');
     cy.contains(errorMessage).should('be.visible');
 }
