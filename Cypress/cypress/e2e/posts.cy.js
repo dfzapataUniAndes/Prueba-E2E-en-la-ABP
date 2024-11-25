@@ -136,7 +136,7 @@ describe("Crear un post en Ghost.", () => {
   it("EP_34_A_PRIORI Como administrador inicio sesión, creo un post en Ghost con titulo y contenido generados a priori desde archivo json con caracteres especiales. Luego lo veo en el listado de posts.", () => {
     cy.fixture("post.json").then((posts) => {
       // Seleccionar el primer post del array
-      const post = posts[0];
+      const post = posts[1];
       // When hago clic en crear Post:
       whenCreateNewPost();
 
@@ -233,7 +233,7 @@ describe("Crear un post en Ghost.", () => {
   it("EP_37_A_PRIORI_FRONTERA_INFERIOR Como administrador inicio sesión, trato de crear un post en Ghost sin titulo pero contenido alfanumérico creado a priori desde archivo json y hago clic en publicar. Luego veo el post en el listado de posts.", () => {
     cy.fixture("post.json").then((posts) => {
       // Seleccionar el segundo post del array
-      const post = posts[1];
+      const post = posts[2];
 
       // When hago clic en crear Post:
       whenCreateNewPost();
@@ -323,7 +323,7 @@ describe("Crear un post en Ghost.", () => {
   it("EP_40_A_PRIORI_FRONTERA_SUPERIOR Como administrador inicio sesión, trato de crear un post en Ghost con titulo que excede los 255 caracteres y contenido generado a priori y hago clic en publicar.", () => {
     cy.fixture("post.json").then((posts) => {
       // Seleccionar el segundo post del array
-      const post = posts[2];
+      const post = posts[3];
 
       // When hago clic en crear Post:
       whenCreateNewPost();
@@ -492,7 +492,7 @@ describe("Crear un post en Ghost.", () => {
   it("EP_46_A_PRIORI_FRONTERA_INFERIOR Como administrador inicio sesión, trato de crear un post en Ghost sin titulo pero contenido con caracteres especiales creado a priori desde archivo json y hago clic en publicar. Luego lo veo en el listado de posts.", () => {
     cy.fixture("post.json").then((posts) => {
       // Seleccionar el segundo post del array
-      const post = posts[5];
+      const post = posts[4];
 
       // When hago clic en crear Post:
       whenCreateNewPost();
@@ -588,7 +588,7 @@ describe("Crear un post en Ghost.", () => {
   it("EP_49_A_PRIORI_FRONTERA_SUPERIOR Como administrador inicio sesión, trato de crear un post en Ghost con titulo alfanumérico que excede los 255 caracteres y contenido (carateres especiales) generado a priori y hago clic en publicar. Luego lo veo en el listado de posts.", () => {
     cy.fixture("post.json").then((posts) => {
       // Seleccionar el segundo post del array
-      const post = posts[6];
+      const post = posts[5];
 
       // When hago clic en crear Post:
       whenCreateNewPost();
