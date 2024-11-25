@@ -36,22 +36,26 @@ describe("Crear un tag en Ghost.", () => {
   it("EP_90_A_PRIORI Crear un tag con título y descripción válidos a priori", () => {
     cy.fixture("tags.json").then((tags) => {
       const tag = tags[0];
+      var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+      var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
       whenCreateNewTag();
       andInsertTitleTag(tag.title);
       andInsertTagDescription(tag.description);
       andClickInSaveTag();
-      thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+      thenViewCreatedTag(tagcreado,urlTags);   
     });
   });
 
   it("EP_91_A_PRIORI Crear un tag sin descripción a priori", () => {
     cy.fixture("tags.json").then((tags) => {
       const tag = tags[1];
+      var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+      var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
       whenCreateNewTag();
       andInsertTitleTag(tag.title);
       andInsertTagDescription("");
       andClickInSaveTag();
-      thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+      thenViewCreatedTag(tagcreado,urlTags);   
     });
   });
 
@@ -80,22 +84,27 @@ describe("Crear un tag en Ghost.", () => {
   it("EP_94_A_PRIORI Crear un tag con caracteres especiales en la descripción", () => {
     cy.fixture("tags.json").then((tags) => {
       const tag = tags[4];
+      var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+      var urlTags = rpcVerUrl + "/ghost/#/tags/" 
       whenCreateNewTag();
       andInsertTitleTag(tag.title);
       andInsertTagDescription(tag.description);
       andClickInSaveTag();
-      thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+      thenViewCreatedTag(tagcreado,urlTags);   
+
     });
   });
 
   it("EP_95_A_PRIORI Crear un tag con emojis en la descripción", () => {
     cy.fixture("tags.json").then((tags) => {
       const tag = tags[5];
+      var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+      var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
       whenCreateNewTag();
       andInsertTitleTag(tag.title);
       andInsertTagDescription(tag.description);
       andClickInSaveTag();
-      thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+      thenViewCreatedTag(tagcreado,urlTags);   
     });
   });
 
@@ -113,33 +122,39 @@ describe("Crear un tag en Ghost.", () => {
   it("EP_97_A_PRIORI Crear un tag con comillas en la descripción", () => {
     cy.fixture("tags.json").then((tags) => {
       const tag = tags[8];
+      var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+      var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
       whenCreateNewTag();
       andInsertTitleTag(tag.title);
       andInsertTagDescription(tag.description);
       andClickInSaveTag();
-      thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+      thenViewCreatedTag(tagcreado,urlTags);   
     });
   });
 
   it("EP_98_A_PRIORI Crear un tag con descripción vacía y título normal", () => {
     cy.fixture("tags.json").then((tags) => {
       const tag = tags[7];
+      var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+      var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
       whenCreateNewTag();
       andInsertTitleTag(tag.title);
       andInsertTagDescription("");
       andClickInSaveTag();
-      thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+      thenViewCreatedTag(tagcreado,urlTags);   
     });
   });
 
   it("EP_99_A_PRIORI Crear un tag válido con datos regulares", () => {
     cy.fixture("tags.json").then((tags) => {
       const tag = tags[9];
+      var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+      var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
       whenCreateNewTag();
       andInsertTitleTag(tag.title);
       andInsertTagDescription(tag.description);
       andClickInSaveTag();
-      thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+      thenViewCreatedTag(tagcreado,urlTags);   
     });
   });
 
@@ -151,11 +166,13 @@ it("EP_100_PSEUDO Crear un tag con título corto y descripción breve", () => {
     description: faker.lorem.sentence(),
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
 it("EP_101_PSEUDO Crear un tag con título normal y descripción normal", () => {
@@ -165,11 +182,13 @@ it("EP_101_PSEUDO Crear un tag con título normal y descripción normal", () => 
     description: faker.lorem.sentences(2),
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
 it("EP_102_PSEUDO Crear un tag con título largo y descripción corta", () => {
@@ -179,11 +198,13 @@ it("EP_102_PSEUDO Crear un tag con título largo y descripción corta", () => {
     description: faker.lorem.sentence(),
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
 it("EP_103_PSEUDO Crear un tag con título corto y descripción larga", () => {
@@ -193,11 +214,13 @@ it("EP_103_PSEUDO Crear un tag con título corto y descripción larga", () => {
     description: faker.lorem.paragraphs(3),
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
 it("EP_104_PSEUDO Crear un tag con título vacío y descripción pseudoaleatoria", () => {
@@ -221,11 +244,13 @@ it("EP_105_PSEUDO Crear un tag con título pseudoaleatorio y descripción vacía
     description: "",
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
 it("EP_106_PSEUDO Crear un tag con caracteres especiales en el título", () => {
@@ -235,11 +260,13 @@ it("EP_106_PSEUDO Crear un tag con caracteres especiales en el título", () => {
     description: faker.lorem.sentence(),
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
 it("EP_107_PSEUDO Crear un tag con caracteres especiales en la descripción", () => {
@@ -249,11 +276,13 @@ it("EP_107_PSEUDO Crear un tag con caracteres especiales en la descripción", ()
     description: "!@#$%^&*()_+",
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
 it("EP_108_PSEUDO Crear un tag con emojis en el título", () => {
@@ -263,11 +292,13 @@ it("EP_108_PSEUDO Crear un tag con emojis en el título", () => {
     description: faker.lorem.sentence(),
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
 it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
@@ -277,11 +308,13 @@ it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
     description: "🔥🚀✨",
   }));
   const tag = tagSchema.makeOne();
+  var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+  var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
   whenCreateNewTag();
   andInsertTitleTag(tag.title);
   andInsertTagDescription(tag.description);
   andClickInSaveTag();
-  thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+  thenViewCreatedTag(tagcreado,urlTags);   
 });
 
   // Escenarios con datos aleatorios (10) faker semilla
@@ -291,11 +324,13 @@ it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
       title: faker.lorem.words(3),
       description: faker.lorem.sentences(3),
     };
+    var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+    var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
     whenCreateNewTag();
     andInsertTitleTag(tag.title);
     andInsertTagDescription(tag.description);
     andClickInSaveTag();
-    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+    thenViewCreatedTag(tagcreado,urlTags);   
   });
 
   it("EP_111_ALEATORIO Crear un tag aleatorio sin descripción", () => {
@@ -304,11 +339,13 @@ it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
       title: faker.lorem.words(3),
       description: "",
     };
+    var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+    var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
     whenCreateNewTag();
     andInsertTitleTag(tag.title);
     andInsertTagDescription(tag.description);
     andClickInSaveTag();
-    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+    thenViewCreatedTag(tagcreado,urlTags);   
   });
 
   it("EP_112_ALEATORIO Crear un tag aleatorio sin título", () => {
@@ -330,11 +367,13 @@ it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
       title: "@#$%^&*()_+|",
       description: faker.lorem.sentences(2),
     };
+    var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+    var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
     whenCreateNewTag();
     andInsertTitleTag(tag.title);
     andInsertTagDescription(tag.description);
     andClickInSaveTag();
-    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+    thenViewCreatedTag(tagcreado,urlTags);   
   });
 
   it("EP_114_ALEATORIO Crear un tag con caracteres especiales en la descripción", () => {
@@ -343,11 +382,13 @@ it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
       title: faker.lorem.words(3),
       description: "@#$%^&*()_+|",
     };
+    var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+    var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
     whenCreateNewTag();
     andInsertTitleTag(tag.title);
     andInsertTagDescription(tag.description);
     andClickInSaveTag();
-    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+    thenViewCreatedTag(tagcreado,urlTags);   
   });
 
   it("EP_115_ALEATORIO Crear un tag con emojis en el título", () => {
@@ -356,11 +397,13 @@ it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
       title: "🔥🚀✨",
       description: faker.lorem.sentences(3),
     };
+    var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+    var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
     whenCreateNewTag();
     andInsertTitleTag(tag.title);
     andInsertTagDescription(tag.description);
     andClickInSaveTag();
-    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+    thenViewCreatedTag(tagcreado,urlTags);   
   });
 
   it("EP_116_ALEATORIO Crear un tag con emojis en la descripción", () => {
@@ -369,11 +412,13 @@ it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
       title: faker.lorem.words(3),
       description: "🔥🚀✨",
     };
+    var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+    var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
     whenCreateNewTag();
     andInsertTitleTag(tag.title);
     andInsertTagDescription(tag.description);
     andClickInSaveTag();
-    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+    thenViewCreatedTag(tagcreado,urlTags);   
   });
 
   it("EP_117_ALEATORIO Crear un tag con título largo", () => {
@@ -408,11 +453,13 @@ it("EP_109_PSEUDO Crear un tag con emojis en la descripción", () => {
       title: faker.lorem.words(3),
       description: faker.lorem.sentences(3),
     };
+    var tagcreado = rpcVerUrl + "/ghost/#/tags/" + tag.title ;
+    var urlTags = rpcVerUrl + "/ghost/#/tags/" ;
     whenCreateNewTag();
     andInsertTitleTag(tag.title);
     andInsertTagDescription(tag.description);
     andClickInSaveTag();
-    thenViewCreatedTag(rpcVerUrl + "/ghost/#/tags", tag.title);
+    thenViewCreatedTag(tagcreado,urlTags);   
   });
 
   it("EP_120_ALEATORIO Crear un tag con descripción vacía y título largo", () => {

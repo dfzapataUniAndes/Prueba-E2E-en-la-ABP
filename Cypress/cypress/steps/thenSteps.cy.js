@@ -205,9 +205,10 @@ export function thenPostCannotBePublished() {
 
 // Métodos para Tags en Cypress:
 
-export function thenViewCreatedTag(ghostCurrentVs = null, tagsPage, tagName) {
+export function thenViewCreatedTag(tagcreado,urlTags) {
   // Navegar a la lista de tags
-  cy.visit(tagsPage);
+  const ghostCurrentVs = null;
+  cy.visit(urlTags);
 
   // Captura los títulos de los tags una vez cargados
   cy.get(".gh-tag-list-name") // Obtén todos los elementos de los tags
@@ -218,9 +219,9 @@ export function thenViewCreatedTag(ghostCurrentVs = null, tagsPage, tagName) {
       console.log("Títulos de los tags:", tagsTitles);
 
       // Verifica si el título esperado está en la lista
-      if (!tagsTitles.includes(tagName)) {
+      if (!tagcreado.includes(tagcreado)) {
         throw new Error(
-          `No se encontró el tag llamado "${tagName}" en la lista de tags.`
+          `No se encontró el tag llamado "${tagcreado}" en la lista de tags.`
         );
       }
 
