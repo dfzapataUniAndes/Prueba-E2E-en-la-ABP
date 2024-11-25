@@ -88,6 +88,32 @@ export function thenValidatePageWithImage(title, scenarioNo, featureToTest) {
   );
 }
 
+export function thenDeletePage(title, scenarioNo, featureToTest) {
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      $el.click();
+    }
+  });
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="delete-post"]').first().click();
+  cy.wait(2000);
+  cy.get('div[class="modal-content"]').find("p strong").should("have.text", title);
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+  cy.get('button[data-test-button="delete-post-confirm"]').first().click();
+  cy.wait(2000);
+}
+
 export function thenNavigateToThePages() {
   cy.visit("http://localhost:2368/ghost/#/pages");
   cy.wait(2000);
@@ -114,6 +140,10 @@ export function thenViewCreatedPageAndLabelDraft(
       "/" +
       new Date().toISOString()
   );
+}
+
+export function thenPageCannotBePublished() {
+  cy.get('button[data-test-button="publish-flow"]').should('not.exist');
 }
 
 export function thenClicInPreview() {
