@@ -88,6 +88,23 @@ export function thenValidatePageWithImage(title, scenarioNo, featureToTest) {
   );
 }
 
+export function thenShowErrorUpdate(scenarioNo, featureToTest) {
+  cy.get('div[class="gh-alert-content"]').should("have.text", "\n        Update failed: Title cannot be longer than 255 characters.\n    ");
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000);
+  cy.get('button[class="gh-btn gh-btn-red"]').first().click();
+  cy.wait(2000);
+}
+
 export function thenDeletePage(title, scenarioNo, featureToTest) {
   cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
     const text = $el.text();

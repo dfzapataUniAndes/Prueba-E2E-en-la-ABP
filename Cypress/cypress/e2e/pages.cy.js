@@ -25,7 +25,8 @@ import {
   thenClicInEditor,
   thenClicInUpdate,
   thenPageCannotBePublished,
-  thenDeletePage
+  thenDeletePage,
+  thenShowErrorUpdate
 } from "../steps/thenSteps.cy";
 
 import {
@@ -36,7 +37,11 @@ import {
   andInsertTitleContentPagePreview,
   andViewCreatedPageWithImage,
   andUpdateTitle,
-  andInsertTitleContentPageWithoutPublish
+  andInsertTitleContentPageWithoutPublish,
+  andConvertPageToDraft,
+  andOpenCreatedPage,
+  andUpdateTitleAndImage,
+  andUpdateOnlyTitle
 } from "../steps/andSteps.cy";
 
 import {getRandomInt} from '../support/helpers'
@@ -287,7 +292,6 @@ describe(functionalityName, () => {
     thenDeletePage(titlePage, scenarioId+STEP_THEN, functionalityName);
   });
 
-
   it("EP_21_A_PRIORI Como administrador inicio sesión, creo una página con titulo de caracteres especiales en Ghost exitosamente y la veo en el listado de páginas", () => {
     const scenarioId = "EP_21_A_PRIORI";
     const titlePage = dataPagesNaughty[7]["title"];
@@ -298,7 +302,6 @@ describe(functionalityName, () => {
     andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
     thenViewCreatedPage(titlePage, scenarioId+STEP_THEN, functionalityName); 
   });
-
 
   it("EP_22_PSEUDO Como administrador inicio sesión, creo una página con titulo de caracteres especiales en Ghost exitosamente y la veo en el listado de páginas", () => {
     const scenarioId = "EP_22_PSEUDO";
@@ -323,6 +326,42 @@ describe(functionalityName, () => {
     thenViewCreatedPage(titlePage, scenarioId+STEP_THEN, functionalityName); 
   });
 
+  it("EP_24_A_PRIORI Como administrador inicio sesión, creo una página, la público, luego reverso la publicación y la convierto en draft", () => {
+    const scenarioId = "EP_01_A_PRIORI";
+    const titlePage = dataPages[getRandomInt(0, dataPages.length)]["page_title"];
+    const contentPage = dataPages[getRandomInt(0, dataPages.length)]["page_content"];
+    
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    andConvertPageToDraft(titlePage);
+    thenViewCreatedPageAndLabelDraft(titlePage, scenarioId+STEP_THEN, functionalityName);
+  });
+
+  it("EP_25_PSEUDO Como administrador inicio sesión, creo una página, la público, luego reverso la publicación y la convierto en draft", () => {
+    const scenarioId = "EP_25_PSEUDO";
+    const titlePage = dataPagesDynamic[getRandomInt(0, dataPagesDynamic.length)]["page_title"];
+    const contentPage = dataPagesDynamic[getRandomInt(0, dataPagesDynamic.length)]["page_content"];
+    
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    andConvertPageToDraft(titlePage);
+    thenViewCreatedPageAndLabelDraft(titlePage, scenarioId+STEP_THEN, functionalityName);
+  });
+
+  it("EP_26_ALEATORIO Como administrador inicio sesión, creo una página, la público, luego reverso la publicación y la convierto en draft", () => {
+    const scenarioId = "EP_26_ALEATORIO";
+    faker.seed(Date.now() ^ (Math.random() * 0x100000000));
+    const titlePage = faker.lorem.words();
+    const contentPage = faker.lorem.paragraph();
+    
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    andConvertPageToDraft(titlePage);
+    thenViewCreatedPageAndLabelDraft(titlePage, scenarioId+STEP_THEN, functionalityName);
+  });
   
 });
 
@@ -351,6 +390,7 @@ describe(functionalityName, () => {
     andCloseSession();
   });
 
+
   it("EP_13_A_PRIORI Como administrador inicio sesión, edito el titulo de una página y la veo en el listado", () => {
     const scenarioId = "EP_13_A_PRIORI";
     const titlePage = dataPages[getRandomInt(0, dataPages.length)]["page_title"];
@@ -360,7 +400,7 @@ describe(functionalityName, () => {
     givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
     whenCreateNewPage();
     andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
-    andViewCreatedPageWithImage(titlePage);
+    andOpenCreatedPage(titlePage);
     andUpdateTitle(titlePageEdit, contentPage, scenarioId+STEP_WHEN, functionalityName);
     thenViewCreatedPage(titlePageEdit, scenarioId+STEP_THEN, functionalityName); 
   });
@@ -374,7 +414,7 @@ describe(functionalityName, () => {
     givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
     whenCreateNewPage();
     andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
-    andViewCreatedPageWithImage(titlePage);
+    andOpenCreatedPage(titlePage);
     andUpdateTitle(titlePageEdit, contentPage, scenarioId+STEP_WHEN, functionalityName);
     thenViewCreatedPage(titlePageEdit, scenarioId+STEP_THEN, functionalityName); 
   });
@@ -389,13 +429,69 @@ describe(functionalityName, () => {
     givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
     whenCreateNewPage();
     andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
-    andViewCreatedPageWithImage(titlePage);
+    andOpenCreatedPage(titlePage);
     andUpdateTitle(titlePageEdit, contentPage, scenarioId+STEP_WHEN, functionalityName);
     thenViewCreatedPage(titlePageEdit, scenarioId+STEP_THEN, functionalityName); 
   });
 
-  
-  
+  it("EP_27_A_PRIORI Como administrador inicio sesión, edito el titulo de una página, agrego una imagen y la veo en el listado", () => {
+    const scenarioId = "EP_27_A_PRIORI";
+    const titlePage = dataPages[getRandomInt(0, dataPages.length)]["page_title"];
+    const contentPage = dataPages[getRandomInt(0, dataPages.length)]["page_content"];
+    const titlePageEdit = dataPages[getRandomInt(0, dataPages.length)]["page_title"];
+
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    andOpenCreatedPage(titlePage);
+    andUpdateTitleAndImage(titlePageEdit, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    thenValidatePageWithImage(titlePageEdit, scenarioId+STEP_THEN, functionalityName);
+  });
+
+  it("EP_28_PSEUDO Como administrador inicio sesión, edito el titulo de una página, agrego una imagen y la veo en el listado", () => {
+    const scenarioId = "EP_28_PSEUDO";
+    const titlePage = dataPagesDynamic[getRandomInt(0, dataPagesDynamic.length)]["page_title"];
+    const contentPage = dataPagesDynamic[getRandomInt(0, dataPagesDynamic.length)]["page_content"];
+    const titlePageEdit = dataPagesDynamic[getRandomInt(0, dataPagesDynamic.length)]["page_title"];
+
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    andOpenCreatedPage(titlePage);
+    andUpdateTitleAndImage(titlePageEdit, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    thenValidatePageWithImage(titlePageEdit, scenarioId+STEP_THEN, functionalityName);
+  });
+
+  it("EP_29_ALEATORIO Como administrador inicio sesión, edito el titulo de una página, agrego una imagen y la veo en el listado", () => {
+    const scenarioId = "EP_29_ALEATORIO";
+    faker.seed(Date.now() ^ (Math.random() * 0x100000000));
+    const titlePage = faker.lorem.words();
+    const contentPage = faker.lorem.paragraph();
+    const titlePageEdit = faker.lorem.words();
+
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    andOpenCreatedPage(titlePage);
+    andUpdateTitleAndImage(titlePageEdit, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    thenValidatePageWithImage(titlePageEdit, scenarioId+STEP_THEN, functionalityName);
+  });
+
+  it("EP_30_ALEATORIO Como administrador inicio sesión, edito el titulo de una página con 256 caracteres y se muestra el error Update failed", () => {
+    const scenarioId = "EP_30_ALEATORIO";
+    faker.seed(Date.now() ^ (Math.random() * 0x100000000));
+    const titlePage = faker.lorem.words();
+    const contentPage = faker.lorem.paragraph();
+    const titlePageEdit = faker.string.alphanumeric(256);
+
+    givenNavigateToThePages(scenarioId+STEP_GIVEN, functionalityName);
+    whenCreateNewPage();
+    andInsertTitleContentPage(titlePage, contentPage, scenarioId+STEP_WHEN, functionalityName);
+    andOpenCreatedPage(titlePage);
+    andUpdateOnlyTitle(titlePageEdit);
+    thenShowErrorUpdate(scenarioId+STEP_THEN, functionalityName);
+  });
+
 });
 
 
