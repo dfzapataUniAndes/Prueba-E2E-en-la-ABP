@@ -5,60 +5,57 @@
 * Daniel Felipe Zapata Parra - df.zapata@uniandes.edu.co
 * Juan Sebastian Rodriguez - js.rodriguezm12345@uniandes.edu.co
 
-## Instalación Ghost
+# Ejecución 120 escenarios de pruebas
+Todos fueron realizados en cypress
 
-1. asegurese de usar nodejs versión 14.17.0, la cual es estable para correr la versión base ghost:4.5, recomendamos usar nvm:
+## Configuración Cypress 
+
+### Paso 1: Configuración del entorno
+
+Antes de instalar asegúrate de tener Node.js y npm instalados en tu sistema. Puedes verificar su instalación ejecutando los siguientes comandos en tu terminal:
+
 ```bash
-nvm install 14.17.0
-nvm use 14.17.0
+node -v
+npm -v
 ```
 
-2. Una vez tenga instalado Ghost-cli, siga los siguientes pasos para instanciar ghost en su versión base y versión de referencia:
+Instalar cypress global 
 
-* Cree y entre a una nueva carpeta llamada ghost-base.
-  ```bash
-  mkdir ghost-base
-  cd ghost-base
-  ```
-#### Puede instalar Ghost desde Docker con los siguientes comandos:
 ```bash
-docker pull ghost:4.5
-docker run -d --name some-ghost -e NODE_ENV=development -e url=http://localhost:3001 -p 3001:2368 ghost
- ```
-
-#### o manualmente cómo se explica en los puntos a continuación:
-
-* Desde una terminal en la carpeta ghost-base corra el siguiente comando  para instalar la version base.
-  ```bash
-  ghost install 4.5 --local --force
-  ```
-
-* Cree una nueva carpeta llamada ghost-rc
-    ```bash
-    mkdir ghost-rc
-    ```
-
-    * Desde una terminal en la carpeta ghost-rc corra el siguiente comando para instalar la versión de referencia.
-    ```bash
-    ghost install 5.96.0 --local
-    ```
-
-Una vez haya instalado ambas versiones debería poder ver dos versiones diferentes de Ghost corriendo en las siguientes urls:
-```bash
-Ghost-base = http://localhost:2369/ghost/
-
-Ghost-rc = http://localhost:2368/ghost/
+npm install -g cypress
 ```
 
-**Tenga en cuenta que para que las pruebas de VRT funcionen las diferentes versiones de Ghost deben verse en las url especificadas arriba.**
+Además debe tener instanciado Ghost corriendo en la url  http://localhost:2368/ghost/
 
-## **Antes de iniciar realice los siguientes pasos:**
+```bash
+ghost start
+```
 
-1. Registrese en ambas versiones de Ghost (BASE y RC) **usando el mismo usuario y contraseña** si no lo ha hecho antes, una vez tenga su usuario y contraseña inicie sesión.
-2. Complete el dashboard de introducción a Ghost.
+También debe tener un usuario registrado como administrador en ghost
 
-# Pruebas en Kraken
-[Kraken README](Kraken/README-kraken.md)
 
-# Pruebas en Cypress
-[Cypress README](Cypress/README-cypress.md)
+### Paso 2: Entrar a la carpeta Cypress
+
+```bash
+cd Cypress
+```
+
+### Paso 3: Instalar dependencias
+
+```bash
+npm install
+```
+
+## Ejecución Tests
+
+### Paso 1: Configuración de credenciales
+
+Dentro de la carpeta de Cypress hay un archivo llamado .env debe reemplazar los campos CYPRESS_EMAIL_TEST1, CYPRESS_EMAIL_TEST2, CYPRESS_EMAIL_TEST3, CYPRESS_EMAIL_TEST4 por el correo del usuario administrador creado y CYPRESS_PASSWORD_TEST1, CYPRESS_PASSWORD_TEST2, CYPRESS_PASSWORD_TEST3, CYPRESS_PASSWORD_TEST4 por la respectiva clave de cada usuario, puede ser el mismo usuario o diferente.
+
+### Paso 2: Ejecutar los escenarios de pruebas
+
+* Ejecutar el siguiente comando 
+```bash
+cypress run --headed --browser chrome
+```
+* Se puede observar que se generan los resultados en la terminal y vídeos en la carpeta videos/{nombre_funcionalidad}.cy.js.mp4

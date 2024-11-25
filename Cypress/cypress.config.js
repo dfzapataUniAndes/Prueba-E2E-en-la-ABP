@@ -13,11 +13,16 @@ module.exports = {
       config.env.emailTest3 = process.env.CYPRESS_EMAIL_TEST3;
       config.env.passwordTest3= process.env.CYPRESS_PASSWORD_TEST3;
 
+      config.env.emailTest4 = process.env.CYPRESS_EMAIL_TEST4;
+      config.env.passwordTest4 = process.env.CYPRESS_PASSWORD_TEST4;
+
       config.env.ghostRcVersionPort = process.env.GHOST_RC_VERSION_PORT;
       config.env.ghostBaseVersionPort = process.env.GHOST_BASE_VERSION_PORT;
 
       config.env.ghostRcVersion = process.env.GHOST_RC_VERSION;
       config.env.ghostBaseVersion = process.env.GHOST_BASE_VERSION;
+
+      config.env.apiKeyPages = process.env.API_KEY_MOCKAROO_PAGES;
 
       return config;
     },

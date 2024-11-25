@@ -6,6 +6,7 @@ const { featureToTest } = require("./config.json");
 const specificFile = `${featureToTest}.feature`;
 
 const moveSpecificFile = () => {
+    if (!featureToTest) return false
     const notestPath = path.join(notestFolder, specificFile);
     const featuresPath = path.join(featuresFolder, specificFile);
 
