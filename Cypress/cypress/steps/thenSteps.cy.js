@@ -251,37 +251,77 @@ export function thenPostCannotBePublished() {
 }
 
 // Métodos para Tags en Cypress:
+export function thenViewCreatedTag(tagTitle, urlTags) {
+  // Normalizar el título del tag esperado
+  const normalizedTagTitle = tagTitle.trim().toLowerCase().replace(/\s+/g, " ");
 
-export function thenViewCreatedTag(tagcreado,urlTags) {
   // Navegar a la lista de tags
-  const ghostCurrentVs = null;
   cy.visit(urlTags);
 
-  // Captura los títulos de los tags una vez cargados
-  cy.get(".gh-tag-list-name") // Obtén todos los elementos de los tags
-    .should("exist") // Asegúrate de que los elementos existen
-    .then(($tags) => {
-      const tagsTitles = $tags.toArray().map((tag) => tag.innerText); // Obtén los textos de los tags
+  let loadedTags = [];
 
-      console.log("Títulos de los tags:", tagsTitles);
-
-      // Verifica si el título esperado está en la lista
-      if (!tagcreado.includes(tagcreado)) {
-        throw new Error(
-          `No se encontró el tag llamado "${tagcreado}" en la lista de tags.`
-        );
+  // Función para realizar scroll y cargar elementos dinámicos
+  function scrollToBottomUntilComplete() {
+    return new Cypress.Promise((resolve) => {
+      let loadedTags = []; // Inicializar array de tags
+      function performScroll(previousCount) {
+        // Esperar que el contenedor principal de tags exista
+        cy.get(".gh-main", { timeout: 10000 }).should("exist");
+      
+        // Luego buscar los elementos de la lista de tags
+        cy.get(".gh-tag-list-name", { timeout: 10000 }).then(($tags) => {
+          // Normalizar todos los tags cargados
+          const currentTags = $tags
+            .toArray()
+            .map((tag) => tag.innerText.trim().toLowerCase().replace(/\s+/g, " "));
+      
+          const currentCount = currentTags.length;
+      
+          // Combinar tags cargados sin duplicados
+          loadedTags = [...new Set([...loadedTags, ...currentTags])];
+      
+          console.log("Tags cargados actualmente:", currentTags);
+          console.log("Total tags encontrados:", loadedTags);
+      
+          // Si no hay más tags nuevos después de un scroll, terminar
+          if (currentCount === previousCount) {
+            resolve(loadedTags);
+          } else {
+            // Realizar scroll hacia abajo
+            cy.get(".gh-main")
+              .scrollTo("bottom", { duration: 1000, ensureScrollable: false })
+              .then(() => {
+                cy.wait(1000).then(() => performScroll(currentCount));
+              });
+          }
+        });
       }
-
-      // Captura de pantalla para la prueba
-      if (ghostCurrentVs !== null) {
-        cy.screenshot(
-          ghostCurrentVs === Cypress.env("ghostBaseVersion")
-            ? "baseline/tag-created" + "_" + new Date().toISOString()
-            : "actual/tag-created" + "_" + new Date().toISOString()
-        );
-      }
+  
+      performScroll(0); // Iniciar con un conteo de 0
     });
+  }
+  
+
+  // Realizar el scroll y validar
+  scrollToBottomUntilComplete().then((allTags) => {
+    console.log("Todos los títulos de tags encontrados:", allTags);
+
+    // Validar si el título esperado está en la lista
+    if (!allTags.includes(normalizedTagTitle)) {
+      throw new Error(`No se encontró el tag llamado "${normalizedTagTitle}" en la lista de tags.`);
+    }
+
+    console.log(`El tag "${normalizedTagTitle}" se encontró correctamente en la lista.`);
+
+    // Captura de pantalla para confirmar
+    cy.screenshot("tag-found-success");
+  });
 }
+
+
+
+
+
 
 export function thenTagCreationShouldFail() {
   // Espera hasta que el botón de "Retry" esté visible, indicando el fallo en la creación del tag

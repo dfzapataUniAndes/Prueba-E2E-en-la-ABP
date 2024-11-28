@@ -80,7 +80,8 @@ export function andInsertTitleTag(title) {
     .get('input[data-test-input="tag-name"]', {
       timeout: 5000,
     })
-    .first();
+    .first()
+    .clear();
   // Si el título es vacío, no intentamos escribir nada
   if (title.trim() === "") {
     titleField.clear(); // Asegura que el campo quede vacío

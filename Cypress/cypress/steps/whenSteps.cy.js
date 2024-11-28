@@ -9,8 +9,15 @@ export function whenCreateNewPost() {
 }
 
 export function whenCreateNewTag() {
-  // Haz clic en el botón de crear nuevo tag
-  cy.get('a[href="#/tags/new/"]').first().click();
+  // Asegurarse de estar en la página correcta
+  cy.url().should("include", "/ghost/#/tags");
+
+  // Buscar y hacer clic en el botón
+  cy.get('a[href="#/tags/new/"]', { timeout: 10000 })
+    .should("exist")
+    .and("be.visible")
+    .first()
+    .click();
 }
 
 export function whenCreateNewPage() {

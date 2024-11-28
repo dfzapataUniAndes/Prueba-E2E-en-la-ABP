@@ -21,6 +21,9 @@ Cypress.on("uncaught:exception", (err, runnable) => {
       // Ignora errores relacionados con el DOM
       return false;
     }
+    if (err.message.includes("TransitionAborted")) {
+        return false; // Ignorar el error
+      }
   });
   
 
