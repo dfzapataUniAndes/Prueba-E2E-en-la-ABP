@@ -71,7 +71,6 @@ describe(functionalityName, () => {
       andCloseSession();
     });
   
-    /*
   
     it("EP_131 Como administrador inicio sesión, publico una página y veo la url de la página con su titulo", () => {
       const scenarioId = "EP_131";
@@ -191,7 +190,7 @@ describe(functionalityName, () => {
       andRevertSchedulePage(titlePage, scenarioId+STEP_WHEN, functionalityName);
       thenViewCreatedPageWithFilterDraft(titlePage, scenarioId+STEP_THEN, functionalityName);
     });
-    */
+    
 
     it("EP_140 Como administrador inicio sesión, creo y edito una página, me devuelvo a un estado anterior y veo el titulo inicial", () => {
       const scenarioId = "EP_140";
@@ -209,10 +208,6 @@ describe(functionalityName, () => {
       andReturnState(titlePageEdit)
       thenViewCreatedPage(titlePage, scenarioId+STEP_THEN, functionalityName); 
     });
-
-    // "EP_140 Como administrador inicio sesión, creo y edito una página, me devuelvo a un estado anterior y veo el titulo inicial"
-
-
 
   });
   
