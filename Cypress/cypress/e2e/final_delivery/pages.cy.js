@@ -214,7 +214,7 @@ describe(functionalityName, () => {
 
 });
 
-functionalityName = "Deshabilitar titulo"
+functionalityName = "Deshabilitar titulo pages"
 describe(functionalityName, () => {
   beforeEach(() => {
     cy.fixture("pages.json").then((data) => {
@@ -252,7 +252,7 @@ describe(functionalityName, () => {
 
 });
 
-functionalityName = "Revertir schedule"
+functionalityName = "Revertir schedule pages"
 describe(functionalityName, () => {
   beforeEach(() => {
     cy.fixture("pages.json").then((data) => {
@@ -290,7 +290,7 @@ describe(functionalityName, () => {
 
 });
 
-functionalityName = "Revertir estado anterior"
+functionalityName = "Revertir estado anterior pages"
 describe(functionalityName, () => {
   beforeEach(() => {
     cy.fixture("pages.json").then((data) => {
