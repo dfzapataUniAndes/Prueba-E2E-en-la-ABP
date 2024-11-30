@@ -178,6 +178,185 @@ export function thenClicInUpdate() {
   cy.wait(3000);
 }
 
+export function thenViewUrlWithTitle(
+  title,
+  scenarioNo,
+  featureToTest) {
+    cy.get('button[data-test-psm-trigger]').first().click();
+    cy.wait(2000);
+    cy.get('a[class="post-view-link"]').first().invoke('removeAttr', 'target').click();
+    cy.wait(2000);
+    cy.get('h1[class="gh-article-title is-title"]').should("have.text", title);
+    cy.screenshot(
+      "actual/" +
+        featureToTest +
+        "/" +
+        scenarioNo +
+        "/" +
+        new Date().toISOString()
+    );
+}
+
+export function thenViewDate(
+  date,
+  scenarioNo,
+  featureToTest) {
+    cy.get('button[data-test-button="update-flow"]').first().click();
+    cy.wait(2000);
+    cy.get('div[data-test-update-flow-confirmation]').find('p').should("contains.text", date);
+    cy.screenshot(
+      "actual/" +
+        featureToTest +
+        "/" +
+        scenarioNo +
+        "/" +
+        new Date().toISOString()
+    );
+  }
+
+  export function thenViewCreatedPageWithFilterDraft(
+    title,
+    scenarioNo,
+    featureToTest
+  ) {
+
+    cy.get("div.gh-contentfilter-type").first().click();
+    cy.wait(2000);
+    cy.get("ul[class='ember-power-select-options'] li").contains('Draft pages').first().click();
+    cy.wait(2000);
+    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+      const text = $el.text();
+      if (text.indexOf(title) > -1) {
+        expect(text).to.contain(title);
+        cy.get($el).parent().find("p span.draft").should("exist");
+      }
+    });
+    cy.wait(2000);
+    cy.screenshot(
+      "actual/" +
+        featureToTest +
+        "/" +
+        scenarioNo +
+        "/" +
+        new Date().toISOString()
+    );
+  }
+
+  export function thenViewCreatedPageWithFilterMemberOnly(
+    title,
+    scenarioNo,
+    featureToTest
+  ) {
+
+    cy.get("div.gh-contentfilter-visibility").first().click();
+    cy.wait(2000);
+    cy.get("ul[class='ember-power-select-options'] li").contains('Members-only').first().click();
+    cy.wait(2000);
+    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+      const text = $el.text();
+      if (text.indexOf(title) > -1) {
+        expect(text).to.contain(title);
+      }
+    });
+    cy.wait(2000);
+    cy.screenshot(
+      "actual/" +
+        featureToTest +
+        "/" +
+        scenarioNo +
+        "/" +
+        new Date().toISOString()
+    );
+  }
+
+  export function thenViewCreatedPageWithFilterPaidMemberOnly(
+    title,
+    scenarioNo,
+    featureToTest
+  ) {
+
+    cy.get("div.gh-contentfilter-visibility").first().click();
+    cy.wait(2000);
+    cy.get("ul[class='ember-power-select-options'] li").contains('Paid members-only').first().click();
+    cy.wait(2000);
+    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+      const text = $el.text();
+      if (text.indexOf(title) > -1) {
+        expect(text).to.contain(title);
+      }
+    });
+    cy.wait(2000);
+    cy.screenshot(
+      "actual/" +
+        featureToTest +
+        "/" +
+        scenarioNo +
+        "/" +
+        new Date().toISOString()
+    );
+  }
+
+  export function thenViewError(error, scenarioNo, featureToTest) {
+    cy.get('p[data-test-error="authors"]').should("contains.text", error);
+    cy.wait(2000);
+    cy.screenshot(
+      "actual/" +
+        featureToTest +
+        "/" +
+        scenarioNo +
+        "/" +
+        new Date().toISOString()
+    );
+    cy.visit("http://localhost:2368/ghost/#/pages");
+    cy.wait(2000);
+    cy.get('button[data-test-leave-button]').first().click();
+    cy.wait(2000);
+  }
+
+  export function thenViewUrlWithoutTitle(
+    scenarioNo,
+    featureToTest) {
+      cy.get('button[data-test-psm-trigger]').first().click();
+      cy.wait(2000);
+      cy.get('a[class="post-view-link"]').first().invoke('removeAttr', 'target').click();
+      cy.wait(2000);
+      cy.get('h1[class="gh-article-title is-title"]').should("not.exist");
+      cy.screenshot(
+        "actual/" +
+          featureToTest +
+          "/" +
+          scenarioNo +
+          "/" +
+          new Date().toISOString()
+      );
+  }
+
+  export function thenViewCreatedPageWithFilterScheduled(
+    title,
+    scenarioNo,
+    featureToTest
+  ) {
+    cy.get("div.gh-contentfilter-type").first().click();
+    cy.wait(2000);
+    cy.get("ul[class='ember-power-select-options'] li").contains('Scheduled pages').first().click();
+    cy.wait(2000);
+    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+      const text = $el.text();
+      if (text.indexOf(title) > -1) {
+        expect(text).to.contain(title);
+      }
+    });
+    cy.wait(2000);
+    cy.screenshot(
+      "actual/" +
+        featureToTest +
+        "/" +
+        scenarioNo +
+        "/" +
+        new Date().toISOString()
+    );
+  }
+
 // Métodos para Posts en Cypress:
 
 export function thenViewCreatedPost(title) {

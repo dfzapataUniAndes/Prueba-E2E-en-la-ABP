@@ -286,3 +286,170 @@ export function andUpdateOnlyTitle(title) {
   cy.get('button[data-test-button="publish-save"]').first().click();
   cy.wait(3000);
 }
+
+export function andInsertTitleContentPublishDate(
+  title,
+  content,
+  date,
+  scenarioNo,
+  featureToTest
+) {
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('input[data-test-date-time-picker-date-input]').clear({ force: true });
+  cy.wait(2000);
+  cy.get('input[data-test-date-time-picker-date-input]').type(date, { force: true });
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+  cy.wait(2000);
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get(".kg-prose").first().type(content);
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="publish-flow"]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="continue"]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="confirm-publish"]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="close-publish-flow"]').first().click();
+  cy.wait(2000);
+}
+
+export function andUpdateTitleAndAccessMemberOnly(title) {
+  cy.get('textarea[placeholder="Page title"]').clear();
+  cy.wait(2000);
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('select[data-test-select="post-visibility"]').select('members');
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="publish-save"]').first().click();
+  cy.wait(3000);
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000);
+}
+
+export function andUpdateTitleAndAccessPaidMemberOnly(title) {
+  cy.get('textarea[placeholder="Page title"]').clear();
+  cy.wait(2000);
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('select[data-test-select="post-visibility"]').select('paid');
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="publish-save"]').first().click();
+  cy.wait(3000);
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000);
+}
+
+export function andUpdateTitleAndDeleteAuthors(title) {
+  cy.get('textarea[placeholder="Page title"]').clear();
+  cy.wait(2000);
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get("div#author-list ul.ember-power-select-multiple-options li").first().find('span[aria-label="remove element"]').first().click();
+  cy.wait(2000);
+}
+
+export function andUpdateTitleAndDisableTitle(title) {
+  cy.get('textarea[placeholder="Page title"]').clear();
+  cy.wait(2000);
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('input[data-test-checkbox="hide-title-and-feature-image"]').uncheck();
+  cy.wait(2000);
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="publish-save"]').first().click();
+  cy.wait(2000);
+}
+
+export function andInsertTitleContentPageAndScheduled(
+  title,
+  content,
+  scenarioNo,
+  featureToTest
+) {
+  cy.get('textarea[placeholder="Page title"]').type(title);
+  cy.wait(2000);
+  cy.get(".kg-prose").first().type(content);
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+  cy.get('button[data-test-button="publish-flow"]').first().click();
+  cy.wait(2000); 
+  cy.get('button[data-test-setting-title]').first().click();
+  cy.wait(2000); 
+  cy.get('div[data-test-radio="schedule"]').first().parent().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="continue"]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-button="confirm-publish"]').first().click();
+  cy.wait(5000);
+  cy.get('button[data-test-button="close-publish-flow"]').first().click();
+  cy.wait(5000);
+}
+
+export function andRevertSchedulePage(
+  title,
+  content,
+  scenarioNo,
+  featureToTest
+) {
+  cy.get('button[data-test-button="update-flow"]').first().click();
+  cy.wait(2000); 
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+  cy.get('button[data-test-button="revert-to-draft"]').first().click();
+  cy.wait(2000); 
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000); 
+}
+
+export function andReturnState(title) {
+  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.wait(2000);
+  cy.get('button[data-test-toggle="post-history"]').first().click();
+  cy.wait(2000);
+  cy.get("ul[class='nav-list']").find('li[data-test-revision-item="1"]').first().find('button[data-test-button="preview-revision"]').first().click();
+  cy.wait(2000); 
+  cy.get('button[data-test-button="restore-revision"]').first().click();
+  cy.wait(2000); 
+  cy.get('button[data-test-button="restore"]').first().click();
+  cy.wait(2000); 
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000); 
+}
+
