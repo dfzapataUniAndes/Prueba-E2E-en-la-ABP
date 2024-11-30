@@ -5,7 +5,7 @@
 * Daniel Felipe Zapata Parra - df.zapata@uniandes.edu.co
 * Juan Sebastian Rodriguez - js.rodriguezm12345@uniandes.edu.co
 
-# Ejecución 120 escenarios de pruebas
+# Ejecución escenarios de prueba entrega final
 Todos fueron realizados en cypress
 
 ## Configuración Cypress 
