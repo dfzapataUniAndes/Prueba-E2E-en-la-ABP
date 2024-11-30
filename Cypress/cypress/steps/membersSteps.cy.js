@@ -8,6 +8,7 @@ export function whenClickOnNewMemberButton() {
 }
 
 export function andInsertMemberEmail(memberEmail) {
+    cy.get('input#member-email').clear()
     cy.get('input#member-email').type(memberEmail)
 }
 
@@ -42,9 +43,9 @@ export function saveBtnContainsMessage(msg) {
 }
 
 
-export function thenMemberShouldBeVisible(memberEmail) {
+export function thenMemberShouldBeVisible({email}) {
     cy.get('[data-test-table="members"]').should('be.visible')
-    cy.get('.gh-members-list-name-container').contains(memberEmail)
+    cy.get('.gh-members-list-name-container').contains(email)
 }
 
 export function itCreatesNewMemberWithEmail (email) {
@@ -53,7 +54,7 @@ export function itCreatesNewMemberWithEmail (email) {
     andClickOnSaveBtn();
     saveBtnContainsMessage('Saved');
     andNavigateToMembersPage();
-    thenMemberShouldBeVisible(email);
+    thenMemberShouldBeVisible({email});
 }
 
 export function itCreatesNewMemberWithEmailAndName(email, name) {
@@ -63,7 +64,7 @@ export function itCreatesNewMemberWithEmailAndName(email, name) {
     andClickOnSaveBtn();
     saveBtnContainsMessage('Saved');
     andNavigateToMembersPage();
-    thenMemberShouldBeVisible(email);
+    thenMemberShouldBeVisible({email});
 }
 
 export function itCreatesNewMemberWithEmailNameAndLabels(email, name, labels) {
@@ -74,7 +75,7 @@ export function itCreatesNewMemberWithEmailNameAndLabels(email, name, labels) {
     andClickOnSaveBtn();
     saveBtnContainsMessage('Saved');
     andNavigateToMembersPage();
-    thenMemberShouldBeVisible(email);
+    thenMemberShouldBeVisible({email});
 }
 
 export function itCreatesNewMemberWithEmailNameLabelsAndNote(email, name, labels, note) {
@@ -86,7 +87,7 @@ export function itCreatesNewMemberWithEmailNameLabelsAndNote(email, name, labels
     andClickOnSaveBtn();
     saveBtnContainsMessage('Saved');
     andNavigateToMembersPage();
-    thenMemberShouldBeVisible(email);
+    thenMemberShouldBeVisible({email});
 }
 
 export function itCreatesNewMemberWithInvalidName(name, errorMessage) {
