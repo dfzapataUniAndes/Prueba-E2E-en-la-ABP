@@ -1,8 +1,6 @@
 import {
     andClickOnSaveBtn,
     andInsertMemberEmail,
-    andInsertMemberLabels,
-    andInsertMemberName,
     andInsertMemberNote,
     andNavigateToMembersPage,
     saveBtnContainsMessage,

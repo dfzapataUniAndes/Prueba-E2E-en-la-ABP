@@ -119,47 +119,59 @@ describe('Editar un Member en la aplicación Ghost', () => {
         thenMemberShouldBeVisible({email: memberEmail});
     });
 
-    // it('EP_128_ALEATORIO Como administrador de Ghost, al editar un Member existente no debe ser posible agregar caracteres especiales en el email y en el nombre, y debe mostrar un error al guardar', function () {
-    //     const memberEmail = this.membersApriori[getRandomInt(0, 30)].email;
-    //     const specialCharEmail = 'ODk5&HXbVJ(]>nwY3Z6">!@gmail.com';
-    //     const specialCharName = 'Jane Doe&replyTo=janedoe@example.com&message=Custom';
-    //     itCreatesNewMemberWithEmail(memberEmail);
-    //     andClickOnExistingMember(memberEmail);
-    //     andInsertMemberEmail(specialCharEmail);
-    //     andInsertMemberName(specialCharName);
-    //     andClickOnSaveBtn();
-    //     cy.contains('Invalid Email').should('be.visible');
-    //     cy.contains('Invalid Name').should('be.visible');
-    // });
+    it('EP_128_ALEATORIO Como administrador de Ghost, al editar un Member existente no debe ser posible agregar caracteres especiales en el email y en el nombre, y debe mostrar un error al guardar', function () {
+        faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+        const memberEmail = faker.internet.email();
+        const specialCharEmail = faker.string.sample(getRandomInt(0, 15)) + '@' + faker.string.symbol(4) + '.' + faker.string.symbol(3);
+        const specialCharName = faker.string.symbol(10);
+        itCreatesNewMemberWithEmail(memberEmail);
+        andClickOnExistingMember(memberEmail);
+        andInsertMemberEmail(specialCharEmail);
+        andInsertMemberName(specialCharName);
+        andClickOnSaveBtn();
+        cy.contains('Invalid Email').should('be.visible');
+        cy.contains('Invalid Name').should('be.visible');
+    });
 
-    // it('EP_129_ALEATORIO Como administrador de Ghost, después de haber creado 10 Members puedo eliminar cualquiera aleatoriamente', function () {
-    //     for (let i = 0; i < 10; i++) {
-    //         const email = faker.internet.email();
-    //         itCreatesNewMemberWithEmail(email);
-    //     }
-    //     const memberEmail = this.membersApriori[getRandomInt(0, 10)].email;
-    //     andClickOnExistingMember(memberEmail);
-    //     cy.get('[data-test-button="delete"]').click();
-    //     cy.contains('Are you sure you want to delete this member?').should('be.visible');
-    //     cy.get('[data-test-button="confirm-delete"]').click();
-    //     cy.contains(memberEmail).should('not.exist');
-    // });
-    //
-    // it('EP_130_ALEATORIO Como administrador de Ghost, al editar un member existente con un nombre de más de 60 caracteres puedo eliminar correctamente el Member', function () {
-    //     const memberEmail = this.membersApriori[getRandomInt(0, 30)].email;
-    //     const longName = faker.lorem.words(20).slice(0, 61); // Ensure it exceeds 60 characters
-    //     itCreatesNewMemberWithEmail(memberEmail);
-    //     andClickOnExistingMember(memberEmail);
-    //     andInsertMemberName(longName);
-    //     andClickOnSaveBtn();
-    //     andClickOnExistingMember(memberEmail);
-    //     cy.get('[data-test-button="delete"]').click();
-    //     cy.contains('Are you sure you want to delete this member?').should('be.visible');
-    //     cy.get('[data-test-button="confirm-delete"]').click();
-    //     cy.contains(memberEmail).should('not.exist');
-    // });
+    it('EP_129_ALEATORIO Como administrador de Ghost, después de haber creado 10 Members puedo eliminar cualquiera aleatoriamente', async function () {
+        faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+        for (let i = 0; i < 4; i++) {
+            const email = faker.internet.email();
+            const name = faker.person.fullName();
+            itCreatesNewMemberWithEmailAndName(email, name);
+        }
+        const foundEmails = []
 
-    // afterEach(() => {
-    //     andCloseSession();
-    // });
+        await cy.get('tr[data-test-list="members-list-item"]').each($item => {
+            const emailElement = $item.find('p.ma0.pa0.middarkgrey.f8.gh-members-list-email');
+            const emailText = emailElement.text();
+            foundEmails.push(emailText)
+        })
+
+        const emailToDelete = foundEmails[getRandomInt(0, foundEmails.length)]
+        await andClickOnExistingMember(emailToDelete)
+        await cy.get('[data-test-button="member-actions"]').click();
+        cy.get('[data-test-button="delete-member"]').click();
+        cy.contains('Delete member account').should('be.visible');
+        cy.get('[data-test-button="confirm"]').click();
+        await cy.contains(emailToDelete).should('not.exist');
+    });
+
+    it('EP_130_ALEATORIO Como administrador de Ghost, al editar un member existente con un nombre de más de 60 caracteres puedo eliminar correctamente el Member', function () {
+        faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
+        const memberEmail = this.membersApriori[getRandomInt(0, 30)].email;
+        const longName = faker.lorem.words(70).slice(0, 191).replace(/\s/g, '');
+        itCreatesNewMemberWithEmail(memberEmail);
+        andClickOnExistingMember(memberEmail);
+        andInsertMemberName(longName);
+        andClickOnSaveBtn();
+        cy.get('[data-test-button="delete"]').click();
+        cy.contains('Are you sure you want to delete this member?').should('be.visible');
+        cy.get('[data-test-button="confirm-delete"]').click();
+        cy.contains(memberEmail).should('not.exist');
+    });
+
+    afterEach(() => {
+        andCloseSession();
+    });
 })

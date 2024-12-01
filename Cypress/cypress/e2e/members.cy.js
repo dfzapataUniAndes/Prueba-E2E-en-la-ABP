@@ -191,7 +191,6 @@ describe("Crear un miembro en Ghost version base", () => {
   it('EP_82_FRONTERA_SUPERIOR_ALEATORIO Como administrador de Ghost, al crear un nuevo Member con el campo de Email con más de 65 caracteres debe aparecer el error de "Invalid Email".', function () {
     faker.seed(Math.abs(Date.now() ^ (Math.random() * 0x100000000)));
     const longEmail = faker.lorem.words(50).slice(0, 64).replace(/\s/g, '') + '@example.com'; // Ensure it exceeds 65 characters
-    console.log('longemmmm', longEmail)
     itCreatesNewMemberWithInvalidEmail(longEmail, 'Email cannot be longer than 191 characters.');
   });
 
