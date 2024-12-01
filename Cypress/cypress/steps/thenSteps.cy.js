@@ -89,7 +89,10 @@ export function thenValidatePageWithImage(title, scenarioNo, featureToTest) {
 }
 
 export function thenShowErrorUpdate(scenarioNo, featureToTest) {
-  cy.get('div[class="gh-alert-content"]').should("have.text", "\n        Update failed: Title cannot be longer than 255 characters.\n    ");
+  cy.get('div[class="gh-alert-content"]').should(
+    "have.text",
+    "\n        Update failed: Title cannot be longer than 255 characters.\n    "
+  );
   cy.wait(2000);
   cy.screenshot(
     "actual/" +
@@ -113,11 +116,13 @@ export function thenDeletePage(title, scenarioNo, featureToTest) {
     }
   });
   cy.wait(2000);
-  cy.get('button[data-test-psm-trigger]').first().click();
+  cy.get("button[data-test-psm-trigger]").first().click();
   cy.wait(2000);
   cy.get('button[data-test-button="delete-post"]').first().click();
   cy.wait(2000);
-  cy.get('div[class="modal-content"]').find("p strong").should("have.text", title);
+  cy.get('div[class="modal-content"]')
+    .find("p strong")
+    .should("have.text", title);
   cy.wait(2000);
   cy.screenshot(
     "actual/" +
@@ -160,7 +165,7 @@ export function thenViewCreatedPageAndLabelDraft(
 }
 
 export function thenPageCannotBePublished() {
-  cy.get('button[data-test-button="publish-flow"]').should('not.exist');
+  cy.get('button[data-test-button="publish-flow"]').should("not.exist");
 }
 
 export function thenClicInPreview() {
@@ -178,184 +183,193 @@ export function thenClicInUpdate() {
   cy.wait(3000);
 }
 
-export function thenViewUrlWithTitle(
-  title,
-  scenarioNo,
-  featureToTest) {
-    cy.get('button[data-test-psm-trigger]').first().click();
-    cy.wait(2000);
-    cy.get('a[class="post-view-link"]').first().invoke('removeAttr', 'target').click();
-    cy.wait(2000);
-    cy.get('h1[class="gh-article-title is-title"]').should("have.text", title);
-    cy.screenshot(
-      "actual/" +
-        featureToTest +
-        "/" +
-        scenarioNo +
-        "/" +
-        new Date().toISOString()
-    );
+export function thenViewUrlWithTitle(title, scenarioNo, featureToTest) {
+  cy.get("button[data-test-psm-trigger]").first().click();
+  cy.wait(2000);
+  cy.get('a[class="post-view-link"]')
+    .first()
+    .invoke("removeAttr", "target")
+    .click();
+  cy.wait(2000);
+  cy.get('h1[class="gh-article-title is-title"]').should("have.text", title);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
 }
 
-export function thenViewDate(
-  date,
+export function thenViewDate(date, scenarioNo, featureToTest) {
+  cy.get('button[data-test-button="update-flow"]').first().click();
+  cy.wait(2000);
+  cy.get("div[data-test-update-flow-confirmation]")
+    .find("p")
+    .should("contains.text", date);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+}
+
+export function thenViewCreatedPageWithFilterDraft(
+  title,
   scenarioNo,
-  featureToTest) {
-    cy.get('button[data-test-button="update-flow"]').first().click();
-    cy.wait(2000);
-    cy.get('div[data-test-update-flow-confirmation]').find('p').should("contains.text", date);
-    cy.screenshot(
-      "actual/" +
-        featureToTest +
-        "/" +
-        scenarioNo +
-        "/" +
-        new Date().toISOString()
-    );
-  }
+  featureToTest
+) {
+  cy.get("div.gh-contentfilter-type").first().click();
+  cy.wait(2000);
+  cy.get("ul[class='ember-power-select-options'] li")
+    .contains("Draft pages")
+    .first()
+    .click();
+  cy.wait(2000);
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      expect(text).to.contain(title);
+      cy.get($el).parent().find("p span.draft").should("exist");
+    }
+  });
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+}
 
-  export function thenViewCreatedPageWithFilterDraft(
-    title,
-    scenarioNo,
-    featureToTest
-  ) {
+export function thenViewCreatedPageWithFilterMemberOnly(
+  title,
+  scenarioNo,
+  featureToTest
+) {
+  cy.get("div.gh-contentfilter-visibility").first().click();
+  cy.wait(2000);
+  cy.get("ul[class='ember-power-select-options'] li")
+    .contains("Members-only")
+    .first()
+    .click();
+  cy.wait(2000);
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      expect(text).to.contain(title);
+    }
+  });
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+}
 
-    cy.get("div.gh-contentfilter-type").first().click();
-    cy.wait(2000);
-    cy.get("ul[class='ember-power-select-options'] li").contains('Draft pages').first().click();
-    cy.wait(2000);
-    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
-      const text = $el.text();
-      if (text.indexOf(title) > -1) {
-        expect(text).to.contain(title);
-        cy.get($el).parent().find("p span.draft").should("exist");
-      }
-    });
-    cy.wait(2000);
-    cy.screenshot(
-      "actual/" +
-        featureToTest +
-        "/" +
-        scenarioNo +
-        "/" +
-        new Date().toISOString()
-    );
-  }
+export function thenViewCreatedPageWithFilterPaidMemberOnly(
+  title,
+  scenarioNo,
+  featureToTest
+) {
+  cy.get("div.gh-contentfilter-visibility").first().click();
+  cy.wait(2000);
+  cy.get("ul[class='ember-power-select-options'] li")
+    .contains("Paid members-only")
+    .first()
+    .click();
+  cy.wait(2000);
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      expect(text).to.contain(title);
+    }
+  });
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+}
 
-  export function thenViewCreatedPageWithFilterMemberOnly(
-    title,
-    scenarioNo,
-    featureToTest
-  ) {
+export function thenViewError(error, scenarioNo, featureToTest) {
+  cy.get('p[data-test-error="authors"]').should("contains.text", error);
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+  cy.visit("http://localhost:2368/ghost/#/pages");
+  cy.wait(2000);
+  cy.get("button[data-test-leave-button]").first().click();
+  cy.wait(2000);
+}
 
-    cy.get("div.gh-contentfilter-visibility").first().click();
-    cy.wait(2000);
-    cy.get("ul[class='ember-power-select-options'] li").contains('Members-only').first().click();
-    cy.wait(2000);
-    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
-      const text = $el.text();
-      if (text.indexOf(title) > -1) {
-        expect(text).to.contain(title);
-      }
-    });
-    cy.wait(2000);
-    cy.screenshot(
-      "actual/" +
-        featureToTest +
-        "/" +
-        scenarioNo +
-        "/" +
-        new Date().toISOString()
-    );
-  }
+export function thenViewUrlWithoutTitle(scenarioNo, featureToTest) {
+  cy.get("button[data-test-psm-trigger]").first().click();
+  cy.wait(2000);
+  cy.get('a[class="post-view-link"]')
+    .first()
+    .invoke("removeAttr", "target")
+    .click();
+  cy.wait(2000);
+  cy.get('h1[class="gh-article-title is-title"]').should("not.exist");
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+}
 
-  export function thenViewCreatedPageWithFilterPaidMemberOnly(
-    title,
-    scenarioNo,
-    featureToTest
-  ) {
-
-    cy.get("div.gh-contentfilter-visibility").first().click();
-    cy.wait(2000);
-    cy.get("ul[class='ember-power-select-options'] li").contains('Paid members-only').first().click();
-    cy.wait(2000);
-    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
-      const text = $el.text();
-      if (text.indexOf(title) > -1) {
-        expect(text).to.contain(title);
-      }
-    });
-    cy.wait(2000);
-    cy.screenshot(
-      "actual/" +
-        featureToTest +
-        "/" +
-        scenarioNo +
-        "/" +
-        new Date().toISOString()
-    );
-  }
-
-  export function thenViewError(error, scenarioNo, featureToTest) {
-    cy.get('p[data-test-error="authors"]').should("contains.text", error);
-    cy.wait(2000);
-    cy.screenshot(
-      "actual/" +
-        featureToTest +
-        "/" +
-        scenarioNo +
-        "/" +
-        new Date().toISOString()
-    );
-    cy.visit("http://localhost:2368/ghost/#/pages");
-    cy.wait(2000);
-    cy.get('button[data-test-leave-button]').first().click();
-    cy.wait(2000);
-  }
-
-  export function thenViewUrlWithoutTitle(
-    scenarioNo,
-    featureToTest) {
-      cy.get('button[data-test-psm-trigger]').first().click();
-      cy.wait(2000);
-      cy.get('a[class="post-view-link"]').first().invoke('removeAttr', 'target').click();
-      cy.wait(2000);
-      cy.get('h1[class="gh-article-title is-title"]').should("not.exist");
-      cy.screenshot(
-        "actual/" +
-          featureToTest +
-          "/" +
-          scenarioNo +
-          "/" +
-          new Date().toISOString()
-      );
-  }
-
-  export function thenViewCreatedPageWithFilterScheduled(
-    title,
-    scenarioNo,
-    featureToTest
-  ) {
-    cy.get("div.gh-contentfilter-type").first().click();
-    cy.wait(2000);
-    cy.get("ul[class='ember-power-select-options'] li").contains('Scheduled pages').first().click();
-    cy.wait(2000);
-    cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
-      const text = $el.text();
-      if (text.indexOf(title) > -1) {
-        expect(text).to.contain(title);
-      }
-    });
-    cy.wait(2000);
-    cy.screenshot(
-      "actual/" +
-        featureToTest +
-        "/" +
-        scenarioNo +
-        "/" +
-        new Date().toISOString()
-    );
-  }
+export function thenViewCreatedPageWithFilterScheduled(
+  title,
+  scenarioNo,
+  featureToTest
+) {
+  cy.get("div.gh-contentfilter-type").first().click();
+  cy.wait(2000);
+  cy.get("ul[class='ember-power-select-options'] li")
+    .contains("Scheduled pages")
+    .first()
+    .click();
+  cy.wait(2000);
+  cy.get("h3[class='gh-content-entry-title']").each(($el, index, $list) => {
+    const text = $el.text();
+    if (text.indexOf(title) > -1) {
+      expect(text).to.contain(title);
+    }
+  });
+  cy.wait(2000);
+  cy.screenshot(
+    "actual/" +
+      featureToTest +
+      "/" +
+      scenarioNo +
+      "/" +
+      new Date().toISOString()
+  );
+}
 
 // Métodos para Posts en Cypress:
 
@@ -381,6 +395,16 @@ export function thenViewCreatedPost(title) {
   // Pausa opcional para asegurar que cualquier cambio de UI finalice
   cy.wait(2000);
 }
+
+export const thenViewFeatureImage = () => {
+  // Verificar que la imagen destacada esté visible en el post
+  cy.get(".gh-editor-feature-image").should("be.visible");
+
+  // Validar que la imagen tiene un atributo src que contiene una URL válida
+  cy.get(".gh-editor-feature-image")
+    .should("have.attr", "src")
+    .and("match", /http[s]?:\/\/.*\.(jpg|jpeg|png|gif|bmp)/i); // Comprobamos que el src corresponde a una imagen
+};
 
 export function thenPostCannotBePublished() {
   cy.get("body") // Espera que el cuerpo de la página esté cargado
@@ -446,22 +470,24 @@ export function thenViewCreatedTag(tagTitle, urlTags) {
       function performScroll(previousCount) {
         // Esperar que el contenedor principal de tags exista
         cy.get(".gh-main", { timeout: 10000 }).should("exist");
-      
+
         // Luego buscar los elementos de la lista de tags
         cy.get(".gh-tag-list-name", { timeout: 10000 }).then(($tags) => {
           // Normalizar todos los tags cargados
           const currentTags = $tags
             .toArray()
-            .map((tag) => tag.innerText.trim().toLowerCase().replace(/\s+/g, " "));
-      
+            .map((tag) =>
+              tag.innerText.trim().toLowerCase().replace(/\s+/g, " ")
+            );
+
           const currentCount = currentTags.length;
-      
+
           // Combinar tags cargados sin duplicados
           loadedTags = [...new Set([...loadedTags, ...currentTags])];
-      
+
           console.log("Tags cargados actualmente:", currentTags);
           console.log("Total tags encontrados:", loadedTags);
-      
+
           // Si no hay más tags nuevos después de un scroll, terminar
           if (currentCount === previousCount) {
             resolve(loadedTags);
@@ -475,11 +501,10 @@ export function thenViewCreatedTag(tagTitle, urlTags) {
           }
         });
       }
-  
+
       performScroll(0); // Iniciar con un conteo de 0
     });
   }
-  
 
   // Realizar el scroll y validar
   scrollToBottomUntilComplete().then((allTags) => {
@@ -487,20 +512,19 @@ export function thenViewCreatedTag(tagTitle, urlTags) {
 
     // Validar si el título esperado está en la lista
     if (!allTags.includes(normalizedTagTitle)) {
-      throw new Error(`No se encontró el tag llamado "${normalizedTagTitle}" en la lista de tags.`);
+      throw new Error(
+        `No se encontró el tag llamado "${normalizedTagTitle}" en la lista de tags.`
+      );
     }
 
-    console.log(`El tag "${normalizedTagTitle}" se encontró correctamente en la lista.`);
+    console.log(
+      `El tag "${normalizedTagTitle}" se encontró correctamente en la lista.`
+    );
 
     // Captura de pantalla para confirmar
     cy.screenshot("tag-found-success");
   });
 }
-
-
-
-
-
 
 export function thenTagCreationShouldFail() {
   // Espera hasta que el botón de "Retry" esté visible, indicando el fallo en la creación del tag
