@@ -41,7 +41,7 @@ describe("Crear un post en Ghost.", () => {
 
   it("EP_161 Debe permitir seleccionar la fecha correcta al programar un post", () => {
     // Datos de prueba
-    const tomorrow = Cypress.moment().add(1, "days").format("YYYY-MM-DD"); // Fecha de mañana
+    const tomorrow = Cypress.moment().add(1, "days").format("YYYY-MM-DD");
 
     // When creo un nuevo post
     whenCreateNewPost();
