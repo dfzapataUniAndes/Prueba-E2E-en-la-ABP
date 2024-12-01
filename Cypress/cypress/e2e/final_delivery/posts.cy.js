@@ -210,7 +210,7 @@ describe("Crear un post en Ghost.", () => {
     andInsertContentPost("Contenido del post con imagen destacada.");
 
     // And añado una imagen destacada válida:
-    whenAddFeatureImage("path/to/valid-image.jpg");
+    whenAddFeatureImage("./images/high-res.jpg");
 
     // And hago clic en Publish:
     andClicInPublishPost();
@@ -219,7 +219,7 @@ describe("Crear un post en Ghost.", () => {
     andClicInFinishReviewPost();
 
     // Then verifico que la imagen destacada se muestra correctamente en el listado:
-    thenViewFeatureImage("path/to/valid-image.jpg");
+    thenViewFeatureImage("./images/high-res.jpg");
   });
 
   it("EP_166 Como administrador inicio sesión, creo un post en Ghost con titulo y contenido generados pseudo aleatoriamente con caracteres especiales. Luego lo veo en el listado de posts.", () => {
